@@ -14,6 +14,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@algolia/autocomplete-core@npm:1.5.1":
+  version: 1.5.1
+  resolution: "@algolia/autocomplete-core@npm:1.5.1"
+  dependencies:
+    "@algolia/autocomplete-shared": 1.5.1
+  checksum: 62f375b2fb0abdaf577d6ed159e69b98972c794642014c09b083a08b8bd00c639801fd2477020a099e805acf2c771c0636b90ca2c850700604ea5411048a130b
+  languageName: node
+  linkType: hard
+
+"@algolia/autocomplete-js@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "@algolia/autocomplete-js@npm:1.5.1"
+  dependencies:
+    "@algolia/autocomplete-core": 1.5.1
+    "@algolia/autocomplete-preset-algolia": 1.5.1
+    "@algolia/autocomplete-shared": 1.5.1
+    preact: ^10.0.0
+  peerDependencies:
+    "@algolia/client-search": ^4.5.1
+  checksum: 0c1a9dce7be162307a3ff7208b6fab0fb5aedafa7e9642aee86316537cb7f06ca49832f4f1267ca0841deba5cb4f948a812fe63ea369bdaeb1fa3cb266c77783
+  languageName: node
+  linkType: hard
+
 "@algolia/autocomplete-preset-algolia@npm:1.5.0":
   version: 1.5.0
   resolution: "@algolia/autocomplete-preset-algolia@npm:1.5.0"
@@ -26,10 +49,36 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@algolia/autocomplete-preset-algolia@npm:1.5.1":
+  version: 1.5.1
+  resolution: "@algolia/autocomplete-preset-algolia@npm:1.5.1"
+  dependencies:
+    "@algolia/autocomplete-shared": 1.5.1
+  peerDependencies:
+    "@algolia/client-search": ^4.9.1
+    algoliasearch: ^4.9.1
+  checksum: 717b5532cb2cd112c08fde0d62590d0a3eb7b51b0bcd62de6a86ddc15ecc13923b0bb6b8b3fa332c73422330b722714a99dbf0d09ec585ac60d80cb6546de5c9
+  languageName: node
+  linkType: hard
+
 "@algolia/autocomplete-shared@npm:1.5.0":
   version: 1.5.0
   resolution: "@algolia/autocomplete-shared@npm:1.5.0"
   checksum: b59a9172079dc028aa6f4fd3fc8728e5ced6311ad6e868eafade799e530ae2cd8a65dd1b46d5f876fab231fc792701dccc53684771f955947da938c2ae9ff1ca
+  languageName: node
+  linkType: hard
+
+"@algolia/autocomplete-shared@npm:1.5.1":
+  version: 1.5.1
+  resolution: "@algolia/autocomplete-shared@npm:1.5.1"
+  checksum: 9f27e5b4a125eabb95a4ac04f3efa485e0f2aa93970e34df3392f5bb0213bb8971dd463cb9a8de34ae01f6ebd8338827b9400f18ecc67a53138165a49a2c13f6
+  languageName: node
+  linkType: hard
+
+"@algolia/autocomplete-theme-classic@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "@algolia/autocomplete-theme-classic@npm:1.5.1"
+  checksum: fbb289b2144a85922fda621f8a21a94fc3000182789ca7abc3495e671400c7a8329eeddafee87f14c3752f64c7eafdb5188773d835291d06c35cf8084a03602a
   languageName: node
   linkType: hard
 
@@ -102,7 +151,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@algolia/client-search@npm:4.11.0":
+"@algolia/client-search@npm:4.11.0, @algolia/client-search@npm:^4.10.3":
   version: 4.11.0
   resolution: "@algolia/client-search@npm:4.11.0"
   dependencies:
@@ -1603,6 +1652,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cmfcmf/docusaurus-search-local@npm:^0.9.2":
+  version: 0.9.2
+  resolution: "@cmfcmf/docusaurus-search-local@npm:0.9.2"
+  dependencies:
+    "@algolia/autocomplete-js": ^1.5.1
+    "@algolia/autocomplete-theme-classic": ^1.5.1
+    "@algolia/client-search": ^4.10.3
+    algoliasearch: ^4.10.3
+    cheerio: ^1.0.0-rc.9
+    clsx: ^1.1.1
+    lunr-languages: ^1.4.0
+    mark.js: ^8.11.1
+  peerDependencies:
+    "@docusaurus/core": ^v2.0.0-beta.9
+    nodejieba: ^2.5.0
+  peerDependenciesMeta:
+    nodejieba:
+      optional: true
+  checksum: 4644cfe83e4f9eb49ac0425cd51eeae139729ce2cb20be56bac4ffaa615706bceba4fce5d5ce4459b2eca884c3b982b5afbc83f009426f6cdd4bd0da1ec9ae82
+  languageName: node
+  linkType: hard
+
 "@docsearch/css@npm:3.0.0-alpha.42":
   version: 3.0.0-alpha.42
   resolution: "@docsearch/css@npm:3.0.0-alpha.42"
@@ -3025,6 +3096,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "adnanrafiq@workspace:."
   dependencies:
+    "@cmfcmf/docusaurus-search-local": ^0.9.2
     "@docusaurus/core": 2.0.0-beta.14
     "@docusaurus/module-type-aliases": 2.0.0-beta.14
     "@docusaurus/preset-classic": 2.0.0-beta.14
@@ -3137,7 +3209,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"algoliasearch@npm:^4.0.0, algoliasearch@npm:^4.10.5":
+"algoliasearch@npm:^4.0.0, algoliasearch@npm:^4.10.3, algoliasearch@npm:^4.10.5":
   version: 4.11.0
   resolution: "algoliasearch@npm:4.11.0"
   dependencies:
@@ -3760,6 +3832,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cheerio-select@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "cheerio-select@npm:1.5.0"
+  dependencies:
+    css-select: ^4.1.3
+    css-what: ^5.0.1
+    domelementtype: ^2.2.0
+    domhandler: ^4.2.0
+    domutils: ^2.7.0
+  checksum: d4506d8b9ad330a18f9de3a5a22138d0804063e92aac2fc020384cc52ab86d2194d2ae614fc87f0e2a62b6a6dd0c28ad23669cec64331172a9f99ad604863010
+  languageName: node
+  linkType: hard
+
 "cheerio@npm:^0.22.0":
   version: 0.22.0
   resolution: "cheerio@npm:0.22.0"
@@ -3781,6 +3866,21 @@ __metadata:
     lodash.reject: ^4.4.0
     lodash.some: ^4.4.0
   checksum: b0a6cfa61eb7ae96e4cb8cfeeb14eb45bb790fa40098509268629c4cecca5b99124aabe6daa1154c497ac8def47bc3f9706cef5f0e8a6177a0c137d4bdaaf8b7
+  languageName: node
+  linkType: hard
+
+"cheerio@npm:^1.0.0-rc.9":
+  version: 1.0.0-rc.10
+  resolution: "cheerio@npm:1.0.0-rc.10"
+  dependencies:
+    cheerio-select: ^1.5.0
+    dom-serializer: ^1.3.2
+    domhandler: ^4.2.0
+    htmlparser2: ^6.1.0
+    parse5: ^6.0.1
+    parse5-htmlparser2-tree-adapter: ^6.0.1
+    tslib: ^2.2.0
+  checksum: ace2f9c5809737534b1320d11d48762013694fa905b4deacac81a634edac178c1b0534f79d7b1896a88ce489db6cb539f222317996b21c8b6923ce413dcc1a2f
   languageName: node
   linkType: hard
 
@@ -4300,7 +4400,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-what@npm:^5.1.0":
+"css-what@npm:^5.0.1, css-what@npm:^5.1.0":
   version: 5.1.0
   resolution: "css-what@npm:5.1.0"
   checksum: 0b75d1bac95c885c168573c85744a6c6843d8c33345f54f717218b37ea6296b0e99bb12105930ea170fd4a921990392a7c790c16c585c1d8960c49e2b7ec39f7
@@ -4641,7 +4741,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dom-serializer@npm:^1.0.1":
+"dom-serializer@npm:^1.0.1, dom-serializer@npm:^1.3.2":
   version: 1.3.2
   resolution: "dom-serializer@npm:1.3.2"
   dependencies:
@@ -4714,7 +4814,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"domutils@npm:^2.5.2, domutils@npm:^2.8.0":
+"domutils@npm:^2.5.2, domutils@npm:^2.7.0, domutils@npm:^2.8.0":
   version: 2.8.0
   resolution: "domutils@npm:2.8.0"
   dependencies:
@@ -6914,6 +7014,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lunr-languages@npm:^1.4.0":
+  version: 1.9.0
+  resolution: "lunr-languages@npm:1.9.0"
+  checksum: 19da5df19ba77bc5b91653ed801676f2cb6d4f38dc5fd1d5446d909e4134c54e206f97715814abdeb6792bd4e21915259a8c3e02b3a8727ec8545f2a6d13dd11
+  languageName: node
+  linkType: hard
+
 "magic-string@npm:^0.25.3":
   version: 0.25.7
   resolution: "magic-string@npm:0.25.7"
@@ -6953,6 +7060,13 @@ __metadata:
     socks-proxy-agent: ^6.0.0
     ssri: ^8.0.0
   checksum: 0eb371c85fdd0b1584fcfdf3dc3c62395761b3c14658be02620c310305a9a7ecf1617a5e6fb30c1d081c5c8aaf177fa133ee225024313afabb7aa6a10f1e3d04
+  languageName: node
+  linkType: hard
+
+"mark.js@npm:^8.11.1":
+  version: 8.11.1
+  resolution: "mark.js@npm:8.11.1"
+  checksum: aa6b9ae1c67245348d5b7abd253ef2acd6bb05c6be358d7d192416d964e42665fc10e0e865591c6f93ab9b57e8da1f23c23216e8ebddb580905ea7a0c0df15d4
   languageName: node
   linkType: hard
 
@@ -7730,6 +7844,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"parse5-htmlparser2-tree-adapter@npm:^6.0.1":
+  version: 6.0.1
+  resolution: "parse5-htmlparser2-tree-adapter@npm:6.0.1"
+  dependencies:
+    parse5: ^6.0.1
+  checksum: 1848378b355d027915645c13f13f982e60502d201f53bc2067a508bf2dba4aac08219fc781dcd160167f5f50f0c73f58d20fa4fb3d90ee46762c20234fa90a6d
+  languageName: node
+  linkType: hard
+
 "parse5@npm:^5.0.0":
   version: 5.1.1
   resolution: "parse5@npm:5.1.1"
@@ -7737,7 +7860,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"parse5@npm:^6.0.0":
+"parse5@npm:^6.0.0, parse5@npm:^6.0.1":
   version: 6.0.1
   resolution: "parse5@npm:6.0.1"
   checksum: 7d569a176c5460897f7c8f3377eff640d54132b9be51ae8a8fa4979af940830b2b0c296ce75e5bd8f4041520aadde13170dbdec44889975f906098ea0002f4bd
@@ -8331,6 +8454,13 @@ __metadata:
     picocolors: ^1.0.0
     source-map-js: ^1.0.1
   checksum: b78abdd89c10f7b48f4bdcd376104a19d6e9c7495ab521729bdb3df315af6c211360e9f06887ad3bc0ab0f61a04b91d68ea11462997c79cced58b9ccd66fac07
+  languageName: node
+  linkType: hard
+
+"preact@npm:^10.0.0":
+  version: 10.6.4
+  resolution: "preact@npm:10.6.4"
+  checksum: 09c496bb3cbe231fb6ef218b44d29af53a1f4bf1ae2e5929ef0faf70f9ecffaa475b4459ef72dd8f0f5396c255172c7c26de5c7d2eb6f6849e36e724c7aa86b7
   languageName: node
   linkType: hard
 
@@ -10042,7 +10172,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.1":
+"tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.2.0, tslib@npm:^2.3.1":
   version: 2.3.1
   resolution: "tslib@npm:2.3.1"
   checksum: de17a98d4614481f7fcb5cd53ffc1aaf8654313be0291e1bfaee4b4bb31a20494b7d218ff2e15017883e8ea9626599b3b0e0229c18383ba9dce89da2adf15cb9
