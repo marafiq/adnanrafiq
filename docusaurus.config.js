@@ -39,6 +39,10 @@ const config = {
                     changefreq: "weekly",
                     priority: 0.5,
                     trailingSlash: true
+                },
+                gtag:{
+                    trackingID:'UA-173098616-1',
+                    anonymizeIP:true
                 }
             }),
         ],
