@@ -2,6 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import styles from './HomepageFeatures.module.css';
 
+
 type FeatureItem = {
   title: string;
   image: string;
@@ -56,6 +57,8 @@ function Feature({title, image, description}: FeatureItem) {
 }
 
 export default function HomepageFeatures(): JSX.Element {
+
+
   return (
     <section className={styles.features}>
       <div className="container">

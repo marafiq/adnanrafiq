@@ -13,7 +13,7 @@ How to automate: We have to create & release instance of MS Access Application o
 
 1. Add reference to Office Interop dll's as shown in below code snippet.
 2. Late Bind, use Type.GetTypeFromProgID("Access.Application") to get type, rest of the code stays same.
-
+<!--truncate-->
 Major difference between these two are, the first one requires interop assemblies to added as reference, while second one relies on (late binding) version of MS office access installed on your computer.
 
 ```

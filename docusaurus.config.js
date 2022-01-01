@@ -14,6 +14,7 @@ const config = {
     onBrokenMarkdownLinks: 'warn',
     favicon: 'img/favicon.ico',
     trailingSlash: true,
+    plugins: ['@docusaurus/plugin-ideal-image'],
     presets: [
         [
             'classic',

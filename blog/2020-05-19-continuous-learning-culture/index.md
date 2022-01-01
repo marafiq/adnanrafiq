@@ -1,4 +1,3 @@
-
 ---
 title: Ideas Matter Continuous Learning Culture
 description: Ideas Matter Continuous Learning Culture
@@ -13,7 +12,7 @@ Adil Najam (Dean, Pardee School of Global Studies, Boston University) gave a tal
 I would like thank him for bringing immensely valuable topic to the light. My thoughts which are heavily influenced by my recent reading(s) & professionally working as software developer in small to large tech companies in different countries.
 
 Knowledge and problems are two fundamental sources of how human(s) brain emulate idea(s), I guess other species do the same. This raises a fundamental question of how to gain knowledge, since books are an efficient way to store, and communicate knowledge among other modern & innovative ways like audible books, blogs, video and learning from each other etc.
-
+<!--truncate-->
 The idea of "Continuous Learning Culture" accumulates all of these learning techniques and it is pivotal for the future & growth of any type of organization. Lets look at what "Continuous Learning Culture" means:
 * Continuous: Never ending, always happening.
 * Culture: The new normal: everybody does it.
