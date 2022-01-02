@@ -24,7 +24,7 @@ const config = {
                 docs: false,
                 blog: {
                     showReadingTime: true,
-                    editUrl: 'https://github.com/marafiq/adnanrafiq',
+                    editUrl: 'https://github.com/marafiq/adnanrafiq/edit/main/',
                     feedOptions: {
                         title: "Adnan Rafiq Blog",
                         language: "en-US",
