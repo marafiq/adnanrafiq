@@ -1,4 +1,3 @@
-
 ---
 title: An Introduction to Accessing data from RDBMS in .NET
 description: How to access data using in .NET using C#
