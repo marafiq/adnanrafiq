@@ -17,6 +17,7 @@ alt="Image of Hello"
 
 Image by [@abrizgalov](https://unsplash.com/@abrizgalov)
 
+## Overview 
 Consider developing an application that requires you to store and retrieve data and display it on UI. You will likely need two things:
 
 1. Relational Data Management System (RDBMS) allows you to store and retrieve data permanently on disk(s) with specific [promises](https://en.wikipedia.org/wiki/ACID).
@@ -31,7 +32,7 @@ Data Access in this context means making these two things (.NET & RDBMS) talk wi
 
 <!--truncate-->
 
-# What is an EF Core?
+## What is an EF Core?
 
 An EF Core is an object-relational mapper enabling you to exchange data between the .NET application process and the database system of your choice. It is an open-source package used by the .NET platform and backed by Microsoft. It supports modern database engines like PostgreSQL, Microsoft SQL Server, SQLite, MySQL, etc.
 
