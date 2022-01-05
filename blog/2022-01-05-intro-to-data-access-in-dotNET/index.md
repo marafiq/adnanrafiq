@@ -4,7 +4,7 @@ title: An Introduction to Accessing data from RDBMS in .NET
 description: How to access data using in .NET using C#
 slug: intro-to-data-access-in-dotNET
 authors: adnan
-tags: [SQL Server,.NET,C#]
+tags: [SQL Server, .NET, C#]
 ---
 Consider developing an application that requires you to store and retrieve data and display it on UI. You will likely need two things:
 
