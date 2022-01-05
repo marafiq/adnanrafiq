@@ -4,10 +4,15 @@ description: How to access data using in .NET using C#
 slug: intro-to-data-access-in-dotNET
 authors: adnan
 tags: [SQL Server, .NET, C#]
+image : ./heroImage.jpg
 ---
+<head>
+  <meta name="og:image" content="{require('./heroImage.jpg').default}" />
+</head>
+
 <img
-src={require('./artem-bryzgalov-qHMf-I-JAXo-unsplash.jpg').default}
-alt="Example banner"
+src={require('./heroImage.jpg').default}
+alt="Image of Hello"
 />
 
 Image by [@abrizgalov](https://unsplash.com/@abrizgalov)
