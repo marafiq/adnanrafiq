@@ -1,11 +1,24 @@
 
 ---
-title: Intro to Data Access in .NET using C#
+title: An Introduction to Accessing data from RDBMS in .NET
 description: How to access data using in .NET using C#
 slug: intro-to-data-access-in-dotNET
 authors: adnan
 tags: [SQL Server,.NET,C#]
 ---
+Consider developing an application that requires you to store and retrieve data and display it on UI. You will likely need two things:
+
+1. Relational Data Management System (RDBMS) allows you to store and retrieve data permanently on disk(s) with specific [promises](https://en.wikipedia.org/wiki/ACID).
+2. .NET is cross-platform, which allows you to develop different types of applications (web, console, mobile) using multiple languages (C#, F#).
+
+Data Access in this context means making these two things (.NET & RDBMS) talk with each other. Users will interact with UI which is built using the .NET platform, which is going to learn how to talk with the database in its language (SQL).
+
+.NET offers two different approaches to achieve data access?
+
+- EF Core - An OR/M.
+- .NET Native abstractions - without an OR/M
+
+<!--truncate-->
 
 # What is an EF Core?
 
@@ -15,7 +28,7 @@ An O/RM is a mapper between C# (one of the .NET platform language) constructs an
 
 ![.NET 6 application process talking with the database.](./NET_6_Process_Talking_with_Database.svg)
 
-<!--truncate-->
+
 
 .NET 6 application process talking with the database.
 
