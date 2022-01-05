@@ -5,6 +5,13 @@ slug: intro-to-data-access-in-dotNET
 authors: adnan
 tags: [SQL Server, .NET, C#]
 ---
+<img
+src={require('./artem-bryzgalov-qHMf-I-JAXo-unsplash.jpg').default}
+alt="Example banner"
+/>
+
+Image by [@abrizgalov](https://unsplash.com/@abrizgalov)
+
 Consider developing an application that requires you to store and retrieve data and display it on UI. You will likely need two things:
 
 1. Relational Data Management System (RDBMS) allows you to store and retrieve data permanently on disk(s) with specific [promises](https://en.wikipedia.org/wiki/ACID).
