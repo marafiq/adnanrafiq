@@ -20,17 +20,11 @@ Image by [@brucemars](https://unsplash.com/@brucemars)
 
 
 ## Problem Statement
-
 How to enable TypeScript in a monolith application developed using JQuery, angularjs 1.2.x, bootstrap, Jest, Karma, Jasmine, the latest react, and .NET Framework 4.7.1.
-
 <!--truncate-->
-
 ## Context
-
 Considering application is functional and making a good amount of money despite using old tools.
-
 ## Goal(s)
-
 The goal is to add TypeScript, and it must not break any functionality. Remember the context, it is making money, and it’s useful. Your users don’t care what technology you have used to build it.
 
 For example, do social media users know the technology of apps?
@@ -38,7 +32,6 @@ For example, do social media users know the technology of apps?
 The answer is a significant majority don’t have a clue, and neither they care.
 
 ## Risk Assessment
-
 Let’s start assessing the risks of adding support of TypeScript to angularjs 1.2.x.
 
 1.2.x is important because later versions of it have significant breaking changes. To add TypeScript, we will have to upgrade it. If we do, what will stop working?
@@ -58,7 +51,6 @@ What to do then, the counterargument is if you keep using old technology, soon, 
 The solution to this complex problem is migrating to better technology stack progressively. You sit with the team and agree on developing any newer features in React. Any enhancements & bugs will be developed in React only if they justify the value to the customers quickly; otherwise, keep using angularjs.
 
 ## How to approach the implementation?
-
 You can unlock it by writing an integration wrapper around angularjs to open React application modules & vice versa. But keep the communication from React to angular js limited. It will reduce complexity.
 
 This concept is also known as Strangler Pattern. In terms of enabling TypeScript for angularjs seems like no go.
@@ -66,7 +58,6 @@ This concept is also known as Strangler Pattern. In terms of enabling TypeScript
 But what about rewriting the whole application, you ask. Sure, if you have enough money to hire two teams, go ahead.
 
 ## How to add TypeScript to existing React modules?
-
 Now, what about react modules? Do we don’t want TypeScript there as well? Of course, we do.
 
 Since we are using the latest react version. It should be easy because we don’t risk breaking functionality. Wait, which tools you are using to bundle React Modules as small apps. We use WebPack 3.x and babel, which are pretty old versions. So why not upgrade those to the latest as well, along with using the newest TypeScript version.
