@@ -5,7 +5,6 @@ slug: thinking-through-on-how-to-unlocking-typescript-in-a-monolithic-applicatio
 authors: adnan
 tags: [.NET Framework, Monolithic App, React, AngularJs, JavaScript]
 image : ./heroImage.jpg
-draft: true
 ---
 <head>
   <meta name="og:image" content="{require('./heroImage.jpg').default}" />
