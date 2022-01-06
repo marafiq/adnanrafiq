@@ -78,7 +78,7 @@ Once dependencies are updated, bring a unique sample component of React to the n
 
 I encourage you to divide your one big React App into smaller App Modules by user role and feature. The Single Responsibility Principle (SRP) keeps things together that change together. WebPack allows you to specify multiple entry points & outputs. You can find details about how to configure it [here](https://webpack.js.org/concepts/#entry).
 
-I explore Micro Apps, which uses the WebPack Module Federation feature to share functionality among different modules. I experimented with [WebPack Module Federation](https://webpack.js.org/concepts/module-federation/) and [Single-Spa framework](https://single-spa.js.org/), but I find it complex in our context as tech is about making trade-offs among multiple options.
+I explore Micro Apps, which uses the WebPack Module Federation feature to share functionality among different modules. I experimented with [WebPack Module Federation](https://webpack.js.org/concepts/module-federation/), [Single-Spa framework](https://single-spa.js.org/) and Yarn workspaces, but I find it complex in our context as tech is about making trade-offs among multiple options.
 
 I might publish 2nd blog post on this topic to think through the trade-offs of using Micro Apps. But the process of reaching a decision involves many constraints, as discussed above in detail.
 
