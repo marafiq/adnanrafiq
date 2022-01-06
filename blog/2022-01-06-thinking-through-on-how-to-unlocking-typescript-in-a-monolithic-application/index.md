@@ -3,7 +3,7 @@ title: Thinking through Unlocking TypeScript in a monolithic Application
 description: Thinking through Unlocking TypeScript in a monolithic Application
 slug: thinking-through-on-how-to-unlocking-typescript-in-a-monolithic-application
 authors: adnan
-tags: [SQL Server, .NET, C#]
+tags: [.NET Framework, Monolithic App, React, AngularJs, JavaScript]
 image : ./heroImage.jpg
 draft: true
 ---
