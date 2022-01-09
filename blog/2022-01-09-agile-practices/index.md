@@ -21,7 +21,7 @@ Image by [@kellysikkema](https://unsplash.com/@kellysikkema)
 
 ## What is Agile?
 
-Agile is being flexible in delivering Value to the customer. You must read [Principles behind the Agile](https://agilemanifesto.org/principles.html) to deepen your understanding.
+Agile is being flexible in delivering Value to the customer. It is The Team sport. You must read [Principles behind the Agile](https://agilemanifesto.org/principles.html) to deepen your understanding.
 
 ## What is Value?
 
