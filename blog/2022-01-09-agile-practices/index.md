@@ -83,4 +83,4 @@ Every team is different with its own set of constraints & skills. Experiment to 
 - Gather enough data to verify value delivery.
 
 ## Conclusion
-- Have fun along the way. No feature is ever complete unless you are Twitter.
+- Be kind, and have fun along the way. No feature is ever complete unless you are Twitter.
