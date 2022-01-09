@@ -81,3 +81,6 @@ Every team is different with its own set of constraints & skills. Experiment to 
 - Do not track velocity etc. at an individual level at all costs. 
 - Try to gather metrics that prove the Value is delivered. But if your organization uses the velocity metric in ways that you can not change, then use the Value delivered metrics as a counterargument.
 - Gather enough data to verify value delivery.
+
+## Conclusion
+- Have fun along the way. No feature is ever complete unless you are Twitter.
