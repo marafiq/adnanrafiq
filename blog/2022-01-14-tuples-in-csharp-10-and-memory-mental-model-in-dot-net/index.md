@@ -284,7 +284,7 @@ public class BookService
 
 Reference Type Tuples lack of support for naming values & projection to values is not suitable for readability. I encourage you only to use it when there are performance reasons.
 
-## Do’s and Don’ts of Tuples
+## Dos and Don't of Tuples
 
 - Don’t pass as input parameters as it will hurt readability.
 - Use it as return types for non-public methods because it is hard to find their usage.
@@ -300,3 +300,6 @@ Reference Type Tuples lack of support for naming values & projection to values i
 Incorrect use of the Value Tuples can degrade performance. Below benchmark is grouping list of 1000 books, calculating aggregates, and then returning the Category Name, MinPrice, AvgPrice, MaxPrice, and Books in the group. Reference Type Tuples wins by a big margin because it is the correct choice of data structure. Complete code is on [GitHub](https://github.com/marafiq/production-ready-dot-net/tree/main/Tuples/Tuples).
 
 ![Untitled](./benchmarkoftuples.png)
+
+## Feedback
+It seems like you have enjoyed the post. Would it be difficult for you to share any feedback with on [Twitter](https://twitter.com/madnan_rafiq)? 
