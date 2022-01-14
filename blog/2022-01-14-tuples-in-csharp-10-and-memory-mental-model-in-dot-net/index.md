@@ -5,7 +5,6 @@ slug: tuples-in-csharp-10-and-memory-mental-model-in-dot-net
 authors: adnan
 tags: [C#, .NET, Performance]
 image : ./heroImage.jpg
-draft: true
 ---
 <head>
   <meta name="og:image" content="{require('./heroImage.jpg').default}" />
