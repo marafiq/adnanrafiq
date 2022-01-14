@@ -293,7 +293,7 @@ Reference Type Tuples lack of support for naming values & projection to values i
 - Keep an eye on the size of pure Value Type Tuple because performance will suffer if the size is big.
 - Use the Value Type Tuples in scenarios where you want to increase performance.
 - Use named Value Type Tuples. It is suitable for readability.
-- Include a picture of cleaning the floor for reference types and fast cleaning picture for value types.
+- Add Tuples support to your custom types by implementing `public void Deconstruct(out int id, out int name)` but only at specific objects. You can read more about deconstructing [here](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/functional/deconstruct#user-defined-types).
 ## Alternatives to Tuples
 - Create your custom type as Struct or as Class. Names will emerge over time.
 - Create your custom type as Struct or as Class. Names will emerge over time.
