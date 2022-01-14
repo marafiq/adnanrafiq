@@ -287,14 +287,16 @@ Reference Type Tuples lack of support for naming values & projection to values i
 ## Dos and Don't of Tuples
 
 - Don’t pass as input parameters as it will hurt readability.
-- Use it as return types for non-public methods because it is hard to find their usage.
+- Use it as return types for **non-public methods** because it is hard to find their usage.
 - Limit items inside the tuple to a maximum of 4, otherwise readability will suffer.
 - Do not use the Value Type Tuples when a reference type is in the mix because performance will suffer from Boxing.
 - Keep an eye on the size of pure Value Type Tuple because performance will suffer if the size is big.
 - Use the Value Type Tuples in scenarios where you want to increase performance.
 - Use named Value Type Tuples. It is suitable for readability.
 - Include a picture of cleaning the floor for reference types and fast cleaning picture for value types.
-
+## Alternatives to Tuples
+- Create your custom type as Struct or as Class. Names will emerge over time.
+- Create your custom type as Struct or as Class. Names will emerge over time.
 ## Performance Comparison
 
 Incorrect use of the Value Tuples can degrade performance. Below benchmark is grouping list of 1000 books, calculating aggregates, and then returning the Category Name, MinPrice, AvgPrice, MaxPrice, and Books in the group. Reference Type Tuples wins by a big margin because it is the correct choice of data structure. Complete code is on [GitHub](https://github.com/marafiq/production-ready-dot-net/tree/main/Tuples/Tuples).

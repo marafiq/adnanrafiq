@@ -11,7 +11,7 @@ function HomepageHeader() {
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
-        <h1 className="hero__title">Hi, I am Adnan Rafiq. A Senior .NET Developer.</h1>
+        <h1 className="hero__title">Hi, I am Adnan Rafiq. A Senior Software Engineer with more than 15 years of experience.</h1>
         <p className="hero__subtitle">Keep Learning.</p>
 
       </div>
