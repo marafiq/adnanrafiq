@@ -15,7 +15,7 @@ const config = {
     favicon: 'img/favicon.ico',
     trailingSlash: true,
     /*plugins: ['@docusaurus/plugin-ideal-image'],*/
-    plugins: [require.resolve("@cmfcmf/docusaurus-search-local")],
+    /*plugins: [require.resolve("@cmfcmf/docusaurus-search-local")],*/
     presets: [
         [
             'classic',
@@ -38,7 +38,7 @@ const config = {
                     customCss: require.resolve('./src/css/custom.css'),
                 },
                 sitemap: {
-                    changefreq: "weekly",
+                    changefreq: "daily",
                     priority: 0.5,
                     trailingSlash: true
                 },
