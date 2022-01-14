@@ -15,7 +15,7 @@ const config = {
     favicon: 'img/favicon.ico',
     trailingSlash: true,
     /*plugins: ['@docusaurus/plugin-ideal-image'],*/
-    /*plugins: [require.resolve("@cmfcmf/docusaurus-search-local")],*/
+    /*plugins: [require.resolve("@cmfcmf/docusaurus-search-local")],https://github.com/cmfcmf/docusaurus-search-local*/
     presets: [
         [
             'classic',
