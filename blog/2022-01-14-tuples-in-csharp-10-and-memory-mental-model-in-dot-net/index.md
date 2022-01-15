@@ -29,10 +29,14 @@ A Tuple is a container to hold multiple values which provide readable syntax whe
 Naturally, you might ask, what is the difference between Value Type and Reference Type?
 
 The .NET runtime manages the memory for your application. It uses two distinct places to store data in memory, known as Stack and Heap. Any Value or Reference Type can end up either on Heap or Stack purely depending upon its usage.
+ 
 
-> Draw two different shapes in your head. One is fast & small, and the other is big & efficiently managed. Value Types are for small & superfast (Stack), and Reference Types for big & efficient (Heap).
+> ** Mental Model **: Draw two different shapes in your head. One is fast & small, and the other is big & efficiently managed. Value Types are for small & superfast (Stack), and Reference Types for big & efficient (Heap).
+
+I will not use Stack or Heap in rest of the post. Instead, I want you build a mental model based on two distinct memory regions.
 
 <!--truncate-->
+
 ### Value Type
 
 C# enables you to define custom value type using the struct keyword. Built-in value types such as int, double, and many others are structs.
