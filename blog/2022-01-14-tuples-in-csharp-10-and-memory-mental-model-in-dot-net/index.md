@@ -320,7 +320,7 @@ Below benchmark is done using [BenchmarkDotNet](https://benchmarkdotnet.org/inde
 
 :::caution
 
-Do not trust `StopWatch` at all times for benchmark, regardless of margin of difference in performance. Do not ever trust `DateTime`.
+Do not trust `StopWatch` at all times for benchmark, regardless of margin of difference in performance. Do not ever trust `DateTime`. Do fully understand the difference I recommend reading this [Pro .NET Benchmarking](https://link.springer.com/book/10.1007/978-1-4842-4941-3).
 
 :::
 ## Feedback
