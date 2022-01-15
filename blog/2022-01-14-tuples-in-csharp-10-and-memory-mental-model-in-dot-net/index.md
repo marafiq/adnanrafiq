@@ -161,18 +161,28 @@ On the contrary, Value Types can have properties that are reference types. Does 
 
 No, because the size of the reference type can be big, thus can cause an out-of-memory exception. So what do we do now?
 
-Since these can hold large data, they belong to the big & efficient memory area. We now know they use reference to pass value around; thus, we will store the reference in the small & superfast area along with other data. The .NET Runtime does the linking work for you. This work is also known as Boxing. But it is not fast, as we are connecting two distinct memory areas. That is why you have to use the small & superfast area carefully. The reverse of Boxing is unboxing.
+Since these can hold large data, they belong to the big & efficient memory area. We now know they use reference to pass value around; thus, we will store the reference in the small & superfast area along with other data. The .NET Runtime does the extra linking work for you. But it is not fast, as we are connecting two distinct memory areas. That is why you have to use the small & superfast area carefully. 
+
+:::tip
+
+Do not use reference type inside value type tuple or struct. For example `(string x, int a, int b)` should be avoided. Instead, use reference type tuple `Tuple.Create("some string",8,9);"` or `record SomeName(string name, int A, int B);`
+
+:::
+
+### Boxing and Unboxing
+Boxing happens when you try to convert a value type to a reference type with an implicit cast. Boxing operation copies the value of value type, create an object in the big & efficient area, and store a reference for that object on the stack. The reverse of it is known as unboxing. 
+
 
 An example of Boxing and Unboxing is below.
 
 ```csharp
 //initilize a struct with values 
 BookStats bestSellerOfTheYearStats = new("Atomic Habits",7, 300); 
-//Above line does allocated in small & fast memory with extra work also known as Boxing
+//Above line does allocated in small & fast memory with extra work
 //string is reference type. So .NET will go ahead & create the string object with the given value.
 //Then reference of string type object, will be stored in small & fast memory area with 7,300
 
-// *** UnBoxing example start  ****
+// *** Boxing/Unboxing example start  ****
 double price=100.99; // On small & fast memory
 object o=price; // boxing, as price value copied to large area.
 double unboxedPrice=(int)price; //copied from large area & casted to double, and copied to small area. 
