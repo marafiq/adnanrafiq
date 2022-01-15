@@ -310,7 +310,7 @@ Reference Type Tuples lack of support for naming values & projection to values i
 
 Incorrect use of the Value Tuples can degrade performance. Below benchmark is grouping list of 1000 books, calculating aggregates, and then returning the Category Name, MinPrice, AvgPrice, MaxPrice, and Books in the group. Reference Type Tuples wins by a big margin because it is the correct choice of data structure. Complete code is on [GitHub](https://github.com/marafiq/production-ready-dot-net/tree/main/Tuples/Tuples).
 
-Below benchmark is done using `StopWatch`. A reviewer asked for Benchmark using BenchmarkDotNet, which shows only minor difference.
+Below benchmark is done using `StopWatch`. A reviewer asked for Benchmark using BenchmarkDotNet, which shows only minor difference but actually statistically it's no difference at all.
 
 ![Benchmark using StopWatch](./benchmarkoftuples.png)
 
