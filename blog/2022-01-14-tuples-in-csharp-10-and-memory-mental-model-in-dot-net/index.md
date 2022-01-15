@@ -305,7 +305,7 @@ Reference Type Tuples lack of support for naming values & projection to values i
 - Add Tuples support to your custom types by implementing `public void Deconstruct(out int id, out int name)` but only at specific objects. You can read more about deconstructing [here](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/functional/deconstruct#user-defined-types).
 ## Alternatives to Tuples
 - Create your custom type as Struct or as Class. Names will emerge over time.
-- Create your custom type as Struct or as Class. Names will emerge over time.
+- Use record which have very concise syntax `record Book(string Title, double Price);`
 ## Performance Comparison
 
 Incorrect use of the Value Tuples can degrade performance. Below benchmark is grouping list of 1000 books, calculating aggregates, and then returning the Category Name, MinPrice, AvgPrice, MaxPrice, and Books in the group. Reference Type Tuples wins by a big margin because it is the correct choice of data structure. Complete code is on [GitHub](https://github.com/marafiq/production-ready-dot-net/tree/main/Tuples/Tuples).
