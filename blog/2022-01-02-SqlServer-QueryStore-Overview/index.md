@@ -7,7 +7,7 @@ tags: [SQL Server]
 image : ./heroImage.jpg
 ---
 <head>
-  <meta name="og:image" content="{require('./heroImage.jpg').default}" />
+  
   <meta name="keywords" content="SQL Server Query Store Overview"/>
 </head>
 
