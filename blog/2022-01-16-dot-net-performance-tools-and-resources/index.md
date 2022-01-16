@@ -18,7 +18,7 @@ Image by [@isaacmsmith](https://unsplash.com/@isaacmsmith)
 
 List of Useful Tools and Resources for .NET Performance, which I found useful.
 :::tip
-The [Performance Resources Curated List](https://github.com/adamsitnik/awesome-dot-net-performance#performance-tools) will provide you most tools you will ever need.  
+The [Performance Resources Curated List by Adam Sitnik](https://github.com/adamsitnik/awesome-dot-net-performance#performance-tools) will provide you most tools you will ever need.  
 
 :::
 
