@@ -4,7 +4,20 @@ description: SQL Server Query Store enables you to monitor your queries.
 slug: sql-server-query-store-overview
 authors: adnan
 tags: [SQL Server]
+image : ./heroImage.jpg
 ---
+<head>
+  <meta name="og:image" content="{require('./heroImage.jpg').default}" />
+  <meta name="keywords" content="SQL Server Query Store Overview"/>
+</head>
+
+<img
+src={require('./heroImage.jpg').default}
+alt="Image of Hello"
+/>
+
+Image by [@isaacmsmith](https://unsplash.com/@isaacmsmith)
+
 Query Store allows you to monitor and troubleshoot queries. It also provides stats about runtime such as CPU, IO and Memory.
 
 Enable Query Store with default configuration using below SQL. It is enabled at database level.
