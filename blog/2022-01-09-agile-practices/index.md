@@ -8,7 +8,7 @@ image : ./heroImage.jpg
 ---
 <head>
   <meta name="og:image" content="{require('./heroImage.jpg').default}" />
-  <meta name="keywords" content="Agile Practices, Team Culture, Continuous Experiments"/>
+  <meta name="keywords" content="agile, value, customer, best practices, standup, story review, refinement, spike, INVEST, ESCALS, retro, CSR, monitoring, feature flag, experiment."/>
 </head>
 
 <img
