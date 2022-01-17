@@ -4,6 +4,7 @@ description: How to use In-Memory SQL Server tables with EF Core
 slug: Introduction-to-MSSQL-Server-In-Memory-OLTP-with-NET6-EF-Core 
 authors: adnan 
 tags: [SQL Server, EF Core, .NET 6]
+keywords: [In-Memory, In-Memory table, In-memory database, SQL Server 2014, SQL Server 2016]
 ---
 SQL Server Enterprise offers scalable memory optimized relational tables. Yes, all data inside table will be loaded in
 memory. In-Memory tables has two flavors.
