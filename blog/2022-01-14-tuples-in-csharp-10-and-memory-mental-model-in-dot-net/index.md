@@ -8,7 +8,7 @@ image : ./heroImage.jpg
 ---
 <head>
   <meta name="og:image" content="{require('./heroImage.jpg').default}" />
-  <meta name="keywords" content="Agile Practices, Team Culture, Continuous Experiments"/>
+  <meta name="keywords" content="Tuples, C# 7.1 - C# 10, Value Type Tuples, Reference Type Tuples, Boxing, Unboxing, Memory Model"/>
 </head>
 
 <img
