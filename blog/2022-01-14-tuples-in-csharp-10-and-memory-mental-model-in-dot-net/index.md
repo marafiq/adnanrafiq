@@ -8,7 +8,7 @@ image : ./heroImage.jpg
 ---
 <head>
   <meta name="og:image" content="{require('./heroImage.jpg').default}" />
-  <meta name="keywords" content="Tuples, C# 7.1 - C# 10, Value Type Tuples, Reference Type Tuples, Boxing, Unboxing, Memory Model"/>
+  <meta name="keywords" content="Tuples, C# 7.1 - 10, Value Type Tuples, Reference Type Tuples, Boxing, Unboxing, Memory Model, Stack, Heap"/>
 </head>
 
 <img
