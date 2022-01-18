@@ -11,7 +11,7 @@ export default function Home(): JSX.Element {
     return (
         <Layout
             title={`${siteConfig.title}`}
-            description="Adnan is a blogger, developer, freelancer, and introvert. ">
+            description="Adnan is a blogger, developer, freelancer, and caretaker. ">
             <main>
                 <p/>
 
