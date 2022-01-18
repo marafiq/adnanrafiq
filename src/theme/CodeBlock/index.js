@@ -18,14 +18,14 @@ import {
 } from '@docusaurus/theme-common';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
 import styles from './styles.module.css';
-
+import domtoimage from 'dom-to-image';
 export default function CodeBlock({
                                       children,
                                       className: blockClassName,
                                       metastring,
                                       title,
                                       description,
-    showFooter
+    showFooter,index
                                   }) {
     const {prism} = useThemeConfig();
     const [showCopied, setShowCopied] = useState(false);
@@ -67,9 +67,28 @@ export default function CodeBlock({
                 blockClassName,
                 ThemeClassNames.common.codeBlock,
             )}>
-            <div className="card item shadow--sm">
+
+            <div className="card item shadow--sm" id={`card${index}`} >
                 {<div className="card__header">
-                    <h5>{codeBlockTitle || "Code Example"}</h5>
+                    <h5 >
+                        <div style={{display:"flex", justifyContent:"space-between"}}>
+                            <span>{codeBlockTitle || "Code Example"}</span>
+                            <button type={"button"} id={`TweetAsPicture${index}`} onClick={()=>{
+                                const card=document.getElementById(`card${index}`);
+                                const cardButton=document.getElementById(`TweetAsPicture${index}`);
+                                cardButton.style.display='none';
+                                domtoimage.toJpeg(card, { quality: 0.95 })
+                                    .then(function (dataUrl) {
+                                        var link = document.createElement('a');
+                                        link.download = 'my-image-name.jpeg';
+                                        link.href = dataUrl;
+                                        link.click();
+                                        setTimeout(() => cardButton.style.display='block', 2000);
+                                    });
+                            }}>Download As Image</button>
+                        </div>
+
+                    </h5>
                 </div>}
                 {codeBlockDesc && <div className="card__body">
                     {codeBlockDesc}

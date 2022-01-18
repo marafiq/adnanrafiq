@@ -9,9 +9,10 @@ areTheySame = adnan == someoneElse ? "Yes" : "No";
 // highlight-end
 Console.WriteLine($"Are they same? {areTheySame}");
 //output: Are they same? Yes
-
+// highlight-start
 /*
  But why?
  Because Named Tuples are syntax sugar. It makes code more readable.
  Tuples equality is done on Tuple properties, Item1, Item2
 */
+// highlight-end

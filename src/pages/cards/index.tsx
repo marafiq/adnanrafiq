@@ -18,17 +18,18 @@ export default function Home(): JSX.Element {
             <div className="container">
                 <h1 className="hero__title">👋🏽 Code Cards</h1>
                 <div className="row">
-                    {Cards.map(({description, fileName, language, title}) =>
-                        <div className="col">
-                            <CodeBlock className={language} title={title}
-                                       description={description}>
+                    {Cards.map(({description, fileName, language, title}, index) =>
+                        <div className="col" key={index}>
+                            <CodeBlock className={language} title={title} index={index} key={index}
+                                // @ts-ignore
+                                       description={description}
+                                // @ts-ignore
+                                       showFooter={true}>
 
                                 {
 
                                     require(`!!raw-loader!./${fileName}`).default
                                 }
-
-
 
 
                             </CodeBlock>
