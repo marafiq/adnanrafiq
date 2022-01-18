@@ -6,7 +6,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-    title: 'Personal Web Site of Adnan Rafiq',
+    title: "Adnan Rafiq's Blog" ,
     tagline: 'Developer Insights',
     url: 'https://adnanrafiq.com/',
     baseUrl: '/',
@@ -42,9 +42,9 @@ const config = {
                     priority: 0.5,
                     trailingSlash: true
                 },
-                gtag:{
-                    trackingID:'UA-173098616-1',
-                    anonymizeIP:true
+                gtag: {
+                    trackingID: 'UA-173098616-1',
+                    anonymizeIP: true
                 }
             }),
         ],
@@ -77,7 +77,8 @@ const config = {
             prism: {
                 theme: lightCodeTheme,
                 darkTheme: darkCodeTheme,
-                additionalLanguages: ['sql','csharp'],
+                additionalLanguages: ['sql', 'csharp'],
+                defaultLanguage: 'csharp'
             },
         }),
 };

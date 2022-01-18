@@ -51,9 +51,8 @@ Value Type follows pass copy of value semantics; it is necessary to keep the str
 > How Stack works is a complex implementation detail. Think of it as a small & fast memory area.
 
 
-The example below shows how to define and use a custom Value Type.
 
-```csharp
+```csharp {8-11} title="Define and Use Custom Value Type" description="An example is showing that the Value Types use copy by value semantics." 
 // C# 10
 //initilize a struct with values 
 BookStats bestSellerOfTheYearStats = new(7, 300); //Allocated in small & fast memory
@@ -324,7 +323,8 @@ Below benchmark is done using [BenchmarkDotNet](https://benchmarkdotnet.org/inde
 
 :::caution
 
-Do not trust `StopWatch` at all times for benchmark, regardless of margin of difference in performance. Do not ever trust `DateTime`. Do fully understand the difference I recommend reading this [Pro .NET Benchmarking](https://link.springer.com/book/10.1007/978-1-4842-4941-3).
+Do not trust `StopWatch` at all times for benchmark, regardless of margin of difference in performance. If you insist on using StopWatch, then make sure to consider cold start, enough iterations, and remove outliers.
+Do not ever trust `DateTime`. To fully understand the difference I recommend reading this [Pro .NET Benchmarking](https://link.springer.com/book/10.1007/978-1-4842-4941-3).
 
 :::
 ## Feedback
