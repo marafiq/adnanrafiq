@@ -63,6 +63,7 @@ const config = {
                 items: [
 
                     {to: '/blog', label: 'Blog', position: 'left'},
+                    {to: '/cards', label: 'Cards', position: 'left'},
                     {
                         href: 'https://github.com/marafiq',
                         label: 'GitHub',

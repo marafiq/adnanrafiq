@@ -2,9 +2,13 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import LayoutHead from '@theme/LayoutHead';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+// @ts-ignore
 import PakistanHomePictureUrl from '@site/static/img/pakistan-home-picture.jpg';
+// @ts-ignore
 import LahorePictureUrl from '@site/static/img/lahore.jpg';
+// @ts-ignore
 import BostonPictureUrl from '@site/static/img/boston.jpg';
+// @ts-ignore
 import DubaiPictureUrl from '@site/static/img/dubai.jpg';
 
 export default function Home(): JSX.Element {
