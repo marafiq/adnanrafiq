@@ -183,7 +183,7 @@ export default function CodeBlock({
                             <small className="avatar__subtitle">
                                 A Senior Software Engineer with more than 15 years of experience.
                             </small>
-
+                            <small><a href={"https://adnanrafiq.com"}>https://adnanrafiq.com</a> </small>
                         </div>
                     </div>
 
