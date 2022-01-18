@@ -19,6 +19,8 @@ import {
 import usePrismTheme from '@theme/hooks/usePrismTheme';
 import styles from './styles.module.css';
 import domtoimage from 'dom-to-image';
+// @ts-ignore
+import AvatarUrl from '@site/static/img/profile-avatar.jpg';
 export default function CodeBlock({
                                       children,
                                       className: blockClassName,
@@ -73,7 +75,7 @@ export default function CodeBlock({
                     <h5 >
                         <div style={{display:"flex", justifyContent:"space-between"}}>
                             <span>{codeBlockTitle || "Code Example"}</span>
-                            <button type={"button"} id={`TweetAsPicture${index}`} onClick={()=>{
+                            <button type={"button"} id={`TweetAsPicture${index}`} style={{display:`${!showFooter?'none':'block'}`}} onClick={()=>{
                                 const card=document.getElementById(`card${index}`);
                                 const cardButton=document.getElementById(`TweetAsPicture${index}`);
                                 cardButton.style.display='none';
@@ -173,7 +175,7 @@ export default function CodeBlock({
                         >
                             <img
                                 alt="Adnan Picture"
-                                src="https://pbs.twimg.com/profile_images/1366236371438960642/5GKTTZhE_400x400.jpg"
+                                src={AvatarUrl}
                             />
                         </a>
                         <div className="avatar__intro">
