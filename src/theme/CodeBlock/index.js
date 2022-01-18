@@ -21,13 +21,14 @@ import styles from './styles.module.css';
 import domtoimage from 'dom-to-image';
 // @ts-ignore
 import AvatarUrl from '@site/static/img/profile-avatar.jpg';
+
 export default function CodeBlock({
                                       children,
                                       className: blockClassName,
                                       metastring,
                                       title,
                                       description,
-    showFooter,index
+                                      showFooter, index
                                   }) {
     const {prism} = useThemeConfig();
     const [showCopied, setShowCopied] = useState(false);
@@ -70,24 +71,28 @@ export default function CodeBlock({
                 ThemeClassNames.common.codeBlock,
             )}>
 
-            <div className="card item shadow--sm" id={`card${index}`} >
+            <div className="card item shadow--sm" id={`card${index}`}>
                 {<div className="card__header">
-                    <h5 >
-                        <div style={{display:"flex", justifyContent:"space-between"}}>
+                    <h5>
+                        <div style={{display: "flex", justifyContent: "space-between"}}>
                             <span>{codeBlockTitle || "Code Example"}</span>
-                            <button type={"button"} id={`TweetAsPicture${index}`} style={{display:`${!showFooter?'none':'block'}`}} onClick={()=>{
-                                const card=document.getElementById(`card${index}`);
-                                const cardButton=document.getElementById(`TweetAsPicture${index}`);
-                                cardButton.style.display='none';
-                                domtoimage.toJpeg(card, { quality: 0.95 })
+                            <button type={"button"} id={`TweetAsPicture${index}`}
+                                    style={{display: `${!showFooter ? 'none' : 'block'}`}} onClick={() => {
+                                const card = document.getElementById(`card${index}`);
+                                const cardButton = document.getElementById(`TweetAsPicture${index}`);
+                                cardButton.style.display = 'none';
+                                domtoimage.toJpeg(card, {quality: 0.95})
                                     .then(function (dataUrl) {
                                         var link = document.createElement('a');
                                         link.download = `${codeBlockTitle.replace(/ /g, "")}.jpeg`;
-                                        link.href = dataUrl;
+                                        link.href = dataUrl
+
                                         link.click();
-                                        setTimeout(() => cardButton.style.display='block', 2000);
+                                        setTimeout(() => cardButton.style.display = 'block', 2000);
                                     });
-                            }}>Download As Image</button>
+                            }}>Download As Image
+                            </button>
+
                         </div>
 
                     </h5>
