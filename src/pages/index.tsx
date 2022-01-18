@@ -1,5 +1,6 @@
 import React from 'react';
 import Layout from '@theme/Layout';
+import LayoutHead from '@theme/LayoutHead';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import PakistanHomePictureUrl from '@site/static/img/pakistan-home-picture.jpg';
 import LahorePictureUrl from '@site/static/img/lahore.jpg';
@@ -12,6 +13,9 @@ export default function Home(): JSX.Element {
         <Layout
             title={`${siteConfig.title}`}
             description="Adnan is a blogger, developer, freelancer, and caretaker. ">
+            <LayoutHead image={PakistanHomePictureUrl}/>
+
+
             <main>
                 <p/>
 
