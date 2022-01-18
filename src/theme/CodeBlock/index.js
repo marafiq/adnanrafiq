@@ -71,8 +71,8 @@ export default function CodeBlock({
                 ThemeClassNames.common.codeBlock,
             )}>
 
-            <div className="card item shadow--sm" id={`card${index}`}>
-                {<div className="card__header">
+            <div className="card item shadow--sm" style={{background: `${showFooter?'linear-gradient(90deg, rgba(58, 82, 8, 1) 0%, rgba(15, 126, 139, 1) 64%, rgba(124, 0, 255, 0.9023984593837535) 100%)':'none'}`}} id={`card${index}`}>
+                {<div className="card__header" style={{color:"rgb(245, 246, 247)"}}>
                     <h5>
                         <div style={{display: "flex", justifyContent: "space-between"}}>
                             <span>{codeBlockTitle || "Code Example"}</span>
@@ -97,7 +97,7 @@ export default function CodeBlock({
 
                     </h5>
                 </div>}
-                {codeBlockDesc && <div className="card__body">
+                {codeBlockDesc && <div className="card__body"  style={{color:"rgb(245, 246, 247)"}}>
                     {codeBlockDesc}
                 </div>}
                 <div className="card__body" style={{paddingLeft: "5px", paddingRight: "5px"}}>
@@ -172,7 +172,7 @@ export default function CodeBlock({
                                 </button>
                             </div>)}</Highlight>
                 </div>
-                {showFooter && <div className="card__footer">
+                {showFooter && <div className="card__footer"  style={{color:"rgb(245, 246, 247)"}}>
                     <div className="avatar">
                         <a
                             className="avatar__photo-link avatar__photo avatar__photo--lg"

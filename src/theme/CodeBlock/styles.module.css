@@ -78,3 +78,7 @@
     white-space: pre-wrap;
   }
 }
+.cardGradient {
+  /*background: rgb(58, 82, 8);*/
+  background: linear-gradient(90deg, rgba(58, 82, 8, 1) 0%, rgba(15, 126, 139, 1) 64%, rgba(124, 0, 255, 0.9023984593837535) 100%);
+}
