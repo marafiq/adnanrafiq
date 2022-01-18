@@ -26,7 +26,7 @@ export default function Home(): JSX.Element {
                                     <p>
                                         A Senior Software Engineer with more
                                         than 15 years of
-                                        experience.I love building application's using Microsoft Technology Stack.
+                                        experience. I love building applications using Microsoft Technology Stack.
                                     </p>
 
                                     <div className="row">
