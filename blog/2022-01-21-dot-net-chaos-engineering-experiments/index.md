@@ -59,7 +59,7 @@ Stop-Service -Name "gremlind" -ErrorAction SilentlyContinue
 [System.Environment]::SetEnvironmentVariable('GREMLIN_IDENTIFIER',$OctopusParameters["YourIdentifier"],[System.EnvironmentVariableTarget]::Machine)
 $env=$OctopusParameters["YourEnvironment"]
 $roles=$OctopusParameters["YourSystemRolesIfAny"]
-[System.Environment]::SetEnvironmentVariable('GREMLIN_CLIENT_TAGS',"env=sam-$env,role=$roles",[System.EnvironmentVariableTarget]::Machine)
+[System.Environment]::SetEnvironmentVariable('GREMLIN_CLIENT_TAGS',"env=$env,role=$roles",[System.EnvironmentVariableTarget]::Machine)
 # You can use values of whatever variables you have available, in your context.
 #Step - 7 - Restart the service 
 $serviceName = "gremlind"
