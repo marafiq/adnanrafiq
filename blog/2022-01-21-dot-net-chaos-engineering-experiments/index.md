@@ -15,7 +15,7 @@ image : ./heroImage.jpg
 />
 
 Image by [@isaacmsmith](https://unsplash.com/@isaacmsmith)
-
+## What is Chaos Engineering
 Chaos Engineering is about testing & increasing your system resilience.
 
 - Resilience Definitions on [merriam-webster.com](http://merriam-webster.com/)
@@ -23,7 +23,7 @@ Chaos Engineering is about testing & increasing your system resilience.
   - an ability to recover from or adjust easily to misfortune or change
 
 We test our system by intentionally causing failure in parts, such as saturating the host's CPU. During the failure, we measure the time to recovery and other metrics you would want to collect.
-
+<!--truncate-->
 ## Tools of Chaos
 
 Software such as Gremlin (Paid) helps you trigger targeted failures in the system. Netflix Open Sourced [ChaosMonkey](https://github.com/netflix/chaosmonkey) a while back is another option.
