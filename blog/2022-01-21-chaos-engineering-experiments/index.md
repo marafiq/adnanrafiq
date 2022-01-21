@@ -1,7 +1,7 @@
 ---
-title: Chaos Engineering Experiments in .NET Framework Application 
-description: Chaos Engineering Experiments in .NET Framework Application By Using Gremlin 
-slug: dot-net-chaos-engineering-experiments 
+title: Chaos Engineering Experiments with Gremlin, Octopus and PowerShell 
+description: Chaos Engineering Experiments in .NET Framework Application By Using Gremlin and PowerShell 
+slug: chaos-engineering-experiments 
 authors: adnan 
 tags: [.NET, Performance, Chaos]
 image : ./heroImage.jpg
