@@ -78,7 +78,7 @@ const config = {
             prism: {
                 theme: lightCodeTheme,
                 darkTheme: darkCodeTheme,
-                additionalLanguages: ['sql', 'csharp'],
+                additionalLanguages: ['sql', 'csharp','powershell'],
                 defaultLanguage: 'csharp'
             },
         }),
