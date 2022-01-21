@@ -72,7 +72,7 @@ export default function CodeBlock({
             )}>
 
             <div className="card item shadow--sm" style={{background: `${showFooter?'linear-gradient(90deg, rgba(58, 82, 8, 1) 0%, rgba(15, 126, 139, 1) 64%, rgba(124, 0, 255, 0.9023984593837535) 100%)':'none'}`}} id={`card${index}`}>
-                {<div className="card__header" style={{color:"rgb(245, 246, 247)"}}>
+                {<div className="card__header" style={{color:`${showFooter?'rgb(245, 246, 247)':''}`}}>
                     <h5>
                         <div style={{display: "flex", justifyContent: "space-between"}}>
                             <span>{codeBlockTitle || "Code Example"}</span>
