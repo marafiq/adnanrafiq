@@ -94,6 +94,14 @@ I started with a basic template.
 | Attack Title: CPU Saturation                                                                                                    |                                                                                                                       |  |                                                                        |
 |---------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------| --- |------------------------------------------------------------------------|
 | Attack                                                                                                                          | Expectations                                                                                                          | MTTR | Impacts                                                                |
-| Explain attack conditions such as: 1- Which ENV? <br/> 2- Expected Load on System? <br/> 3- What time? <br/> 4- How Long?<br/>5-Who? | List Expectations such as: <br/> 1- How do Monitoring Tools Perform? <br/>2- Playbooks? <br/>3-Communication among teams? | - How long does it take to recover? | - Response Time Degradation? <br/>- Error Rate Increased? <br/>- Other Failures? | 
+| Explain attack conditions such as: <br/>1- Which ENV? <br/> 2- Expected Load on System? <br/> 3- What time? <br/> 4- How Long?<br/>5-Who? | List Expectations such as: <br/> 1- How do Monitoring Tools Perform? <br/>2- Playbooks? <br/>3-Communication among teams? | - How long does it take to recover? | - Response Time Degradation? <br/>- Error Rate Increased? <br/>- Other Failures? | 
 
 Once the test is over, you can take the measurement and improve your system. Improvement will largely depend upon your system's desired behavior and trade-offs.
+
+## Wrap Up
+
+I plan to write more about this topic, as I experiment & learn. 
+
+:::info
+You did not enjoy it? Yes/No  Leave me feedback here on [Twitter](https://twitter.com/madnan_rafiq).
+:::
