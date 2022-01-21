@@ -15,7 +15,7 @@ image : ./heroImage.jpg
 />
 
 Image by [@isaacmsmith](https://unsplash.com/@isaacmsmith)
-## What is Chaos Engineering
+## What is Chaos Engineering?
 Chaos Engineering is about testing & increasing your system resilience.
 
 - Resilience Definitions on [merriam-webster.com](http://merriam-webster.com/)
