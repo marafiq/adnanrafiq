@@ -33,12 +33,13 @@ const config = {
                         copyright: `Copyright © ${new Date().getFullYear()} Adnan Rafiq`
                     },
                     sortPosts: "descending",
+                    blogSidebarCount:"ALL"
                 },
                 theme: {
                     customCss: require.resolve('./src/css/custom.css'),
                 },
                 sitemap: {
-                    changefreq: "daily",
+                    changefreq: "weekly",
                     priority: 0.5,
                     trailingSlash: true
                 },
@@ -46,6 +47,7 @@ const config = {
                     trackingID: 'UA-173098616-1',
                     anonymizeIP: true
                 }
+
             }),
         ],
     ],

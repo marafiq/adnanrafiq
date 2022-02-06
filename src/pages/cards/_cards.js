@@ -1,5 +1,11 @@
 export const Cards = [
     {
+        "title": "Template Method Pattern by using C# Delegates",
+        "description": "Template Method Pattern executes multiple & same steps in the same order and allows consumers to change the behavior of the steps. Below example, shows how you can migrate different types of files to AWS S3 from file share.",
+        "language": "language-csharp",
+        "fileName": "_template-method-pattern-c-sharp-delegates.cs"
+    },
+    {
         "title": "Tuples Equality",
         "description": "Value Tuples support equality, and compared by using properties Item1, Item2 etc. Named tuples are syntax sugar.",
         "language": "language-csharp",

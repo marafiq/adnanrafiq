@@ -71,7 +71,7 @@ export default function CodeBlock({
                 ThemeClassNames.common.codeBlock,
             )}>
 
-            <div className="card item shadow--sm" style={{background: `${showFooter?'linear-gradient(90deg,  rgba(15, 126, 139, 1) 40%, rgba(124, 0, 255, 0.9023984593837535) 100%)':'none'}`}} id={`card${index}`}>
+            <div className="card item shadow--sm" style={{background: `${showFooter?'#2f2a2a':'none'}`}} id={`card${index}`}>
                 {<div className="card__header" style={{color:`${showFooter?'rgb(245, 246, 247)':''}`}}>
                     <h5>
                         <div style={{display: "flex", justifyContent: "space-between"}}>

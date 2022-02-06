@@ -150,7 +150,6 @@ public class CloudFileMigrationSimple
     public async Task Migrate<T>(Func<Task<IEnumerable<T>>> getItems, CloudFileInfo cloudFileInfo,
         Func<T, Task<bool>> updateItem)
     {
-        Func<int, int> xxx;
         var items = await getItems();
         await Task.WhenAll(items.Select(MigrateItem));
 
