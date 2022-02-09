@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://adnanrafiq.com/sitemap.xml
