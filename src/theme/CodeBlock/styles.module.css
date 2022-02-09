@@ -13,7 +13,7 @@
 
 .codeBlockContent {
   position: relative;
-  /*rtl:ignore*/
+  /* rtl:ignore */
   direction: ltr;
 }
 
@@ -26,13 +26,10 @@
   border-top-right-radius: var(--ifm-global-radius);
 }
 
-.codeBlockDescription {
-  border-bottom: 1px solid var(--ifm-color-emphasis-300);
-  font-size: var(--ifm-code-font-size);
-  font-weight: 500;
-  padding: 0.75rem var(--ifm-pre-padding);
-  border-top-left-radius: var(--ifm-global-radius);
-  border-top-right-radius: var(--ifm-global-radius);
+.codeBlock {
+  margin: 0;
+  padding: 0;
+  border-radius: var(--ifm-global-radius);
 }
 
 .codeBlockTitle + .codeBlockContent .codeBlock {
@@ -40,14 +37,13 @@
   border-top-right-radius: 0;
 }
 
-.codeBlock {
-  margin: 0;
+.codeBlockStandalone {
   padding: 0;
   border-radius: var(--ifm-global-radius);
 }
 
 .copyButton {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgb(0 0 0 / 30%);
   border-radius: var(--ifm-global-radius);
   color: var(--ifm-color-white);
   opacity: 0;
@@ -59,15 +55,15 @@
   transition: opacity 200ms ease-in-out;
 }
 
-.codeBlockTitle:hover + .codeBlockContent .copyButton,
+.copyButton:focus,
 .codeBlockContent:hover > .copyButton,
-.copyButton:focus {
+.codeBlockTitle:hover + .codeBlockContent .copyButton {
   opacity: 1;
 }
 
 .codeBlockLines {
   font: inherit;
-  /*rtl:ignore*/
+  /* rtl:ignore */
   float: left;
   min-width: 100%;
   padding: var(--ifm-pre-padding);
@@ -77,8 +73,4 @@
   .codeBlockLines {
     white-space: pre-wrap;
   }
-}
-.cardGradient {
-  /*background: rgb(58, 82, 8);*/
-  background: linear-gradient(90deg, rgba(58, 82, 8, 1) 0%, rgba(15, 126, 139, 1) 64%, rgba(124, 0, 255, 0.9023984593837535) 100%);
 }

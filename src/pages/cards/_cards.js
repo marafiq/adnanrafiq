@@ -1,6 +1,6 @@
 export const Cards = [
     {
-        "title": "Template Method Pattern by using C# Inheritance",
+        "title": 'Template Method Pattern by using C# Inheritance',
         "description": "Template Method Pattern executes multiple & same steps in the same order and allows consumers to change the behavior of the steps. Below example, shows how you can migrate different types of files to AWS S3 from file share. This approach has advantage over delegate based approach when multiple consumers will be calling to migrate same file type(s) as call site will not need to pass the delegate. ",
         "language": "language-csharp",
         "fileName": "_template-method-pattern-c-sharp-inheritance.cs"

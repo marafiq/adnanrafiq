@@ -40,8 +40,7 @@ const config = {
                 },
                 sitemap: {
                     changefreq: "weekly",
-                    priority: 0.5,
-                    trailingSlash: true
+                    priority: 0.5
                 },
                 gtag: {
                     trackingID: 'UA-173098616-1',
