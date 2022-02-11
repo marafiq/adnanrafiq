@@ -5,8 +5,7 @@ slug: cache-aside-pattern-csharp
 authors: adnan 
 tags: [C#, .NET]
 image : ./heroImage.jpg
-draft: true
-keywords: [Cache,Aside]
+keywords: [Cache,Aside,Redis,Distributed,.NET6]
 ---
 
 ## What is Cache Aside Pattern?
@@ -36,7 +35,8 @@ Write Side (Delete After Write):
 
 :::caution
 Data consistency is not guaranteed even when you use distributed cache database such as Redis, unless you implement complex locking which will defeat the purpose of achieving performance benefits.
-When your application runs behind load balancer memory cache data will be different in each application host, consider using distributed cache if stale data is not acceptable or implement a way to remove data using pub/sub pattern.
+
+In the case of Memory Cache, When your application runs behind load balancer memory cache data will be different in each application host, consider using distributed cache if stale data is not acceptable or implement a way to remove data using pub/sub pattern.
 :::
 
 :::info
@@ -44,93 +44,111 @@ Microsoft Abstractions are useful and available on NuGet at [Microsoft.Extension
 :::
 
 
-An example below is using `Memory Cache` to implement the pattern.
+An example below is using `Distributed Cache` to implement the pattern. Please find the complete code of sample web api [here](https://github.com/marafiq/production-ready-dot-net/blob/main/CacheAsidePattern/CachePatterns/Program.cs). 
 
 ~~~csharp title="Read side or through implementation with memory cache"
-class ReadThroughMemoryCache
+//Extension Method to Regiser Redis Distributed Cache Service
+builder.Services.AddStackExchangeRedisCache(options =>
 {
-    private readonly IMemoryCache _memoryCache;
+    //To store screts locally use secret manager tool
+    //dotnet user-secrets init
+    //dotnet user-secrets set "RedisConnectionString" "https://instance,password=abc"
+    options.Configuration = builder.Configuration["RedisConnectionString"];
+});
 
-    public ReadThroughMemoryCache(IMemoryCache memoryCache)
-    {
-        _memoryCache = memoryCache;
-    }
-
-    public Task<T> GetAsync<T>(string key, Func<T> retrieveFromDataStore, TimeSpan expiredAfter, CancellationToken cancellationToken = default)
-    {
-        if (key == null) throw new ArgumentNullException(nameof(key));
-
-        var item = _memoryCache.Get<T>(key);
-
-        if (item is not null) return Task.FromResult(item);
-
-        var dbItem = retrieveFromDataStore();
-        
-        _memoryCache.Set<T>(key, dbItem, expiredAfter);
-
-        return Task.FromResult<T>(dbItem);
-    }
-}
 record Course(int Id, string CourseName);
+
 class StudentCoursesQuery
 {
-    private readonly ReadThroughMemoryCache _readThroughMemoryCache;
-    public StudentCoursesQuery(ReadThroughMemoryCache readThroughMemoryCache)
+    private readonly ReadThroughDistributedCache _readThroughDistributedCache;
+
+    public StudentCoursesQuery(ReadThroughDistributedCache readThroughDistributedCache)
     {
-        _readThroughMemoryCache = readThroughMemoryCache;
+        _readThroughDistributedCache = readThroughDistributedCache;
     }
-    async Task<IEnumerable<Course>> GetEnrolledCourses(int studentId)
+
+    public async Task<IEnumerable<Course>> GetEnrolledCourses(int studentId)
     {
-        return await _readThroughMemoryCache.GetAsync<IEnumerable<Course>>(studentId.ToString(), RetrieveFromDataStore, TimeSpan.MaxValue);
+        return await _readThroughDistributedCache.GetAsync(new StudentCacheKey(studentId), RetrieveFromDataStore,
+            TimeSpan.MaxValue) ?? Array.Empty<Course>();
 
         IEnumerable<Course> RetrieveFromDataStore()
         {
-            return new List<Course>();
+            Thread.Sleep(5000); // If item is not cached then response will take 5 seconds
+            var courses = new List<Course> { new(1, "CS") };
+            return courses.Where(x => x.Id == studentId);
         }
     }
-} 
-~~~
+}
 
-~~~csharp title="Write side or delete from the memory cache after writing to the database"
-class StudentEnrollCommand
+class ReadThroughDistributedCache
 {
-    private readonly IMemoryCache _memoryCache;
+    private readonly IDistributedCache _distributedCache;
 
-    public StudentEnrollCommand(IMemoryCache memoryCache)
+    public ReadThroughDistributedCache(IDistributedCache distributedCache)
     {
-        _memoryCache = memoryCache;
+        _distributedCache = distributedCache;
     }
 
-    async Task<bool> Enroll(int studentId, int courseId)
+    public async Task<T?> GetAsync<T, TUniqueKey>(CacheKey<TUniqueKey> key, Func<T?> retrieveFromDataStore,
+        TimeSpan expiredAfter, CancellationToken cancellationToken = default)
     {
-        await Task.Delay(1000); // consider this is database query executing
-        
-        //delete the entry from cache
-        //OR
-        //write the entry to cache - write behind but its better to keep write at one place.
-        _memoryCache.Remove($"Student_{studentId}_Courses"); 
-        
-        return await Task.FromResult<bool>(true);
+        var cachedItem = await _distributedCache.GetAsync(key, cancellationToken);
+        if (cachedItem is { })
+        {
+            return JsonSerializer.Deserialize<T>(new ReadOnlySpan<byte>(cachedItem))!;
+        }
+
+        var dbItem = retrieveFromDataStore();
+        if (dbItem is null) return default;
+        var dbItemSerialized = JsonSerializer.SerializeToUtf8Bytes(dbItem);
+        await _distributedCache.SetAsync(key, dbItemSerialized,
+            new DistributedCacheEntryOptions { SlidingExpiration = expiredAfter }, cancellationToken);
+        return dbItem;
     }
 }
+//To Enforce consistent cache key name pattern
+abstract record CacheKey<TUniqueKey>(char Prefix, TUniqueKey UniqueKey, char Postfix)
+{
+    public static implicit operator string(CacheKey<TUniqueKey> studentCacheKey)
+    {
+        return studentCacheKey.ToString();
+    }
+
+    public override string ToString()
+    {
+        return $"{Prefix}_{UniqueKey}_{Postfix}";
+    }
+}
+
+record StudentCacheKey(int StudentId) : CacheKey<int>('S', StudentId, 'C');
 ~~~
 
 :::tip
 Enforce cache key pattern by creating an abstraction around it. It helps when item in the cache can change from multiple places. You do not want to duplicate the logic to construct the cache key. It also helps when you want to search keys in the cache-store.
 :::
 
-~~~csharp title="Enforce the Cache Key Name"
-record CacheKey(string Prefix, string UniqueKey, string Postfix)
+
+~~~csharp title="Write side or delete from the memory cache after writing to the database"
+class StudentEnrollCommand
 {
-    public override string ToString()
+    private readonly IDistributedCache _distributedCache;
+
+    public StudentEnrollCommand(IDistributedCache distributedCache)
     {
-        return $"{Prefix}_{UniqueKey}_{Postfix}";
+        _distributedCache = distributedCache;
     }
-}
-//OR
-interface ICacheKey
-{
-    string GetCacheKey<TUniqueKey>(string preFix, TUniqueKey uniqueKey, string postFix); 
+
+    public async Task<bool> Enroll(int studentId, int courseId)
+    {
+        // consider this is database query executing
+        await Task.Delay(1000);
+
+        var cacheKey = new StudentCacheKey(studentId);
+        await _distributedCache.RemoveAsync(cacheKey); //delete the entry from cache
+
+        return true;
+    }
 }
 ~~~
 
