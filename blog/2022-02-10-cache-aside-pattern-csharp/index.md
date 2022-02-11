@@ -15,6 +15,9 @@ It enables you to improve application performance by reading the data from the c
 
 This pattern can decrease the throughput on database or service which may save you resources and money on top of better application performance.
 
+Cache Aside is a bizarre name if English is not your native language. For that matter, any pattern emerges from a series of steps to solve a problem. The pattern Name is to communicate the steps quickly.
+   
+
 ### Pre-Conditions
 - The data is expensive to read from persistent store.
 - Measure (ex: time to read from db > time to read from cache) if it actually improves the performance. 
