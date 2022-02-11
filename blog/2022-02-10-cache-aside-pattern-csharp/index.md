@@ -36,7 +36,7 @@ Write Side (Delete After Write):
 :::caution
 Data consistency is not guaranteed even when you use distributed cache database such as Redis, unless you implement complex locking which will defeat the purpose of achieving performance benefits.
 
-In the case of Memory Cache, When your application runs behind load balancer memory cache data will be different in each application host, consider using distributed cache if stale data is not acceptable or implement a way to remove data using pub/sub pattern.
+In the case of Memory Cache, When your application runs behind load balancer memory cache data will be different in each application host, consider using distributed cache if stale data is not acceptable or implement a way to remove data from each host using pub/sub pattern.
 :::
 
 :::info
@@ -52,7 +52,7 @@ builder.Services.AddStackExchangeRedisCache(options =>
 {
     //To store screts locally use secret manager tool
     //dotnet user-secrets init
-    //dotnet user-secrets set "RedisConnectionString" "https://instance,password=abc"
+    //dotnet user-secrets set "RedisConnectionString" "value"
     options.Configuration = builder.Configuration["RedisConnectionString"];
 });
 
@@ -69,12 +69,15 @@ class StudentCoursesQuery
 
     public async Task<IEnumerable<Course>> GetEnrolledCourses(int studentId)
     {
-        return await _readThroughDistributedCache.GetAsync(new StudentCacheKey(studentId), RetrieveFromDataStore,
+        return await _readThroughDistributedCache.GetAsync(
+        new StudentCacheKey(studentId), RetrieveFromDataStore,
             TimeSpan.MaxValue) ?? Array.Empty<Course>();
 
         IEnumerable<Course> RetrieveFromDataStore()
         {
-            Thread.Sleep(5000); // If item is not cached then response will take 5 seconds
+            // Inject dummy delay of 5 seconds
+            // when item is not in cache
+            Thread.Sleep(5000); 
             var courses = new List<Course> { new(1, "CS") };
             return courses.Where(x => x.Id == studentId);
         }
@@ -90,7 +93,8 @@ class ReadThroughDistributedCache
         _distributedCache = distributedCache;
     }
 
-    public async Task<T?> GetAsync<T, TUniqueKey>(CacheKey<TUniqueKey> key, Func<T?> retrieveFromDataStore,
+    public async Task<T?> GetAsync<T, TUniqueKey>(CacheKey<TUniqueKey> key, 
+    Func<T?> retrieveFromDataStore,
         TimeSpan expiredAfter, CancellationToken cancellationToken = default)
     {
         var cachedItem = await _distributedCache.GetAsync(key, cancellationToken);
@@ -103,7 +107,9 @@ class ReadThroughDistributedCache
         if (dbItem is null) return default;
         var dbItemSerialized = JsonSerializer.SerializeToUtf8Bytes(dbItem);
         await _distributedCache.SetAsync(key, dbItemSerialized,
-            new DistributedCacheEntryOptions { SlidingExpiration = expiredAfter }, cancellationToken);
+            new DistributedCacheEntryOptions { 
+            SlidingExpiration = expiredAfter 
+            }, cancellationToken);
         return dbItem;
     }
 }
@@ -145,7 +151,8 @@ class StudentEnrollCommand
         await Task.Delay(1000);
 
         var cacheKey = new StudentCacheKey(studentId);
-        await _distributedCache.RemoveAsync(cacheKey); //delete the entry from cache
+        //delete the entry from cache
+        await _distributedCache.RemoveAsync(cacheKey); 
 
         return true;
     }
