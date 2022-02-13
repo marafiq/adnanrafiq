@@ -1,5 +1,11 @@
 export const Cards = [
     {
+        "title": 'Background or Worker Services in .NET',
+        "description": "Used for long running tasks.",
+        "language": "language-csharp",
+        "fileName": "_background-services.cs"
+    },
+    {
         "title": 'Template Method Pattern by using C# Inheritance',
         "description": "Template Method Pattern executes multiple & same steps in the same order and allows consumers to change the behavior of the steps. Below example, shows how you can migrate different types of files to AWS S3 from file share. This approach has advantage over delegate based approach when multiple consumers will be calling to migrate same file type(s) as call site will not need to pass the delegate. ",
         "language": "language-csharp",
