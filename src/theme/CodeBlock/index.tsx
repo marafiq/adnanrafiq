@@ -21,7 +21,7 @@ import {
 import type {Props} from '@theme/CodeBlock';
 import CodeBlockFooter from "@site/src/components/CardFooter";
 import styles from './styles.module.css';
-
+import domtoimage from 'dom-to-image';
 // @ts-ignore
 // @ts-ignore
 // @ts-ignore

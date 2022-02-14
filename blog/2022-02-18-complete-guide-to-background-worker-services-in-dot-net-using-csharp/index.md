@@ -233,6 +233,10 @@ IHost host = Host.CreateDefaultBuilder(args)
     {
         services.Configure<HostOptions>(options =>
         {
+            //Service Behavior in case of exceptions - defautls to StopHost
+            options.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;//.StopHost
+          	
+          	//Host will try to wait 30 seconds before stopping the service. 
           	// highlight-next-line
             options.ShutdownTimeout = TimeSpan.FromSeconds(30);
         });
@@ -240,6 +244,8 @@ IHost host = Host.CreateDefaultBuilder(args)
     })
     .Build();
 ```
+
+### Use Scope Services in Worker
 `AddHostedService<Worker>()` adds a Singleton Instance of Worker to the default .NET DI Container.
 
 
@@ -259,16 +265,6 @@ IHost host = Host.CreateDefaultBuilder(args)
 
 await host.RunAsync();
 
-public interface IAnyScopeService
-{
-    Task<bool> DoWork();
-}
-
-public class AnyScopeService : IAnyScopeService
-{
-    public Task<bool> DoWork() => Task.FromResult(true);
-}
-
 public class Worker : BackgroundService
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
@@ -279,19 +275,35 @@ public class Worker : BackgroundService
         _anyScopeService = anyScopeService;
     }
     */
+    //Injecting the IServiceScopeFactory to crate scope.
     public Worker(IServiceScopeFactory serviceScopeFactory)
     {
         _serviceScopeFactory = serviceScopeFactory;
     }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        
         while (stoppingToken.IsCancellationRequested == false)
         {
+            //Using the scoped service
+            //highlight-start
             using var scope = _serviceScopeFactory.CreateScope();
             var anyScopeService = scope.ServiceProvider.GetService<IAnyScopeService>();
             await anyScopeService!.DoWork();
+            //highlight-end
         }
+        
     }
+}
+
+public interface IAnyScopeService
+{
+    Task<bool> DoWork();
+}
+
+public class AnyScopeService : IAnyScopeService
+{
+    public Task<bool> DoWork() => Task.FromResult(true);
 }
 
 ```
@@ -306,3 +318,9 @@ If the Host contains multiple hosted services, it will start those services seri
 It can be essential to control the gracefully shut time behavior & how these services will stop so that business operation does not end up inconsistent. 
 
 Consider, a hosted service is writing to a channel, and another hosted service is reading from that channel. If writer service is registered first, then it will stop last. It means the writer service may have written some data to channel, while there is no reader to read it.   
+
+## Deployment
+- Windows Service
+- Linux
+- Docker
+- Azure
