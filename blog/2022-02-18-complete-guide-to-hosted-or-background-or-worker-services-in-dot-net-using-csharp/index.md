@@ -65,6 +65,10 @@ The cancellation can happen if you press ctrl + c or if the Host decides to stop
 The completion of `ExecuteAsync` method means that the service has finished its work.  
 So if the requirement is to poll continuously, then use the infinite loop until token is cancelled, for example, processing the messages from the queue as they arrive.
 
+:::note
+You do not need to inherit from BackgroundService if your use case does not need the behavior it provides. It is a helper class.
+:::
+
 <details>
 <summary>BackgroundService abstract class copied from Microsoft.Extensions.Hosting</summary>
 
@@ -213,12 +217,31 @@ The ASP.NET Hosted Service is useful in the following use cases but not limited 
 - Listening to messages from the queue.
 - Performing Long Running Operation in the Background.
 
+
+<details>
+<summary>How to add the Hosted Service in ASP.NET Web Api</summary>
+
+```csharp title="Adding the Hosted Service in ASP.NET Services - Lines Highlight below"
+
+var builder = WebApplication.CreateBuilder(args);
+//highlight-start
+//PrimeCache implements IHostedService interface
+builder.Services.AddHostedService<PrimeCache>();
+//highlight-end
+
+build.Build().Run();
+
+```
+</details>
+
 ## How to make it observable and resilient?
 Observability is about telling how service is performing the given task from the outside. Logs are an excellent way to make a running process observable, `IHostApplicationLifetime` offers extension points to achieve it.
 
 Resiliency is about making the service tolerant to failure and recovery from failure. Configuring the HostOptions related to the Hosted Service allows it. 
 ### Listen to HostService Lifetime events and stop programmatically
 The Host provides `IHostApplicationLifetime` service which allows consumers to listen to changes in lifetime of the Hosted Services and stop the hosted service programmatically.
+You can inject `IHostApplicationLifetime` into the Hosted Service constructor and register a callback function to listen to those events and take appropriate action such as logging. 
+An example of how to log these events in the Hosted Service is below.
 
 <details>
 
@@ -366,9 +389,16 @@ IHost host = Host.CreateDefaultBuilder(args)
 :::tip
 If you are passing cancellation token to the downstream tasks correctly, then it is very likely that you do not need to extend the default shutdown time because Task from Background Service will be cancelled gracefully within 5 seconds.
 :::
+## Exercise Caution
 
 ### Use Scoped Services in Worker
 `AddHostedService<Worker>()` adds a Singleton Instance of Worker to the default .NET DI Container which means any scoped service injected into the constructor of Worker will also be Singleton.
+
+:::caution
+Do not inject EF Context Instance into the constructor of the Hosted Service unless it is intentional.
+If you are querying many records using the EF Context, it will cause memory saturation and an eventual crash.
+Because all records will be held in memory.
+:::
 
 If your use case involves using a scoped type instance of any object, you will have to access the Instance using IServiceProvider. An example is below.
 
@@ -426,13 +456,9 @@ public class AnyScopeService : IAnyScopeService
 
 ```
 
-:::caution
-Do not inject EF Context Instance into the constructor of the Hosted Service unless it is intentional.
-If you are querying many records using the EF Context, it will cause memory saturation and an eventual crash.
-Because all records will be held in memory.
-:::
 
-## Start & stop behavior of hosted services?
+
+### Start & stop behavior of hosted services?
 If the Host contains multiple hosted services, it will start those services serially in order they are registered, but stops will happen in reverse order serially.
 It can be essential to control the gracefully shut time behavior & how these services will stop so that business operation does not end up inconsistent. 
 
@@ -558,6 +584,51 @@ public class ReaderWorker : BackgroundService
     }
 }
 ~~~
+
+### Exception Handling 
+
+The Hosted Service exceptions can stop the Host, which is not desirable in ASP.NET. I encourage you to handle exceptions and unwrap the `AggregateException` so you can diagnose using logs. 
+
+```csharp title="Handle Exception & Unwrap Aggregate Exceptions"
+class ParallelTasksHostedService : BackgroundService
+{
+    private readonly ILogger<ParallelTasksHostedService> _logger;
+
+    public ParallelTasksHostedService(ILogger<ParallelTasksHostedService> _logger)
+    {
+        this._logger = _logger;
+    }
+
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        try
+        {
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                //Handle exceptions or make sure downstream calls do not throw at all.
+                await Task.WhenAll(Task.Delay(1000, stoppingToken), Task.Delay(1000, stoppingToken));    
+            }
+        }
+        catch (Exception e)
+        {
+            //UnWrap aggregate exceptions
+            if (e is AggregateException aggregateException)
+            {
+                foreach (var innerException in aggregateException.Flatten().InnerExceptions)
+                {
+                    _logger.LogError(innerException, "One or many tasks failed.");
+                }
+            }
+            else
+            {
+                _logger.LogError(e, "Exception executing tasks.");
+            }
+        }
+    }
+}
+
+```
+
 ## ASP.NET Core Hosted Service Examples
 How .NET WebHost start hosted service can be seen in source code on [GitHub](https://github.com/dotnet/aspnetcore/blob/259ff381eb80b197eb9d9d2421251e3e1edd40ae/src/Hosting/Hosting/src/Internal/WebHost.cs#L149).
 ASP.NET Core uses few hosted services. Below are few examples to peak your curiosity.
