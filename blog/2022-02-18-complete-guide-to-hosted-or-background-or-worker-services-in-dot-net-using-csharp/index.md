@@ -270,18 +270,18 @@ public class Worker : BackgroundService
     {
         _logger = logger;
         _hostApplicationLifetime = hostApplicationLifetime;
+        //highlight-start
+        // callback methods when host is gracefully shutting down the service
+        _hostApplicationLifetime.ApplicationStarted.Register(() => _logger.LogInformation("started"));
+        _hostApplicationLifetime.ApplicationStopping.Register(() => _logger.LogInformation("stopping"));
+        _hostApplicationLifetime.ApplicationStopped.Register(() => _logger.LogInformation("stopped"));
+        //highlight-end
     }
 
     public override Task StartAsync(CancellationToken cancellationToken)
     {
         try
         {
-            //highlight-start
-            // callback methods when host is gracefully shutting down the service
-            _hostApplicationLifetime.ApplicationStarted.Register(() => _logger.LogInformation("started"));
-            _hostApplicationLifetime.ApplicationStopping.Register(() => _logger.LogInformation("stopping"));
-            _hostApplicationLifetime.ApplicationStopped.Register(() => _logger.LogInformation("stopped"));
-            //highlight-end
             return base.StartAsync(cancellationToken);
         }
         catch (Exception e)
@@ -467,11 +467,6 @@ public class WriterWorker : BackgroundService
     {
         _logger = logger;
         _hostApplicationLifetime = hostApplicationLifetime;
-    }
-
-    public override async Task StartAsync(CancellationToken cancellationToken)
-    {
-        
         _hostApplicationLifetime.ApplicationStarted.Register(() => _logger.LogInformation(
             "In WriterWorker - host application started at: {time}.",
             DateTimeOffset.Now));
@@ -481,7 +476,10 @@ public class WriterWorker : BackgroundService
         _hostApplicationLifetime.ApplicationStopped.Register(() => _logger.LogInformation(
             "In WriterWorker - host application stopped at: {time}.",
             DateTimeOffset.Now));
-        
+    }
+
+    public override async Task StartAsync(CancellationToken cancellationToken)
+    {
         _logger.LogInformation("WriterWorker started at: {time} and will take 5 seconds to complete.",
             DateTimeOffset.Now);
         
@@ -523,10 +521,7 @@ public class ReaderWorker : BackgroundService
     {
         _logger = logger;
         _hostApplicationLifetime = hostApplicationLifetime;
-    }
-
-    public override Task StartAsync(CancellationToken cancellationToken)
-    {
+        
         _hostApplicationLifetime.ApplicationStarted.Register(() => _logger.LogInformation(
             "In ReaderWorker - host application started at: {time}.",
             DateTimeOffset.Now));
@@ -536,7 +531,10 @@ public class ReaderWorker : BackgroundService
         _hostApplicationLifetime.ApplicationStopped.Register(() => _logger.LogInformation(
             "In ReaderWorker - host application stopped at: {time}.",
             DateTimeOffset.Now));
-        
+    }
+
+    public override Task StartAsync(CancellationToken cancellationToken)
+    {
         _logger.LogInformation("ReaderWorker started at: {time}", DateTimeOffset.Now);
         
         return base.StartAsync(cancellationToken);
