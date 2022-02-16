@@ -5,7 +5,7 @@ slug: complete-guide-to-hosted-or-background-or-worker-services-in-dot-net-using
 authors: adnan 
 tags: [C#, .NET6, BackgroundWorkerService]
 image : ./heroImage.jpg
-keywords: [Background,Worker,Service,.NET6,LongRunningTasks]
+keywords: [Background,Worker,IHosted,Hosted,Service,.NET6,LongRunningTasks]
 draft: true
 ---
 
@@ -363,6 +363,10 @@ IHost host = Host.CreateDefaultBuilder(args)
     .Build();
 ```
 
+:::tip
+If you are passing cancellation token to the downstream tasks correctly, then it is very likely that you do not need to extend the default shutdown time because Task from Background Service will be cancelled gracefully within 5 seconds.
+:::
+
 ### Use Scoped Services in Worker
 `AddHostedService<Worker>()` adds a Singleton Instance of Worker to the default .NET DI Container which means any scoped service injected into the constructor of Worker will also be Singleton.
 
@@ -501,6 +505,10 @@ public class WriterWorker : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+            //If you pass cancellation token here or to your work task
+            //then tasks will be completed and you will not observe extended shutdown time.
+            //try this same code but pass cancellation token
+            //await Task.Delay(TimeSpan.FromSeconds(120), stoppingToken); 
             await Task.Delay(TimeSpan.FromSeconds(120));
         }
     }
@@ -552,9 +560,14 @@ public class ReaderWorker : BackgroundService
     }
 }
 ~~~
-
+## ASP.NET Core Hosted Service Examples
+How .NET WebHost start hosted service can be seen in source code on [GitHub](https://github.com/dotnet/aspnetcore/blob/259ff381eb80b197eb9d9d2421251e3e1edd40ae/src/Hosting/Hosting/src/Internal/WebHost.cs#L149).
+ASP.NET Core uses few hosted services. Below are few examples to peak your curiosity.
+- [Health Check Publisher Service](https://github.com/dotnet/aspnetcore/blob/ed1ac4285213158a85f69449dba448ef0c65fbf4/src/HealthChecks/HealthChecks/src/HealthCheckPublisherHostedService.cs#L16)
+- [Connection Counter Service](https://github.com/dotnet/aspnetcore/blob/8b30d862de6c9146f466061d51aa3f1414ee2337/src/SignalR/perf/benchmarkapps/Crankier/Server/ConnectionCounterHostedService.cs)
+- [Data Protection Service](https://github.com/dotnet/aspnetcore/blob/a450cb69b5e4549f5515cdb057a68771f56cefd7/src/DataProtection/DataProtection/src/Internal/DataProtectionHostedService.cs)
 ## Deployment
 The .NET is a cross-platform, open-source developer platform. It can be deployed to Windows Service or Linux but is not limited to these two.  
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
-I am considering writing a Lab based on this post, would it be helpful?
+
