@@ -567,7 +567,7 @@ ASP.NET Core uses few hosted services. Below are few examples to peak your curio
 - [Connection Counter Service](https://github.com/dotnet/aspnetcore/blob/8b30d862de6c9146f466061d51aa3f1414ee2337/src/SignalR/perf/benchmarkapps/Crankier/Server/ConnectionCounterHostedService.cs)
 - [Data Protection Service](https://github.com/dotnet/aspnetcore/blob/a450cb69b5e4549f5515cdb057a68771f56cefd7/src/DataProtection/DataProtection/src/Internal/DataProtectionHostedService.cs)
 ## Deployment
-The .NET is a cross-platform, open-source developer platform. It can be deployed to Windows Service or Linux but is not limited to these two.  
+The .NET is a cross-platform, open-source developer platform. Thus Hosted Service can be deployed as a Windows Service on Windows Server, for other Operating System's you can use Docker.  
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
 
