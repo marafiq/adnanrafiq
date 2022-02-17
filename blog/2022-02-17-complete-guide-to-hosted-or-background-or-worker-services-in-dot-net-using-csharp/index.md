@@ -15,6 +15,10 @@ keywords: [Background,Worker,IHosted,Hosted,Service,.NET6,LongRunningTasks]
 <meta name="twitter:title" content="A Complete Guide to Hosted Service(s) in .NET 6 using C# 10" />
 <meta name="twitter:description" content="A Complete Guide to Background Worker Service(s) in .NET 6 using C# 10. It explains the Hosted Service LifeTime, Start and Stop Behavior, Exception Handling, Best Suited Use Cases, Host Options and flavors of Hosted Services. " />
 </head>
+
+<img src={require('./heroImage.jpg').default} alt="Start and Finish Image"/>
+Image by [@awcreativeut](https://unsplash.com/@awcreativeut)
+
 The word Host will repeatedly appear in the post so let's briefly understand what it means?
 
 ## What is Host?
