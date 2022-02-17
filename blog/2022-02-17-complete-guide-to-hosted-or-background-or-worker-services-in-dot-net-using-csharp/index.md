@@ -1,6 +1,6 @@
 ---
 title: A Complete Guide to Hosted Service(s) in .NET 6 using C# 10 
-description: A Complete Guide to Background Worker Service(s) in .NET 6 using C# 10 
+description: A Complete Guide to Background Worker Service(s) in .NET 6 using C# 10. It explains the Hosted Service LifeTime, Start and Stop Behavior, Exception Handling, Best Suited Use Cases, Host Options and flavors of Hosted Services. 
 slug: complete-guide-to-hosted-or-background-or-worker-services-in-dot-net-using-csharp 
 authors: adnan 
 tags: [C#, .NET6, BackgroundWorkerService]
@@ -10,8 +10,10 @@ keywords: [Background,Worker,IHosted,Hosted,Service,.NET6,LongRunningTasks]
 <head>
 
 <meta property="og:image:width" content="1200"/>
-<meta property="og:image:height" content="630"/>  
+<meta property="og:image:height" content="670"/>  
 <meta name="twitter:creator" content="@madnan_rafiq" />
+<meta name="twitter:title" content="A Complete Guide to Hosted Service(s) in .NET 6 using C# 10" />
+<meta name="twitter:description" content="A Complete Guide to Background Worker Service(s) in .NET 6 using C# 10. It explains the Hosted Service LifeTime, Start and Stop Behavior, Exception Handling, Best Suited Use Cases, Host Options and flavors of Hosted Services. " />
 </head>
 The word Host will repeatedly appear in the post so let's briefly understand what it means?
 
