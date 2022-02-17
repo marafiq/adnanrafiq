@@ -8,7 +8,10 @@ image : ./heroImage.jpg
 keywords: [Background,Worker,IHosted,Hosted,Service,.NET6,LongRunningTasks]
 draft: true
 ---
-
+<head>
+  
+<meta name="twitter:creator" content="@madnan_rafiq" />
+</head>
 The word Host will repeatedly appear in the post so let's briefly understand what it means?
 
 ## What is Host?

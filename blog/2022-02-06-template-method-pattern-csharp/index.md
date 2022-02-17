@@ -1,14 +1,14 @@
 ---
 title: Template Method Pattern using C# 
-description: Template Method Pattern using C# 
+description: Inheritance and Delegate based Template Method Pattern Implementation using C# 
 slug: template-method-pattern-csharp 
 authors: adnan 
 tags: [C#, .NET]
 image : ./heroImage.jpg
 ---
 <head>
-
-  <meta name="keywords" content="Template Method Pattern"/>
+   <meta name="twitter:creator" content="@madnan_rafiq" />
+   <meta name="keywords" content="Template Method Pattern"/>
 </head>
 
 ## What is Template Method Pattern?
