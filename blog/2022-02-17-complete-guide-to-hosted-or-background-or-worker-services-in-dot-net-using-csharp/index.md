@@ -17,6 +17,7 @@ keywords: [Background,Worker,IHosted,Hosted,Service,.NET6,LongRunningTasks]
 </head>
 
 <img src={require('./heroImage.jpg').default} alt="Start and Finish Image"/>
+
 Image by [awcreativeut](https://unsplash.com/@awcreativeut)
 
 The word Host will repeatedly appear in the post so let's briefly understand what it means?
