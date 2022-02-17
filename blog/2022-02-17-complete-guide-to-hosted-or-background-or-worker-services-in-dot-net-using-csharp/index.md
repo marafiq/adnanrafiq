@@ -4,7 +4,7 @@ description: A Complete Guide to Background Worker Service(s) in .NET 6 using C#
 slug: complete-guide-to-hosted-or-background-or-worker-services-in-dot-net-using-csharp 
 authors: adnan 
 tags: [C#, .NET6, BackgroundWorkerService]
-image : ./heroImage.jpg
+image : ./startandfinish.jpg
 keywords: [Background,Worker,IHosted,Hosted,Service,.NET6,LongRunningTasks]
 ---
 <head>
@@ -16,7 +16,7 @@ keywords: [Background,Worker,IHosted,Hosted,Service,.NET6,LongRunningTasks]
 <meta name="twitter:description" content="A Complete Guide to Background Worker Service(s) in .NET 6 using C# 10. It explains the Hosted Service LifeTime, Start and Stop Behavior, Exception Handling, Best Suited Use Cases, Host Options and flavors of Hosted Services. " />
 </head>
 
-<img src={require('./heroImage.jpg').default} alt="Start and Finish Image"/>
+<img src={require('./startandfinish.jpg').default} alt="Start and Finish Image"/>
 
 Image by [awcreativeut](https://unsplash.com/@awcreativeut)
 
