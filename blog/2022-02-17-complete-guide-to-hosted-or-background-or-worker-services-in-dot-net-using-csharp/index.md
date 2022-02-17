@@ -6,10 +6,11 @@ authors: adnan
 tags: [C#, .NET6, BackgroundWorkerService]
 image : ./heroImage.jpg
 keywords: [Background,Worker,IHosted,Hosted,Service,.NET6,LongRunningTasks]
-draft: true
 ---
 <head>
-  
+
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>  
 <meta name="twitter:creator" content="@madnan_rafiq" />
 </head>
 The word Host will repeatedly appear in the post so let's briefly understand what it means?
