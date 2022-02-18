@@ -23,6 +23,7 @@ const config = {
             ({
                 docs: false,
                 blog: {
+                    remarkPlugins: [[require('mdx-mermaid'), { mermaid: { config:{sequence: { showSequenceNumbers: true } }} }]],
                     showReadingTime: true,
                     editUrl: 'https://github.com/marafiq/adnanrafiq/edit/main/',
                     feedOptions: {
