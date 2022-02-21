@@ -212,8 +212,9 @@ public class VirusScannerAdapter : IVirusScannerAdapter, IDisposable {
             }
         }
    //Interopability with unmanaged code     
-   [DllImport(dllName: "unmanaged.dll")]
+   
    intneral static class UnmanagedCode{
+    [DllImport(dllName: "unmanaged.dll")]
     internal static extern int Scan(IntPtr bytes);
    }
 }
