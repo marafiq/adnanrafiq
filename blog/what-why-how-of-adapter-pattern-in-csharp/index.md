@@ -74,8 +74,8 @@ The Adapter Pattern is similar to the Wrapper Pattern, where a wrapper around th
 
 ## How to implement it?
 
-A class diagram and implementation of the Adapter Pattern is below:
-
+### Structure of Adapter Pattern
+A class diagram of the Adapter Pattern is below:
 ```mermaid
 classDiagram
 direction TB
@@ -110,6 +110,10 @@ direction TB
     Adapter ..|> Adaptee
     WeatherStats *-- WeatherMood
 ```
+
+### Weather Service Adapter
+
+A weather service adapter is a generic example when application integrates with other web services. Implementation is below: 
 
 ```csharp title="An example implementation of an Adapter Pattern."
 //MVC controller returning weather update view - controller is acting as Client
@@ -169,6 +173,29 @@ public enum WeatherMood
     Windy
 }
 ```
+
+### Incompatible Interface Adapter
+When an application allows its users to upload files, you should scan the files for virus before saving it on persistent media. 
+But virus scanner is written in unmanaged code, thus C# application and unmanaged interface do not match. An adapter can help us to bridge the gap.
+An example is below:
+
+~~~csharp title="Scan files using Virus Scanner"
+
+public interface IVirusScannerAdapter{
+   ScanResult Scan(byte[] bytes);
+}
+
+public class VirusScannerAdapter : IVirusScannerAdapter {
+   public ScanResult Scan(byte[] bytes){
+      return ScanResult(ScanResult.Passed)
+   }
+   [DllImport("")]
+   private void Scan(){
+   
+   }
+}
+
+~~~
 
 ## Feedback
 I would love to hear your feedback; feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
