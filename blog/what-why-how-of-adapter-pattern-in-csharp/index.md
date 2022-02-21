@@ -20,7 +20,7 @@ draft: true
 ## What is an Adapter Pattern?
 The Adapter Pattern connects two incompatible objects by exposing an interface compatible with the Client. The object refers to a class, web service, REST API, process, or physical device depending upon your context.
 
-Consider a C# Web Application displaying Weather Updates on its landing by utilizing the third-party REST API. 
+Consider a C# Web Application displaying Weather Updates on its landing by utilizing the third-party REST API.
 
 In this application, there are three participating objects in the Adapter Pattern:
 1. A Weather REST API (Adaptee) has the functionality of weather updates. The Weather REST API only understands JSON.
@@ -43,24 +43,24 @@ A sequence diagram of an Adapter Pattern is below:
     Adapter ->> Client: Returns information to the Client
 ```
 
-Any application that integrates with other services might already be using an Adapter Pattern in form of SDK. Some examples are below:
-- AWS S3 C# SDK is an Adapter that hides the REST API (Adaptee). 
+Any application that integrates with other services might already use an Adapter Pattern in the form of SDK. Some examples are below:
+- AWS S3 C# SDK is an Adapter that hides the REST API (Adaptee).
 - C# OAUTH 2.0 SDK for Authorization.
-- Virus Scanner which utilize unmanaged code.
+- Virus Scanner, which utilizes unmanaged code.
 - Reading MS Office files.
 - CSV Reader.
 
-In light of above examples, any IO based operations essentially are implemented by using an Adapter Pattern.
+In light of the above examples, any IO-based operations essentially implement an Adapter Pattern.
 
-:::info A Tip, but It depends upon your context. 
-Applying an Adapter Pattern to match the Adaptee with your application domain language is often beneficial. In DDD context it is also refereed as Anti Corruption Layer.
-For example, an internal or third-party service might be using a very different naming conventions than your application.
-An old JAVA SOAP Web Service often use underscore in properties names such as first_name, last_name, user_role etc.
+:::info A Tip, but It depends upon your context.
+Applying an Adapter Pattern to match the Adaptee with your application domain language is often beneficial. In the DDD context, an Anti-Corruption Layer implements an Adapter Pattern.
+For example, an internal or third-party service might use very different naming conventions than your application.
+An old JAVA SOAP Web Service often uses underscore in properties names such as first_name, last_name, user_role, etc.
 :::
 
-## Why to use it?
-It encapsulates the conversion of input & output and communication between the Client and Adaptee. 
-The conversion can be as simple as C# object to JSON and vice versa, or writing custom parser to understand the XML elements.
+## Why use it?
+It encapsulates the conversion of input & output and communication between the Client and Adaptee.
+The conversion can be as simple as C# object to JSON and vice versa or writing a custom parser to understand the XML elements.
 
 Though replacing the Adaptee is not the primary intent of the pattern, C# implementation can help replace the Adaptee without changing the Client usage call-site.
 The new Adaptee must provide the same business operations for any replacement to succeed. An Adapter pattern can be helpful to migrate legacy applications to newer implementations slowly.
@@ -71,7 +71,7 @@ The Adapter Pattern is similar to the Wrapper Pattern, where a wrapper around th
 
 ## How to implement it?
 
-A class diagram and implementation of Adapter Pattern is below:
+A class diagram and implementation of the Adapter Pattern is below:
 
 ```mermaid
 classDiagram
@@ -108,7 +108,7 @@ direction TB
     WeatherStats *-- WeatherMood
 ```
 
-```csharp title="An example implementation of an Adapter Pattern"
+```csharp title="An example implementation of an Adapter Pattern."
 //MVC controller returning weather update view - controller is acting as Client
 public class DashboardController : Controller
 {
@@ -131,6 +131,7 @@ public interface IWeatherServiceAdapter{
     Task<WeatherStats> GetWeatherUpdate(string zipCode);
 }
 //Adapter interface implementation 
+//It hides communication to REST API, and transformation of request and response
 public class WeatherServiceAdapter : IWeatherServiceAdapter
 {
     private readonly HttpClient _httpClient;
@@ -167,5 +168,4 @@ public enum WeatherMood
 ```
 
 ## Feedback
-I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
-
+I would love to hear your feedback; feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
