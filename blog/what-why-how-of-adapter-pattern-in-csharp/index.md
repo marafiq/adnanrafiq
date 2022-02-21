@@ -46,7 +46,7 @@ An old JAVA SOAP Web Service often use underscore in properties names such as fi
 Currently, my team is replacing the Adaptee from SOAP to REST API.  
 :::
 
-## What problem does it solve?
+## Why to use it?
 It encapsulates the conversion of input & output and communication between the Client and Adaptee. 
 The conversion can be as simple as C# object to JSON and vice versa, or writing custom parser to understand the XML elements.
 
