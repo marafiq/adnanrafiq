@@ -3,7 +3,7 @@ title: Cache Aside Pattern using C#
 description: Cache Aside Patter using C# 
 slug: cache-aside-pattern-csharp 
 authors: adnan 
-tags: [C#, .NET]
+tags: [C#, .NET, Patterns]
 image : ./heroImage.jpg
 keywords: [Cache,Aside,Redis,Distributed,.NET6]
 ---

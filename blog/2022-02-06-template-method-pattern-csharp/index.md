@@ -3,7 +3,7 @@ title: Template Method Pattern using C#
 description: Inheritance and Delegate based Template Method Pattern Implementation using C# 
 slug: template-method-pattern-csharp 
 authors: adnan 
-tags: [C#, .NET]
+tags: [C#, .NET, Patterns]
 image : ./heroImage.jpg
 ---
 <head>
