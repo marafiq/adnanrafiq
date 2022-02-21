@@ -175,7 +175,7 @@ public enum WeatherMood
 }
 ```
 
-### Incompatible Interface Adapter
+### Incompatible Interface Adapter - C# Interoperability 
 When an application allows its users to upload files, you should scan the files for virus before saving it on persistent media. 
 But virus scanner is written in unmanaged code, thus C# application and unmanaged interface do not match. An adapter can help us to bridge the gap.
 An example is below:
