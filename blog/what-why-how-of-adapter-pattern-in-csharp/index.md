@@ -59,8 +59,11 @@ An old JAVA SOAP Web Service often uses underscore in properties names such as f
 :::
 
 ## Why use it?
-It encapsulates the conversion of input & output and communication between the Client and Adaptee.
-The conversion can be as simple as C# object to JSON and vice versa or writing a custom parser to understand the XML elements.
+
+You should use it when one of the following reason apply:
+- To encapsulate the communication between the Client and Adaptee.
+- To encapsulate the input & output conversion also known as serialization and de-serialization.
+- To protect the domain model language.
 
 Though replacing the Adaptee is not the primary intent of the pattern, C# implementation can help replace the Adaptee without changing the Client usage call-site.
 The new Adaptee must provide the same business operations for any replacement to succeed. An Adapter pattern can be helpful to migrate legacy applications to newer implementations slowly.
