@@ -185,16 +185,36 @@ An example is below:
 public interface IVirusScannerAdapter{
    ScanResult Scan(byte[] bytes);
 }
-
-public class VirusScannerAdapter : IVirusScannerAdapter {
+// Virus Scanner calling unmanaged code to scan bytes.
+// Implementing IDispose
+public class VirusScannerAdapter : IVirusScannerAdapter, IDisposable {
+   private bool _disposedValue;
    public ScanResult Scan(byte[] bytes){
       var result = UnmanagedCode.Scan(Marshal.UnsafeAddrOfPinnedArrayElement<byte>(bytes, 0));
       return ScanResult(result == 1 ? ScanResult.Passed : ScanResult.Failed)
    }
-   
+   public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+    protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                 //dispose managed resources
+                }
+    
+                /free unamanged resources
+                _disposedValue = true;
+            }
+        }
+   //Interopability with unmanaged code     
    [DllImport(dllName: "unmanaged.dll")]
    intneral static class UnmanagedCode{
-    public static extern int Scan(IntPtr bytes);
+    internal static extern int Scan(IntPtr bytes);
    }
 }
 
