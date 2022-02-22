@@ -21,26 +21,19 @@ draft: true
 
 Image by [awcreativeut](https://unsplash.com/@awcreativeut)
 
-The word Host will repeatedly appear in the post so let's briefly understand what it means?
-
-## What is Host?
-The Host is a container which offers rich built-in services such as Dependency Injection, Configuration, Logging, Host Services and others. The NET 6 offers Generic DefaultHost which can be configured to handle the activities as per your use case. Two major variations of the Host are:
-- Console Host - CLI based applications.
-- Web Host - Web API & Applications.
-
-Think of it as Airbnb Host who keeps the property ready to serve when the guests arrive.
-The property offers a different set of services and allows you to bring your own services. The lifetime of such services depends upon the contract, which the Host controls.
-
+## What is Facade?
+Exposing the simplistic interface of anything complex is a Facade.
+For example, when you place an order for Pizza delivery, the application hides the complex process behind Pizza Delivery to your door.
 <!--truncate-->
 
+## What is Facade Pattern?
+A successful Pizza delivery order requires multiple services to participate. 
+Facade Pattern exposes the participating services such as Store Availability, Delivery Staff Availability, inventory of items, and others via a straightforward interface.
+With a straightforward interface, it achieves the following objectives:
+- It reduces the indirect coupling and eliminates direct coupling between the consumer of the Facade and participating services.
+- It hides the participating services from the consumer of the Facade.
+- It simplifies the interaction between the Consumer and the Facade.
 
-~~~csharp title="Basic Host Example : Create, configure, build, and run the Host"
-var host = Host.CreateDefaultBuilder(args) //WebHost.CreateDefaultBuilder(args)  
-    .ConfigureLogging( (context, builder) => builder.AddConsole())
-    .Build(); // Build the host, as per configurations.
-
-await host.RunAsync();
-~~~
 
 
 
