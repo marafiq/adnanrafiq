@@ -6,7 +6,6 @@ authors: adnan
 tags: [C#, .NET, Patterns]
 image : ./adapterpattern.png
 keywords: [Adapter,Wrapper,Mapper,Pattern]
-draft: true
 ---
 <head>
 
@@ -180,7 +179,7 @@ When an application allows its users to upload files, you should scan the files 
 But virus scanner is written in unmanaged code, thus C# application and unmanaged interface do not match. An adapter can help us to bridge the gap.
 An example is below:
 
-~~~csharp title="Scan files using Virus Scanner"
+~~~csharp title="Scan files using Unmanaged Virus Scanner"
 
 public interface IVirusScannerAdapter{
    ScanResult Scan(byte[] bytes);
@@ -207,7 +206,7 @@ public class VirusScannerAdapter : IVirusScannerAdapter, IDisposable {
                  //dispose managed resources
                 }
     
-                /free unamanged resources
+                //free unamanged resources
                 _disposedValue = true;
             }
         }
