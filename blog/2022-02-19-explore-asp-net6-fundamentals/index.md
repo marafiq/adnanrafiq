@@ -42,6 +42,13 @@ var host = Host.CreateDefaultBuilder(args) //WebHost.CreateDefaultBuilder(args)
 await host.RunAsync();
 ~~~
 
+## Configuration and Options
+## Environments
+## Dependency Injection
+## Middleware
+## Logging
+## Routing
+
 
 
 ## Feedback
