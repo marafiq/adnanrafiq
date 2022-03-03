@@ -30,7 +30,7 @@ With a straightforward interface, it achieves the following objectives:
 - It hides and simplifies the interaction between the Consumer and the Facade.
 - It allows you to replace the sub-system without impacting the Consumer.
 
-The facade pattern is similar to Adapter Patter, but it hides sub-systems from its Consumer while the Adapter pattern focuses on the object or one sub-system.
+The facade pattern is similar to Adapter Pattern, but it hides sub-systems from its Consumer while the Adapter pattern focuses on the object or one sub-system.
 
 ## When to use Facade Pattern?
 You should refactor towards Facade Pattern when:
