@@ -3,9 +3,9 @@ title: What, Why and How of Facade Pattern in C#
 description: What is Facade Pattern? Why or what problem it solves? How to implement it in C#.
 slug: what-why-how-of-facade-pattern-in-csharp 
 authors: adnan 
-tags: [C#, .NET6, ASP.NET6]
+tags: [C#, .NET, Patterns]
 image : ./facadepattern.png
-keywords: [Fundamentals, ASP.NET6]
+keywords: [Facade, Container, Pattern]
 draft: true
 ---
 <head>
@@ -66,7 +66,9 @@ class OrderServiceFacade
 
 ```
 
-### Structure of Adapter Pattern
+### Structure of Facade Pattern
+
+The structure of Facade patter in form of class diagram is below:
 
 ```mermaid
 classDiagram
