@@ -6,7 +6,6 @@ authors: adnan
 tags: [C#, .NET, Patterns]
 image : ./facadepattern.png
 keywords: [Facade, Container, Pattern]
-draft: true
 ---
 <head>
 
