@@ -164,7 +164,7 @@ public class Practice : Activity
     private readonly List<SimpleTask> _tasks = new();
     public int ObtainedScore { get; }
 
-    public Exam(string name, bool hasCompleted, int obtainedScore) : base(name, hasCompleted)
+    public Practice(string name, bool hasCompleted, int obtainedScore) : base(name, hasCompleted)
     {
         ObtainedScore = obtainedScore;
     }
@@ -193,7 +193,7 @@ public class Competition : Activity
         _tasks.Add(simpleTask);
     }
 
-    public Lab(string name, bool hasCompleted, int 0btainedScore) : base(name, hasCompleted)
+    public Competition(string name, bool hasCompleted, int 0btainedScore) : base(name, hasCompleted)
     {
         ObtainedScore = 0btainedScore;
     }
