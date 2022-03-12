@@ -16,10 +16,13 @@ draft: true
 <meta name="twitter:title" content="Razor Pages with Blazor Components and tailwindcss" />
 <meta name="twitter:description" content="SSR using Razor Pages with Blazor Components and tailwindcss in ASP.NET 6" />
 </head>
-
+<figure>
 <img src={require('./startandfinish.jpg').default} alt="Start and Finish Image"/>
+<figcaption >Image by [awcreativeut](https://unsplash.com/@awcreativeut)</figcaption>
+</figure>
 
-Image by [awcreativeut](https://unsplash.com/@awcreativeut)
+
+
 
 The word Host will repeatedly appear in the post so let's briefly understand what it means?
 
