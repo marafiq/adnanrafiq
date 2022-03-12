@@ -90,7 +90,7 @@ Action<RewardableSimpleTask> performRewardedTask = DoTaskWork;
 
 
 //Below code will result in compile time error 
-//but marking T with in keywork in delclartion of WorkDelegate will make it contravariant. 
+//but marking T with in keyword in delclartion of WorkDelegate will make it contravariant. 
 WorkDelegate<SimpleTask> performTask = DoTaskWork;
 WorkDelegate<RewardableSimpleTask> performRewardedTask = performTask;
 public delegate void WorkDelegate< T>(T obj);
