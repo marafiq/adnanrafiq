@@ -35,6 +35,7 @@ Thus string equality comparison and length tests will fail. This [MDN](https://d
 If you are expecting unicode characters as an input from the user, store it after normalizing. 
 <!--truncate-->
 
+
 ~~~javascript title="normalize unicode strings before comparison"
 const name1 = '\u0041\u006d\u00e9\u006c\u0069\u0065';
 const name2 = '\u0041\u006d\u0065\u0301\u006c\u0069\u0065';
@@ -68,7 +69,10 @@ public void StringComparisonGotchas()
     Assert.IsTrue($"e{Convert.ToChar(768)}".Normalize().Equals("è".Normalize(), StringComparison.OrdinalIgnoreCase));
 }
 ~~~
-
+## References
+JavaScript code snippet is taken from MDN docs.
+- [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize)
+- [.NET Docs](https://docs.microsoft.com/en-us/dotnet/api/system.text.normalizationform?view=net-6.0)
 
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
