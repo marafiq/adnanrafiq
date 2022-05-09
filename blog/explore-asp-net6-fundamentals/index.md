@@ -48,6 +48,8 @@ await host.RunAsync();
 ## Middleware
 ## Logging
 ## Routing
+## Performance Monitoring
+## Health Checks
 
 
 
