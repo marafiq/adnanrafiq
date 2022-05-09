@@ -14,6 +14,10 @@ const config = {
     onBrokenMarkdownLinks: 'warn',
     favicon: 'img/favicon.ico',
     trailingSlash: true,
+    i18n: {
+        defaultLocale: 'en',
+        locales: ['en'],
+    },
     /*plugins: ['@docusaurus/plugin-ideal-image'],*/
     /*plugins: [require.resolve("@cmfcmf/docusaurus-search-local")],https://github.com/cmfcmf/docusaurus-search-local*/
     presets: [
@@ -34,7 +38,8 @@ const config = {
                         copyright: `Copyright © ${new Date().getFullYear()} Adnan Rafiq`
                     },
                     sortPosts: "descending",
-                    blogSidebarCount:"ALL"
+                    blogSidebarCount:"ALL",
+
                 },
                 theme: {
                     customCss: require.resolve('./src/css/custom.css'),

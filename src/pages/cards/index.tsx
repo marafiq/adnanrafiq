@@ -8,6 +8,7 @@ import {Cards} from './_cards';
 export default function Home(): JSX.Element {
     const {siteConfig} = useDocusaurusContext();
     // @ts-ignore
+    // @ts-ignore
     return <Layout
         title={`${siteConfig.title} - cards`}
         description="Adnan is a blogger, developer, freelancer, and caretaker. A code cards page. ">
