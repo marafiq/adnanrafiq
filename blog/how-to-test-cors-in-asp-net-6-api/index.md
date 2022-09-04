@@ -66,7 +66,7 @@ public static class CorsPolicyNames
 }
 ~~~
 
-## How to Integration test CORS?
+## How to test CORS in .NET6 xUnit Project?
 In the below code snippet, we are testing CORS by asserting the CORS policy presence in the pipeline and sending OPTIONS request to the test server and checking the existence and value of CORS Header (`Access-Control-Allow-Origin`).
 ~~~csharp title="Test Cors in .NET6 xUnit Project"
 public class CorsPolicyTest : IClassFixture<CustomWebApplicationFactory<Program>>
@@ -132,7 +132,7 @@ public class CustomWebApplicationFactory<TEntryPoint> : WebApplicationFactory<TE
     }
 }
 
-```
+~~~
 
 :::tip
 
