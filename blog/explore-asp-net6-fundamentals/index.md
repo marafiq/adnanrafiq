@@ -24,14 +24,12 @@ Image by [awcreativeut](https://unsplash.com/@awcreativeut)
 The word Host will repeatedly appear in the post so let's briefly understand what it means?
 
 ## What is Host?
-The Host is a container which offers rich built-in services such as Dependency Injection, Configuration, Logging, Host Services and others. The NET 6 offers Generic DefaultHost which can be configured to handle the activities as per your use case. Two major variations of the Host are:
-- Console Host - CLI based applications.
-- Web Host - Web API & Applications.
-
-Think of it as Airbnb Host who keeps the property ready to serve when the guests arrive.
-The property offers a different set of services and allows you to bring your own services. The lifetime of such services depends upon the contract, which the Host controls.
+The Web Host is a builder which offers rich built-in services such as Dependency Injection, Configuration, Logging, Host Services and others.
+Think of it as Airbnb Host who keeps the property ready to serve when the guests arrive. The property offers a different set of services and allows you to bring your own services.
+The .NET 6 offers a WebHost Builder `var builder = WebApplication.CreateBuilder(args)` which configures the defaults for you. One notable default is that Configuration are read and are available. 
 
 <!--truncate-->
+
 
 
 ~~~csharp title="Basic Host Example : Create, configure, build, and run the Host"
@@ -41,17 +39,27 @@ var host = Host.CreateDefaultBuilder(args) //WebHost.CreateDefaultBuilder(args)
 
 await host.RunAsync();
 ~~~
-
-## Configuration and Options
 ## Environments
+## Configuration and Options
+## Configure Logging and Exception Handling 
+### Using Serilog
+### Override Microsoft Logs Level
+### Startup Exception Handling 
+### Unhandled Exceptions Logs
+### Mask Sensitive Data and PII - Personal Identifiable Information in Logs  
+## Configure EFCore Database Options
+## Configure Redis
+## Authorization Requirements and Handlers
+## MVC Action Filters
 ## Dependency Injection
 ## Middleware
-## Logging
 ## Routing
 ## Performance Monitoring
+## API Conventions 
 ## Health Checks
-
-
+### OpsGenie Integration
+## Vault Configuration
+## Security Headers
 
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
