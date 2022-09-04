@@ -137,7 +137,7 @@ public class CustomWebApplicationFactory<TEntryPoint> : WebApplicationFactory<TE
 
 :::tip
 
-If your CORS are not working as expected then enable the logging level of Microsoft to Information which will provide useful logs on why Method Not Allowed is being returned.
+If your CORS are not working as expected then enable the logging level of Microsoft to Information or Debug which will provide useful logs on why Method Not Allowed is being returned. You might see logs that no CORS policy was found.
 
 :::
 
