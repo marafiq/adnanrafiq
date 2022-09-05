@@ -1,0 +1,90 @@
+---
+title: How to Authorize in ASP.NET API using Authorization Policy with Requirements and Handler
+description: Authorize in ASP.NET API using Authorization Policy with Requirements and Handler
+slug: authorization-requirement-handler-using-asp-net-6-and-beyond 
+authors: adnan 
+tags: [C#, .NET6, ASP.NET6]
+image : ./startandfinish.jpg
+keywords: [Fundamentals, ASP.NET6]
+draft: true
+---
+<head>
+
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="670"/>  
+<meta name="twitter:creator" content="@madnan_rafiq" />
+<meta name="twitter:title" content="How to Authorize in ASP.NET API using Authorization Policy with Requirements and Handler" />
+<meta name="twitter:description" content="Authorize in ASP.NET API using Authorization Policy with Requirements and Handler" />
+</head>
+
+<img src={require('./startandfinish.jpg').default} alt="Start and Finish Image"/>
+
+Image by [awcreativeut](https://unsplash.com/@awcreativeut)
+
+The `Authorize` allows you to set a policy name when used on controller or action method.    
+
+<!--truncate-->
+
+## How to define Authorization Policy?
+The `AuthorizationOptions` allows you to add policies with requirements using the `AddAuthorization`.   
+~~~csharp title="Authorize using a Policy"
+
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+
+var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
+
+services.AddSingleton<IAuthorizationHandler, UniqueIdHeaderRequirement.UniqueIdHeaderRequirementAuthorizationHandler>();
+// Required otherwise failure of auth handler will throw exception
+services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+// highlight-start
+services.AddAuthorization(options =>
+{
+    options.InvokeHandlersAfterFailure = false;
+    options.AddPolicy("VerifyXUniqueIdHeader",
+        policyBuilder => { policyBuilder.AddRequirements(new UniqueIdHeaderRequirement()); });
+});
+// highlight-end
+services.AddRouting();
+var app = builder.Build();
+app.UseHttpsRedirection();
+app.UseRouting();
+app.UseAuthorization();
+app.UseEndpoints(routeBuilder =>
+{
+    // highlight-start
+    //Fluent style
+    routeBuilder.MapGet("/", () => Results.Ok()).RequireAuthorization("VerifyXUniqueIdHeader");
+    //Attribute style
+    routeBuilder.MapGet("/hello", [Authorize(Policy = "VerifyXUniqueIdHeader")]() => Results.Ok());
+    // highlight-end
+});
+
+app.Run();
+
+internal class UniqueIdHeaderRequirement : IAuthorizationRequirement //IAuthorizationRequirement is a marker interface 
+{
+    internal class UniqueIdHeaderRequirementAuthorizationHandler : AuthorizationHandler<UniqueIdHeaderRequirement>
+    {
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
+            UniqueIdHeaderRequirement requirement)
+        {
+            //for mvc filter context cast it to - AuthorizationFilterContext
+            if (context.Resource is HttpContext httpContext && !httpContext.Request.Headers.ContainsKey("x-unique-id"))
+            {
+                context.Fail();
+                return Task.CompletedTask;
+            }
+
+            context.Succeed(requirement);
+            return Task.CompletedTask;
+        }
+    }
+}
+
+~~~
+
+## Feedback
+I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
+
