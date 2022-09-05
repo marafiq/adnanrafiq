@@ -47,9 +47,64 @@ public sealed class RemoveCacheResultFilter : Attribute, IAsyncResultFilter
 
 ~~~
 It can be applied to the controller or its action method's, but it has dependency on `IDistrubutedCache` which can not be specified. 
-So to fix this problem `Microsoft.AspNetCore.Mvc` has special filter type `TypeFilterAttribute` which creates the underlying filter instance and resolves any dependencies.
+So to fix this problem `Microsoft.AspNetCore.Mvc` has special filter type `TypeFilterAttribute` which creates the underlying filter instance and resolves any dependencies. It can be achieved using the below two approaches:
+~~~csharp title="1: A result filter to remove cached value with DI using TypeFilterAttribute"
+[ApiController]
+[Route("[controller]")]
+public class UsersController : Controller
+{
+    private readonly ILogger<UsersController> _usersLogger;
 
-~~~csharp title="A result filter to remove cached value with DI"
+    public UsersController(ILogger<UsersController> usersLogger)
+    {
+        _usersLogger = usersLogger;
+    }
+
+    [HttpGet(Name = "users/{userId:int}")]
+    // highlight-start
+    [TypeFilter(typeof(RemovePlayerInstanceCacheResultFilter))]
+    // highlight-end
+    [Produces(typeof(UserApiModel))]
+    public async Task<IResult> Get(int userId, CancellationToken cancellationToken)
+    {
+        if (userId <= 0) return Results.BadRequest();
+        _usersLogger.LogInformation("Sending query to the database for the user with Id {UserId}", userId);
+        //code omittted
+        return user is { } ? Results.Ok(user) : Results.NotFound();
+    }
+
+    internal record UserApiModel(int Id, [UsedImplicitly] string FirstName, string LastName);
+}
+~~~
+~~~csharp title="2: A result filter to remove cached value with DI using classes"
+public class RemoveCacheFilterAttribute : TypeFilterAttribute
+{
+    public RemoveCacheFilterAttribute() : base(
+        typeof(RemovePlayerInstanceCacheResultFilter))
+    {
+    }
+
+    // ReSharper disable once MemberCanBePrivate.Global
+    public sealed class RemoveCacheResultFilter : IAsyncResultFilter
+    {
+        private readonly IDistributedCache _distributedCache;
+
+        public RemoveCacheResultFilter(IDistributedCache distributedCache)
+        {
+            _distributedCache = distributedCache;
+        }
+
+        public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
+        {
+            await _distributedCache.RemoveAsync("x").ConfigureAwait(false);
+            if (!context.Cancel) await next().ConfigureAwait(false);
+        }
+    }
+}
+
+~~~
+
+~~~csharp title="A result filter to remove cached value with DI using classes"
 public class RemoveCacheFilterAttribute : TypeFilterAttribute
 {
     public RemoveCacheFilterAttribute() : base(
