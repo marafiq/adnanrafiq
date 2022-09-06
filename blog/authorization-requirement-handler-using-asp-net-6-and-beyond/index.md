@@ -56,7 +56,7 @@ app.UseEndpoints(routeBuilder =>
     // highlight-start
     //Fluent style
     routeBuilder.MapGet("/", () => Results.Ok()).RequireAuthorization("VerifyXUniqueIdHeader");
-    //Attribute style
+    //Attribute style - Same be done MVC controller or action
     routeBuilder.MapGet("/hello", [Authorize(Policy = "VerifyXUniqueIdHeader")]() => Results.Ok());
     // highlight-end
 });

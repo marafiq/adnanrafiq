@@ -6,7 +6,6 @@ authors: adnan
 tags: [C#, .NET6, ASP.NET6]
 image : ./startandfinish.jpg
 keywords: [Fundamentals, ASP.NET6]
-draft: true
 ---
 <head>
 
