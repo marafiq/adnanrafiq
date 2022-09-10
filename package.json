@@ -2,6 +2,10 @@
   "name": "adnanrafiq",
   "version": "0.0.0",
   "private": true,
+  "engines" : { 
+    
+    "node" : ">=16.17.0"
+  },
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
@@ -30,7 +34,7 @@
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "latest",
-    "@tsconfig/docusaurus": "^1.0.4",
+    "@tsconfig/docusaurus": "latest",
     "typescript": "^4.5.2"
   },
   "browserslist": {
