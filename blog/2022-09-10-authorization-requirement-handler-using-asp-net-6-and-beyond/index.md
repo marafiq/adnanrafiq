@@ -20,6 +20,7 @@ keywords: [Fundamentals, ASP.NET6,Authorization]
 
 Image by [@claybanks](https://unsplash.com/@claybanks)
 
+## Authorization Policy
 Authorizing the resource access is essential part of any API. The .NET provides you a perfect mental model which is easier to reason about. It has this flow:
 1. What is the name of your policy as string. 
 2. What requirement the user must satisfy to qualify which implements the `IAuthorizationRequirement` interface.
