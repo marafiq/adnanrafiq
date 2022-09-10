@@ -4,7 +4,7 @@ description: Authorize in ASP.NET API using Authorization Policy with Requiremen
 slug: authorization-requirement-handler-using-asp-net-6-and-beyond 
 authors: adnan 
 tags: [C#, .NET6, ASP.NET6]
-image : ./startandfinish.jpg
+image : ./yougood.jpg
 keywords: [Fundamentals, ASP.NET6,Authorization]
 ---
 <head>
@@ -16,9 +16,9 @@ keywords: [Fundamentals, ASP.NET6,Authorization]
 <meta name="twitter:description" content="Authorize in ASP.NET API using Authorization Policy with Requirements and Handler" />
 </head>
 
-<img src={require('./startandfinish.jpg').default} alt="Start and Finish Image"/>
+<img src={require('./yougood.jpg').default} alt="Start and Finish Image"/>
 
-Image by [awcreativeut](https://unsplash.com/@awcreativeut)
+Image by [@claybanks](https://unsplash.com/@claybanks)
 
 Authorizing the resource access is essential part of any API. The .NET provides you a perfect mental model which is easier to reason about. It has this flow:
 1. What is the name of your policy as string. 
