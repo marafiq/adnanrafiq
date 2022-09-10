@@ -5,8 +5,7 @@ slug: authorization-requirement-handler-using-asp-net-6-and-beyond
 authors: adnan 
 tags: [C#, .NET6, ASP.NET6]
 image : ./startandfinish.jpg
-keywords: [Fundamentals, ASP.NET6]
-draft: true
+keywords: [Fundamentals, ASP.NET6,Authorization]
 ---
 <head>
 
@@ -26,8 +25,10 @@ The `Authorize` allows you to set a policy name when used on controller or actio
 <!--truncate-->
 
 ## How to define Authorization Policy?
-The `AuthorizationOptions` allows you to add policies with requirements using the `AddAuthorization`.   
-~~~csharp title="Authorize using a Policy"
+The `AuthorizationOptions` allows you to add policies with requirements using the `AddAuthorization`. 
+Once the policy is defined and configured, it can be applied to the end point referred as resource.
+
+~~~csharp title="Authorize using a Policy to verify that http header exists"
 
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -43,7 +44,9 @@ services.AddAuthorization(options =>
 {
     options.InvokeHandlersAfterFailure = false;
     options.AddPolicy("VerifyXUniqueIdHeader",
-        policyBuilder => { policyBuilder.AddRequirements(new UniqueIdHeaderRequirement()); });
+        policyBuilder => { 
+            policyBuilder.AddRequirements(new UniqueIdHeaderRequirement()); 
+        });
 });
 // highlight-end
 services.AddRouting();
@@ -65,6 +68,7 @@ app.Run();
 
 internal class UniqueIdHeaderRequirement : IAuthorizationRequirement //IAuthorizationRequirement is a marker interface 
 {
+    // Handler gets called when the user is trying to access the resource. 
     internal class UniqueIdHeaderRequirementAuthorizationHandler : AuthorizationHandler<UniqueIdHeaderRequirement>
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
