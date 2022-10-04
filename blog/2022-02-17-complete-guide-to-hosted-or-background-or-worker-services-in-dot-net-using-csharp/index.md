@@ -648,6 +648,8 @@ ASP.NET Core uses few hosted services. Below are few examples to peak your curio
 - [Data Protection Service](https://github.com/dotnet/aspnetcore/blob/a450cb69b5e4549f5515cdb057a68771f56cefd7/src/DataProtection/DataProtection/src/Internal/DataProtectionHostedService.cs)
 ## Deployment
 The .NET is a cross-platform, open-source developer platform. Thus Hosted Service can be deployed as a Windows Service on Windows Server, for other Operating System's you can use Docker.  
+## Would you buy it anyway, NO?
+I am running an experiment to make few bucks and take it more seriously. If you curious follow the link? [Would you Buy It, NO?](https://madnan.gumroad.com/l/a-complete-guide-to-windows-hosted-services-in-dotnet-using-csharp10)
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
 
