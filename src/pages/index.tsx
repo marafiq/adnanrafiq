@@ -35,6 +35,7 @@ export default function Home(): JSX.Element {
                                         A Senior Software Engineer with more
                                         than 15 years of
                                         experience. I love building applications using Microsoft Technology Stack.
+                                        You can find on <a rel="me" href="https://hachyderm.io/@adnanrafiq">Mastodon</a>.
                                     </p>
                                     <h2>My Journey</h2>
                                     <div className="container">
