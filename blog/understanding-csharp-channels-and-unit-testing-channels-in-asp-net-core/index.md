@@ -73,6 +73,10 @@ Channel is made up of Channel Reader and Channel Writer. Channel class acts as a
 
 Channel class offers two factory methods to create the typed channel. You can configure the channel behavior using options classes. 
 
+https://github.com/dotnet/runtime/tree/main/src/libraries/System.Threading.Channels
+
+
+
 ## Background processing
 
 A web application API is a multi-threaded process with which many users interact concurrently. If an API logic involves an operation to perform a long-running or directly unrelated task, that will not impact the response returned to the user. You would like to offload or perform the task in the background. This leads us to find a mechanism that enables offloading. Channel is the answer.
