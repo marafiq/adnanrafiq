@@ -1,11 +1,12 @@
 ---
 title: Understanding C# Channels and testing Channels in ASP.NET Core Application
 description: A channel is a shared path where information flows from one point to another. The producer(s) and consumer(s) of information are decoupled from each other.
-slug: how-to-test-cors-in-asp-net-6-api 
+slug: understanding-csharp-channels-and-unit-testing-channels-in-asp-net-core 
 authors: adnan 
 tags: [C#, .NET6, ASP.NET6]
 image : ./startandfinish.jpg
 keywords: [Channels,ASP.NET6,Testing,BackgroundProcessng,Producer,Consumer]
+draft: true
 ---
 <head>
 
