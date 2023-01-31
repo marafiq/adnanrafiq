@@ -5,8 +5,7 @@ slug: understanding-csharp-channels-and-unit-testing-channels-in-asp-net-core
 authors: adnan 
 tags: [C#, .NET6, ASP.NET6]
 image : ./startandfinish.jpg
-keywords: [Channels,ASP.NET6,Testing,BackgroundProcessng,Producer,Consumer]
-draft: true
+keywords: [Channels,ASP.NET6,Testing,BackgroundProcessing,Producer,Consumer]
 ---
 <head>
 
