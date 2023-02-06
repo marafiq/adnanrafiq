@@ -6,7 +6,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/palenight');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "Adnan Rafiq's Blog, Memories and Opinions",
+  title: "Adnan Rafiq - A Developer Blog",
   tagline: 'Developer Insights',
   url: 'https://adnanrafiq.com/',
   baseUrl: '/',
