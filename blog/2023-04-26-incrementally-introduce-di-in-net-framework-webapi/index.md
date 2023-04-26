@@ -196,6 +196,11 @@ public class NotificationController : ApiController
 }
 ~~~
 
+:::tip
+One concrete example of incrementally migrating towards DI is using scoped EF Core DbContext. Once you hook up the Autofac DI resolver, you can register the `DbContext` using `services.AddDbContext<OutboxDbContext>()` and then resolve it using Service Locator pattern. 
+With this approach, you would not have to manage the lifecycle of `DbContext` and all your existing code which is using manual lifetime management is still working.
+:::
+
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
 
