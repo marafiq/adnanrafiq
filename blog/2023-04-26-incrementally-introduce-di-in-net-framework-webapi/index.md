@@ -177,7 +177,7 @@ public class AuditService : IAuditService
 
 ### Incremental migration to DI
 
-When you have a lot of controllers with many dependencies and long tree of dependencies, and it is not possible or feasible to register and inject services via Autofac resolver, you can use the `ServiceLocator` pattern.
+When you have a lot of controllers with many dependencies and long tree of dependencies, and it is not possible or feasible to register and inject services via Autofac resolver, you can use the `ServiceLocator` pattern until the whole tree of services is not registered.
 The ServiceLocator is considered antipattern but in some scenarios it can be good trade off to slowing progress towards your goal. If that is the case, then instead of manually creating the instance using `new` keyword inside the default constructor, 
 you can use the ServiceLocator to get the instance of required service like `ServiceLocator.Current.GetInstance<IAuditService>()`.
 
