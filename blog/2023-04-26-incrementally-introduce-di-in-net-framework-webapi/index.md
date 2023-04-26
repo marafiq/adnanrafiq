@@ -48,7 +48,7 @@ public class NotificationController : ApiController
     public NotificationController()
     {
         // highlight-start
-        We are manually creating the `AuditService` Instance, and then it is creating new instance of CriticalLogger in its default constructor 
+        //We are manually creating the `AuditService` Instance, and then it is creating new instance of CriticalLogger in its default constructor 
         _auditService = new AuditService();
         // highlight-end
     }
@@ -111,7 +111,7 @@ public class NotificationController : ApiController
     public NotificationController(IAuditService auditService)
     {
         // highlight-start
-        IAuditService is injected by Autofac DI Container 
+        //IAuditService is injected by Autofac DI Container 
         _auditService = auditService
         // highlight-end
     }
@@ -189,7 +189,7 @@ public class NotificationController : ApiController
     public NotificationController()
     {
         // highlight-start
-        IAuditService is injected by Autofac DI Container 
+        //IAuditService is injected by Autofac DI Container 
         _auditService = ServiceLocator.Current.GetInstance<IAuditService>()
         // highlight-end
     }
