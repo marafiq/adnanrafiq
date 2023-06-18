@@ -62,7 +62,7 @@ public class LongRunningTaskService : IHostedService
 }
 ```
 :::note
-The `StartAsync` method should not block the execution because if multiple hosted services exist in the Host, the following services will not start until the first service finish the start. We will see a demo of such behavior later in the post.
+The `StartAsync` method should not block the execution because if multiple hosted services exist in the Host, the following services will not start until the first service finish the start. We will see a demo of such behavior later in the post. If your task is long-running, you can use a `await Task.Yield()` to unblock the `StartAsync` method. The .NET will move to the next service as soon as the task becomes awaitable.
 :::
 ## Flavors of Hosted Service
 There are two flavors of Hosted Service and abstract BackgroundService calls from `Microsoft.Extensions.Hosting`; let's explore these 3 things below below:
