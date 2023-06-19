@@ -49,7 +49,7 @@ const config = {
           priority: 0.5
         },
         gtag: {
-          trackingID: 'UA-173098616-1',
+          trackingID: 'G-DQ7K60J2EH',
           anonymizeIP: true
         }
 
