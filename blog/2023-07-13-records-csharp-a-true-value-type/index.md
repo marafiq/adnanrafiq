@@ -217,6 +217,8 @@ I have recorded a detailed Youtube video, if you like to the video content.
 
 [Unlock the Powers of C# Record](https://youtu.be/8E12kEeLOKg)
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/8E12kEeLOKg" frameborder="0"  clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
 
