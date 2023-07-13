@@ -30,6 +30,12 @@ In nutshell C# lacked a immutable type with true value equality semantics with a
 
 Does this make you curious? I am excited to share this with you.
 
+## Youtube Video
+
+I have recorded a detailed Youtube video, if you like to the video content.
+
+[Unlock the Powers of C# Record](https://youtu.be/8E12kEeLOKg)
+
 <!--truncate-->
 
 ## What are records and its features
@@ -215,14 +221,6 @@ record class Name(string FirstName, string LastName, NickName[] NickNames) : ICo
 If you do not like to implement the comparable interfaces manually, you can write source generator to do this for you on build time.  
 
 :::
-
-## Youtube Video
-
-I have recorded a detailed Youtube video, if you like to the video content. 
-
-[Unlock the Powers of C# Record](https://youtu.be/8E12kEeLOKg)
-
-
 
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
