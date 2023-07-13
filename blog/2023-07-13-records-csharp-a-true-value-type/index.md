@@ -129,9 +129,11 @@ In Domain Drive Design (DDD) a Value Object is a concept in which an object whic
 
 Before the arrival of `records` in C#10, the value object semantics were achieve by implementing `IEquatable<T` interface. 
 There are packages available which provides a generic abstract class to achieve the value equality semantics.
-If your codebase are already a similar solution, then you probably do not need `record` in the context of value equality. 
-But in the newer code base, `records` provides a lot of value, as it conveys the concept of value equality 
+If your codebase already use a similar solution, then you probably do not need `record` in the context of value equality.
+
+But in the newer code base, `record` provides a lot of value, as it conveys the concept of value equality 
 and will probably become part of common knowledge in coming years which brings the value of readability and easier communication among team members.
+
 Another fair criticism is that `record class` does not offer true value equality when you introduce an array or another reference type inside a record. 
 But it can be solved by overriding the equality contract of record.
 
