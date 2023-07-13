@@ -28,6 +28,8 @@ A Channel by [merriam-webster](https://www.merriam-webster.com/dictionary/channe
 
 I will start this post by adopting the water channel analogy to explore how it relates with C# `System.Threading.Channels`.
 
+<!--truncate-->
+
 ## Analogy
 
 Channel is the path where information flows from one point to another, like a water channel. If you observe the water channel, it is made up of multiple things. The first thing you will observe is water; second, water is produced by source(s), you can think of glaciers, Rain, etc., and thirdly the water ends up at the destination(s), you can think of the Sea, River, etc.
