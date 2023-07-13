@@ -32,7 +32,7 @@ Does this make you curious? I am excited to share this with you.
 
 ## Youtube Video
 
-I have recorded a detailed Youtube video, if you like to the video content.
+I have recorded a detailed Youtube video, if you prefer the video content.
 
 [Unlock the Powers of C# Record](https://youtu.be/8E12kEeLOKg)
 
