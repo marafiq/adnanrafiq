@@ -218,7 +218,7 @@ record class Name(string FirstName, string LastName, NickName[] NickNames) : ICo
 
 :::note
 
-If you do not like to implement the comparable interfaces manually, you can write source generator to do this for you on build time.  
+If you do not like to implement the comparable interfaces automatically, you can write source generator to do this for you on build time.  
 
 :::
 
