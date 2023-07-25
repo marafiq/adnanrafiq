@@ -39,7 +39,7 @@ Because there are thousands of different requests at play.
 
 ## Youtube Video
 
-I have recorded a detailed YouTube video, if you prefer the video content.
+I have recorded a detailed YouTube video if you prefer the video content.
 
 [Unlock the Powers of C# Record](https://youtu.be/8E12kEeLOKg)
 
@@ -63,6 +63,38 @@ Some of these Cross-platform CLI tools are:
 3. `dotnet-dump` - Captures and has the ability to analyze a process dump (full, mini, and triage)
 4. `dotnet-gcdump` - Captures a dump focused on .NET Garbage Collection Behavior
 5. `dotnet-stack` - Captures the stack traces of threads in running.NET process which is similar to what you see when you debug in your IDE
+
+::: tip
+You can install the above tools by running the following command `dotnet tool install --global tool-name`
+::: 
+
+If your organization has monitoring tools at scale like DynaTrace or Datadog,
+those can be really handy in diagnosing issues,
+but they sometime have limited trace information, so these tools will come handy.
+
+## Migrating a Legacy .NET Framework Application
+
+The most common examples of technical debt in .NET applications are:
+
+1. Using `sync` methods with communicating with a service like database, WCF Service etc. 
+2. Using `async` methods in `sync` way like using `.Result` property of the `Task`.
+3. Chatty communication with the database. 
+
+The application in question was/is doing all of the above.
+You might be thinking that you must pay all the debt at once.
+But it is not feasible in the context of this application like many others.
+
+You must be thinking why?
+Not all features of the application are equal.
+Neither in value nor in performance expectations.
+If your application has say 10 different end points,
+ only a few of them are going to be on hot path unless all of them are which is not the case most of the time.
+For example, a LinkedIn hot path is viewing the profiles,
+so you would optimize the hot path first as per your user expectations. 
+
+
+
+
 
 
 
