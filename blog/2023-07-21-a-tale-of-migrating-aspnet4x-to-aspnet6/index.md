@@ -92,7 +92,42 @@ If your application has say 10 different end points,
 For example, a LinkedIn hot path is viewing the profiles,
 so you would optimize the hot path first as per your user expectations. 
 
+### Chatty communication with the database
 
+The DynaTrace trace showed
+that .NET6 distributed SQL Server Session was the chatty part, so it was easy fix
+to use the memory cache to reduce the chattiness.
+
+Two observations on Sql Server Distributed Session Package
+
+1. SQL InMemory OLTP script will be handy to get the maximum out of the full stack.
+2. It uses lock to clear up the expired entries which could be done in the background hosted service at the specified interval.
+
+### Use of `sync` operations of WCF Client Proxy
+
+It takes considerate effort to convert the whole path of stack to `async` in other words all the way down async.
+It also requires regression testing or use of feature flags
+to incrementally release it when legacy application is stable.  
+
+#### What is the problem with sync operations?
+It is an important question as the answer will reveal the concept of "Hill Climbing" algorithm.
+Hill Climbing is the way .NET Thread Pool adjusts the number of concurrent threads available to execute.
+It makes new threads available after x milliseconds based on multiple factors like the number of threads
+completing the work when the max thread count is reached.
+
+Consider if the application end point is concurrently consumed by 1000 users.
+Then the question is that can your hosted application handle it
+if all requests land on the same host with the default config. 
+
+The answer is it depends? To understand that we will have to look at two key things:
+
+1. Configurations of your host.
+2. Latency of the said operation.
+
+If your host has two processors,
+then the default configuration of .NET Thread Pool will have threads configured like below.
+
+-- table 
 
 
 
