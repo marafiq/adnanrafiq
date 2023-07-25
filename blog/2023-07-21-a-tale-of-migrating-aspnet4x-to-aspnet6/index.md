@@ -14,19 +14,28 @@ keywords: [.NET6,ASP.NET6,KestrelHangs,ThreadStarvation,DiagnosticTools]
 <meta name="twitter:creator" content="@madnan_rafiq" />
 </head>
 
-<img src={require('./2023-07-21-a-tale-of-migration-from-netframework-to-net6').default} alt="Title Image of the blog"/>
+<img src={require('./2023-07-21-a-tale-of-migration-from-netframework-to-net6.png').default} alt="Title Image of the blog"/>
 
-The .NET migration from ASP.NET Framework 4.x to ASP.NET6 or upcoming ASP.NET8 is going to be on the rise in next few years due to different reasons. 
-Your reasons may vary from pure business value to upgrading the stack to use better tools & resources. Some teams may even do it to reduce the bill or for the heck of it. All are valid reasons.
+The .NET migration from ASP.NET Framework 4.x to ASP.NET6 or upcoming ASP.NET8 is going
+to be on the rise in the next few years due to different reasons. 
+Your reasons may vary from pure business value to upgrading the stack to use better tools & resources.
+Some teams may even do it to reduce the bill or for the heck of it.
+All are valid reasons.
 
-One of the team with my current Employer is migrating a .NET Framework 4.x web application to .NET6 which serves upto 4K concurrent users. 
-Before going to production, there is process to certify the release by running a load test for at least 1X of the expected load which is 4K concurrent users in this application.
+One of the team with my current Employer is migrating a .NET Framework 4.x web application to .NET6
+which serves up to 4K concurrent users. 
+Before going to production,
+there is a process
+to certify the release
+by running a load test for at least 1X of the expected load which is 4K concurrent users in this application.
 
-During the load test application starting experience huge amount of errors mainly two types:
+During the load test application started to experience a huge number of errors, mainly two types:
 - Sql Connection pool ran out of connections.
-- A key web service starting throwing exceptions while communicating with the service. It is a SOAP service which is consumed using WCF Core Client Proxy with `basicHttpBinding`.
+- A key web service started throwing exceptions while communicating with the service. It is a SOAP service which is consumed using WCF Core Client Proxy with `basicHttpBinding`.
 
-The ASP.NET Framework 4.x version of the application did not experience these problems. So what changed in .NET6 and how will you find out what is wrong? Because there are thousands of different requests are at play.
+The ASP.NET Framework 4.x version of the application did not experience these problems.
+So what changed in .NET6 and how will you find out what is wrong?
+Because there are thousands of different requests at play.
 
 ## Youtube Video
 
@@ -36,189 +45,26 @@ I have recorded a detailed YouTube video, if you prefer the video content.
 
 <!--truncate-->
 
-## What are records and its features
+## How do you diagnose the unhealthy state of application?
 
-A `record class` is a reference type which gets allocated on heap. It gives you value equality, non-destructive mutation, deconstruction and immutability out of the box. 
-An example record looks like `record Name(string FirstName, string LastName);`.
+You have nice structured logging enabled such as Serilog,
+which is providing you insights about the kids of errors happening in your application.
+But if it not logical errors, then logs are not going to be great help but still provide you some context.
+For example, your application depends upon an important WCF Core Service,
+and it is throwing error like 'Send time out exceeded' but some operations are succeeding at the same time.
+At this point, it is very tempting to pay the guess game based on the overall knowledge & context you have.
+You may even get it right to fix the issue.
+But `dotnet` comes with diagnostic tools which are tailor-made for such situations.
 
-## Positional Property Syntax
+Some of these Cross-platform CLI tools are:
 
-In the following record `record Name(string FirstName, string LastName);` FirstName and LastName are positional properties which participate in value equality. The compiler behind the scene will implement a constructor, getter and `init` only setter.
-It can be used like `var name=new Name("Adnan","Rafiq");`.
+1. `dotnet-trace` - Collects traces by watching the process, and usefully in CPU profiling.
+2. `dotnet-counters` - Monitor and Collect a variety of counters including .NET GC.
+3. `dotnet-dump` - Captures and has the ability to analyze a process dump (full, mini, and triage)
+4. `dotnet-gcdump` - Captures a dump focused on .NET Garbage Collection Behavior
+5. `dotnet-stack` - Captures the stack traces of threads in running.NET process which is similar to what you see when you debug in your IDE
 
-If you love this syntax and do not care about other features, Data Transfer Objects are great use case like Request & Response DTO or you would like pass an object to the downstream internal API to do the work. 
 
-## Value Equality
-
-The following code will print true on the console. 
-
-```csharp
-var i=1; 
-var j=1; 
-Console.WriteLine( i==j );
-```
-
-The below code will also print true on the console. Because both the objects have same values. But remember `record` is a reference type like `class` which supports value equality.
-
-```csharp
-var p1=new Name("A","Z"); 
-var p2=new Name("A","Z"); 
-Console.WriteLine(p1==p2);
-```
-
-The compiler implements the `IEquatable<T>` for you. The `class` can implement the `IEquatable<T>` manually to get the value equality feature.
-
-Tradeoff: If your requirement is that value equality should only compare some properties to determine equality. 
-You can `override` the semantics of record value equality as shown in the below example. Also, notice you can have methods like you can have in classes.  
-
-```csharp
-record class Name(string FirstName, string LastName)
-{
-    public string Initials() => $"{LastName.AsSpan()[0]}{FirstName.AsSpan()[0]}";
-
-    public virtual bool Equals(Name? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-        return FirstName == other.FirstName;
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(FirstName, LastName);
-    }
-}
-```
-
-## Immutability
-
-A record declared using positional property syntax is immutable. You can not set the value of its any property because the setter generated by the compiler is `init` only 
-which can only set value within the constructor.
-If you try to the following `var n=new Name("A","Z"); n.FirstName="C";//compiler error ` you will get a compiler error. 
-
-Since it is immutable, it is thread safe since no one can change its value once created.
-But if you like to make it mutable, you can certainly do that by declaring the property setter accordingly yourself just like classes, 
-but you should avoid this, and may be your use case does need `class` instead of `record`.
-
-## Non-Destructive Mutation
-
-Non-Destructive mutation is copying the values of a record object to a new object without changing the original. The following code will copy all the values to new object, 
-and allows you to change all or some using initializer syntax.
-
-```csharp
-var n = new Name("A", "Z");
-var n1 = n with { FirstName = "C" };
-
-WriteLine(n);//Prints Name { FirstName = A, LastName = Z }
-// highlight-start
-WriteLine(n1);//Prints Name { FirstName = C, LastName = Z }
-
-//In the above line only FirstName is changed to C, while LastName is Z.
-// highlight-end
-```
-
-## Deconstruction
-
-Deconstruction is breaking up the object property values in order to assign it to variables. 
-In the below code, you will first see the `.` notation, the regular we access object values, and then using deconstruction like a variable.
-
-```csharp
-var n = new NameA("A", "Z");
-WriteLine($"{n.FirstName} {n.LastName}");
-// highlight-start
-var (fn, ln) = n;
-WriteLine($"{fn} {ln}"); //Notice no dot notation.
-// highlight-end
-```
-Along with nice syntax it is useful in scenarios where you would like to assign object property value to a local variable to operate on it.
-
-## DDD Value Object using records only
-
-In Domain Drive Design (DDD) a Value Object is a concept in which an object which can not exist without an identity object or does not have any meaning 
-unless it is attached to an entity like when `Name` gets attached to `Person` will give it meaning. It is known as Value Object, and it must support value equality.
-
-Before the arrival of `records` in C#10, the value object semantics were achieved by implementing `IEquatable<T` interface. 
-There are packages available which provides a generic abstract class to achieve the value equality semantics.
-If your codebase already use a similar solution, then you probably do not need `record` in the context of value equality.
-
-But in the newer code base, `record` provides a lot of value, as it conveys the concept of value equality 
-and will probably become part of common knowledge in coming years which brings the value of readability and easier communication among team members.
-
-Another fair criticism is that `record class` does not offer true value equality when you introduce an array or another reference type inside a record. 
-But it can be solved by overriding the equality contract of record.
-
-Consider the below code example.
-
-```csharp
-
-public record Name(string FirstName, string LastName, NickName[] NickNames)
-{
-    public override bool Equals(object obj)
-    {
-        var other = obj as Name;
-        if (other == null) return false;
-        return this.FirstName == other.FirstName
-               && this.LastName == other.LastName
-               && this.NickNames.SequenceEqual(other.NickNames);
-    }
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(FirstName, LastName, NickNames);
-    }
-};
-
-```
-## Inheritance Support 
-
-`record` does support inheritance like `class`. Before going the inheritance route consider your use case, do you really need inheritance with value equality semantics, if yes. Sure.  
-
-## Missing IComparable Implementation 
-
-The below code will throw an exception on highlighted line, when you try to sort an array of record type objects. 
-Because it does not implement the `ICompareable` interface out of the box like value equality.
-
-```csharp
-NickName[] nickNamesOfAdnan = { new("Dani"), new("Sahib") };
-var nameOfAdnan = new Name("Adnan", "Rafiq", nickNamesOfAdnan);
-
-NickName[] diffNickNameObject = { new("Dani"), new("Sahib") };
-var nameOfAdnanWithDiffLastName = nameOfAdnan with { NickNames = diffNickNameObject };
-// highlight-start
-Name[] names = { nameOfAdnan, nameOfAdnanWithDiffLastName };
-// highlight-end
-foreach (var name in names.OrderBy(x => x))
-{
-    WriteLine(name);
-}
-```
-But you can implement it yourself if your use case requires sorting by the record object. Since `record` is a value, it should have supported this feature. The below example implements the `IComparable<T>` and `IComparable`.
-
-```csharp
-record class Name(string FirstName, string LastName, NickName[] NickNames) : IComparable<Name>, IComparable
-{
-    public int CompareTo(Name? other)
-    {
-        if (ReferenceEquals(this, other)) return 0;
-        if (ReferenceEquals(null, other)) return 1;
-        var firstNameComparison = string.Compare(FirstName, other.FirstName, StringComparison.Ordinal);
-        if (firstNameComparison != 0) return firstNameComparison;
-        return string.Compare(LastName, other.LastName, StringComparison.Ordinal);
-    }
-
-    public int CompareTo(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return 1;
-        if (ReferenceEquals(this, obj)) return 0;
-        return obj is Name other ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(Name)}");
-    }
-}
-```
-
-:::note
-
-If you do not like to implement the comparable interfaces automatically, you can write source generator to do this for you on build time.  
-
-:::
 
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
