@@ -48,11 +48,11 @@ I have recorded a detailed YouTube video if you prefer the video content.
 ## How do you diagnose the unhealthy state of application?
 
 You have nice structured logging enabled such as Serilog,
-which is providing you insights about the kids of errors happening in your application.
-But if it not logical errors, then logs are not going to be great help but still provide you some context.
+which is providing you insights about the kind of errors happening in your application.
+But if it is not logical errors, then logs are not going to be great help but still provide you some context.
 For example, your application depends upon an important WCF Core Service,
 and it is throwing error like 'Send time out exceeded' but some operations are succeeding at the same time.
-At this point, it is very tempting to pay the guess game based on the overall knowledge & context you have.
+At this point, it is very tempting to play the guess game based on the overall knowledge & context you have.
 You may even get it right to fix the issue.
 But `dotnet` comes with diagnostic tools which are tailor-made for such situations.
 
@@ -87,7 +87,7 @@ But it is not feasible in the context of this application like many others.
 You must be thinking why?
 Not all features of the application are equal.
 Neither in value nor in performance expectations.
-If your application has say 10 different end points,
+If your application have say 10 different end points,
  only a few of them are going to be on hot path unless all of them are which is not the case most of the time.
 For example, a LinkedIn hot path is viewing the profiles,
 so you would optimize the hot path first as per your user expectations. 
@@ -107,17 +107,17 @@ Two observations on Sql Server Distributed Session Package
 
 It takes considerate effort to convert the whole path of stack to `async` in other words all the way down async.
 It also requires regression testing or use of feature flags
-to incrementally release it when legacy application is stable.  
+to incrementally release it especially when legacy application is stable.  
 
 #### What is the problem with sync operations?
 It is an important question as the answer will reveal the concept of "Hill Climbing" algorithm.
 Hill Climbing is the way .NET Thread Pool adjusts the number of concurrent threads available to execute.
 It makes new threads available after x milliseconds based on multiple factors like the number of threads
-completing the work when the max thread count is reached.
+completing the work, and when the max thread count is reached.
 
 Consider if the application end point is concurrently consumed by 1000 users.
 Then the question is that can your hosted application handle it
-if all requests land on the same host with the default config. 
+if all requests land on the same host with the default thead pool config. 
 
 The answer is it depends? To understand that we will have to look at two key things:
 
