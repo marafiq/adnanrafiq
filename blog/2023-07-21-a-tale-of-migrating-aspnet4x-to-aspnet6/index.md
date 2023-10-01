@@ -41,7 +41,7 @@ Because there are thousands of different requests at play.
 
 I have recorded a detailed YouTube video if you prefer the video content.
 
-[Unlock the Powers of C# Record](https://youtu.be/8E12kEeLOKg)
+[Detect ASP.NET Core Hangs](https://youtu.be/Fz6UfmqxuCM)
 
 <!--truncate-->
 
@@ -87,7 +87,7 @@ But it is not feasible in the context of this application like many others.
 You must be thinking why?
 Not all features of the application are equal.
 Neither in value nor in performance expectations.
-If your application have say 10 different end points,
+If your application has say 10 different end points,
  only a few of them are going to be on hot path unless all of them are which is not the case most of the time.
 For example, a LinkedIn hot path is viewing the profiles,
 so you would optimize the hot path first as per your user expectations. 
@@ -107,11 +107,11 @@ Two observations on Sql Server Distributed Session Package
 
 It takes considerate effort to convert the whole path of stack to `async` in other words all the way down async.
 It also requires regression testing or use of feature flags
-to incrementally release it especially when legacy application is stable.  
+to incrementally release it, especially when legacy application is stable.  
 
 #### What is the problem with sync operations?
 It is an important question as the answer will reveal the concept of "Hill Climbing" algorithm.
-Hill Climbing is the way .NET Thread Pool adjusts the number of concurrent threads available to execute.
+[Hill Climbing](https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/Threading/PortableThreadPool.HillClimbing.cs) is the way .NET Thread Pool adjusts the number of concurrent threads available to execute.
 It makes new threads available after x milliseconds based on multiple factors like the number of threads
 completing the work, and when the max thread count is reached.
 
@@ -119,13 +119,14 @@ Consider if the application end point is concurrently consumed by 1000 users.
 Then the question is that can your hosted application handle it
 if all requests land on the same host with the default thead pool config. 
 
-The answer is it depends? To understand that we will have to look at two key things:
+The answer is it depends? To understand that, we will have to look at two key things:
 
 1. Configurations of your host.
 2. Latency of the said operation.
 
 If your host has two processors,
 then the default configuration of .NET Thread Pool will have threads configured like below.
+
 
 -- table 
 
