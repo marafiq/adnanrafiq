@@ -433,10 +433,7 @@ But it is untyped magic strings.
 
 I would like to have strongly typed configuration values.
 How?
-When you are back from the party break, you will learn about `IOptions<T> `pattern.
-
-
-
+When you are back from the party break, you will learn about `IOptions<T> `pattern in the next blog post.
 
 
 

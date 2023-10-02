@@ -63,7 +63,7 @@ Do you love magic strings to get the configuration values?
 No. Me neither.
 It was a serious question except you are in JS/TS land.
 
-> The amazing .NET supports strongly typed configurations after all, it is a typed language.
+> The amazing .NET supports strongly typed configurations. After all, it is a typed language.
 
 The .NET8 offers three services to read the strongly typed configuration values, 
 but each one is registered using different DI service lifetime (scope).
