@@ -427,15 +427,13 @@ You can inject `IConfiguration` in your application and read the configuration v
     var minFileSize = configuration.GetValue<int>("FileUploadLimits:MinFileSize");
 ```
 
+
+
 But it is untyped magic strings.
 
 I would like to have strongly typed configuration values.
-How? 
-When you are back from the party break, you will learn about IOptions<T> pattern.
-
-
-
-
+How?
+When you are back from the party break, you will learn about `IOptions<T> `pattern.
 
 
 

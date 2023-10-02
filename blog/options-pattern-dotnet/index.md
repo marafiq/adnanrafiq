@@ -1,7 +1,7 @@
 ---
-title: Explore ASP NET 6 Fundamentals 
-description: Exploring fundamentals of ASP.NET 6 
-slug: explore-asp-net6-fundamentals 
+title: Options Pattern in ASP.NET 8 
+description: Options Pattern in ASP.NET 8 
+slug: options-pattern-dotnet 
 authors: adnan 
 tags: [C#, .NET8, ASP.NET8]
 image : ./startandfinish.jpg
