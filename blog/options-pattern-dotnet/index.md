@@ -193,6 +193,7 @@ If you are using `IOptions<FileUploadLimits>` `Singleton` service via DI Injecti
 After running the application if you change the config values.
 You will not see the changes
 reflected in the injected `IOptions<FileUploadLimits>` instance anytime during the lifetime of the application.
+**Except** if you have set the reloadOnChange to true.
 
 ## `IOptionsSnapshot<FileUploadLimits>`
 If you are using `IOptionsSnapshot<FileUploadLimits>` `Scoped` service via DI Injection.
@@ -206,7 +207,34 @@ If you are using `IOptionsMonitor<FileUploadLimits>` `Singleton` service via DI 
 After running the application if you change the config values.
 You will see the changed values everywhere in the application for inflight and new requests. 
 
- 
+## OnChange Validation Errors
+
+The default behavior is to not throw an exception if the validation fails.
+But if you have enabled it by using the following code.
+
+```csharp title="Validate the properties of the FileUploadLimits class"
+
+services.AddOptions<FileUploadLimits>()
+    .BindConfiguration(fileUploadLimitsSection.Path, bindOptions =>
+    {
+        bindOptions.ErrorOnUnknownConfiguration = true;
+    })
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+```
+
+What will be the behavior of `IOptionsMonitor<FileUploadLimits>`
+and `IOptionsSnapshot<FileUploadLimits>` if the validation fails?
+
+It will throw an exception when change is detected.
+If that is the excepted behavior you were looking for, then you found it.
+
+It tells you that changing values manually in the `appsettings.json` is not a good idea.
+You should write a script to do it.
+
+I personally have implemented a feature flag using the `IOptionsMonitor` service.
+But it is bool and only flag in application.
+
 
 ## Performance of Options vs OptionsMonitor vs OptionsSnapshot
 
