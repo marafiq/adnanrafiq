@@ -4,7 +4,7 @@ description: Options Pattern in ASP.NET 8
 slug: options-pattern-dotnet 
 authors: adnan 
 tags: [C#, .NET8, ASP.NET8]
-image : ./startandfinish.jpg
+image : ./optionspatternperfresults.png
 keywords: [Fundamentals, ASP.NET6]
 draft: true
 ---
@@ -17,44 +17,24 @@ draft: true
 <meta name="twitter:description" content="Exploring fundamentals of ASP.NET 6" />
 </head>
 
-<img src={require('./startandfinish.jpg').default} alt="Start and Finish Image"/>
 
-Image by [awcreativeut](https://unsplash.com/@awcreativeut)
+
 
 # ASP.NET 8 Configurations
 
-**What comes to your mind when you think about the word Host?**
+Do you love magic strings to get the configuration values?
+No. Me neither.
+It was a serious question except you are in JS/TS land.
 
-A Host takes care of you.
-Remember, the last time you visited your Aunt’s home, the food, the movies, and everything they made possible for you.
+> The amazing .NET supports strongly typed configurations. After all, it is a typed language.
+ 
+Let me show you the complete usage of strongly typed configurations in ASP.NET 8.
 
-But we are talking about the .NET, a cross-platform framework.
-What possible relevance does it have with Aunt’s home visit?
 
-Well, the .NET Host takes care of your application by providing out-of-the-box features such as:
-
-- Configuration
-- Logging
-- Dependency Injection
-
-and many more. 
 
 <!--truncate-->
 
 
-~~~csharp title="Web Application Host in ASP.NET 8"
-    var builder = WebApplication.CreateBuilder(args);  
-    
-    var app = builder.Build();
-
-    app.Run();
-~~~
-
-The `WebApplication.CreateBuilder(args);` configures the host for your web application with _reasonable defaults_.
-But does this mean you cannot customize the host configurations?
-
-
-> You can! 🎉🎉🎉 But how? 🤔 Before you learn about the customizations, would it be a bad idea to learn about reasonable defaults?
 
 
 ## Options Patterns for Strongly Typed Configuration Values
@@ -207,62 +187,43 @@ services.AddOptions<FileUploadLimits>()
 ```
 > Did I forget about the promise to show the difference between scoped and singleton options? 
 > Absolutely NO
-### `IOptions<FileUploadLimits>`
+
+## `IOptions<FileUploadLimits>`
 If you are using `IOptions<FileUploadLimits>` `Singleton` service via DI Injection.
 After running the application if you change the config values.
 You will not see the changes
 reflected in the injected `IOptions<FileUploadLimits>` instance anytime during the lifetime of the application.
 
-### `IOptionsSnapshot<FileUploadLimits>`
+## `IOptionsSnapshot<FileUploadLimits>`
 If you are using `IOptionsSnapshot<FileUploadLimits>` `Scoped` service via DI Injection.
 After running the application if you change the config values.
 You will see the changed values for the new requests
 which started after the change is detected.
 Any previous requests will still get the old values.
 
-### `IOptionsMonitor<FileUploadLimits>`
+## `IOptionsMonitor<FileUploadLimits>`
 If you are using `IOptionsMonitor<FileUploadLimits>` `Singleton` service via DI Injection.
 After running the application if you change the config values.
 You will see the changed values everywhere in the application for inflight and new requests. 
 
-:::warning
+ 
+
+## Performance of Options vs OptionsMonitor vs OptionsSnapshot
+
+As you can see from the below image, the `OptionsSnapshotTrend` is slower than `OptionsMonitorTrend` and `OptionsTrend`.
+It's the 10th of a millisecond difference, so it is not a big deal.
+But the larger the file size, the more expensive it will be. 
+
+<img src={require('./optionspatternperfresults.png').default} alt="Options Pattern Performance"/>
+
+:::information
 
 Avoid using `IOptionsSnapshot<FileUploadLimits>` because it can incur performance penalty.
 Why?
 It is calculating the hash of the configuration values on every request to detect the change which is expensive.
 The larger the file size, the more expensive it will be.
 
-::: 
-
-
-
-
-
-
-
-
-
-## Environments
-## Configuration and Options
-## Configure Logging and Exception Handling 
-### Using Serilog
-### Override Microsoft Logs Level
-### Startup Exception Handling 
-### Unhandled Exceptions Logs
-### Mask Sensitive Data and Personal Identifiable Information (PII) in Logs  
-## Configure EFCore Database Options
-## Configure Redis
-## Authorization Requirements and Handlers
-## MVC Action Filters
-## Dependency Injection
-## Middleware
-## Routing
-## Performance Monitoring
-## API Conventions 
-## Health Checks
-### OpsGenie Integration
-## Vault Configuration
-## Security Headers
+:::
 
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
