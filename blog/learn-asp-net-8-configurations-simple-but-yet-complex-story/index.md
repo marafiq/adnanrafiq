@@ -5,7 +5,7 @@ slug: learn-asp-net-8-configurations-simple-but-yet-complex-story
 authors: adnan 
 tags: [C#, .NET8, ASP.NET8]
 image : ./ASPNETCONFIGBANNER.jpeg
-keywords: [Fundamentals, ASP.NET6]
+keywords: [Fundamentals, ASP.NET8,Configurations,CustomConfigurationSource,reloadOnChangeConfigs]
 draft: true
 ---
 <head>
