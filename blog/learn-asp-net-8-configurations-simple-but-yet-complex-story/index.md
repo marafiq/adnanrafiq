@@ -364,6 +364,28 @@ Did it work? NO, more lies. You have to add the configuration source to the `Con
 ```csharp title="Add the text file configuration source to the ConfigurationManager"
     builder.Configuration.AddTextFile("keyvaluepairs.txt", optional: true, reloadOnChange: true);
 ```
+
+## `dotnet user-secrets` Usage
+
+You can install it by this command `dotnet tool install --global dotnet-user-secrets` or update it by this command 
+`dotnet tool update --global dotnet-user-secrets`.
+
+How?
+
+1. Navigate to your project directory where the project file exists.
+2. `dotnet user-secrets init` or use `dotnet user-secrets init -h` to see a list of parameters and description.
+3. `dotnet user-secrets set  FileUploadLimits:MinFileSize 98999 ` to add a secret. 
+4. `dotnet user-secrets list` to see the list.
+
+If you happen to Rider, you can right-click the project -> Tools > Manage .NET Secrets. Now you can edit the file.
+
+:::tip
+`dotnet user-secrets -h` to see what commands are available.
+Then you can learn about commands by using `dotnet user-secrets set -h`.
+I would have loved it more if the .NET included 2-3 sample commands right in the CLI.
+:::
+
+
 ## Launch Settings JSON
 When you create a new API project using `dotnet new webapi`, it creates a file named `launchSettings.json` in the `Properties` folder.
 The `launchSettings.json` file contains the configurations for the launch profiles.
