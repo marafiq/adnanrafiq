@@ -39,7 +39,8 @@ const config = {
           },
           sortPosts: "descending",
           blogSidebarCount: "ALL",
-
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
