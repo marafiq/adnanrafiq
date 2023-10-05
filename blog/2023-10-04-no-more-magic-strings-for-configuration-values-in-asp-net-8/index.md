@@ -1,5 +1,5 @@
 ---
-title: No more magic strings for configuration values in ASP.NET 8 
+title: No more configuration magic strings in ASP.NET 8 
 description: Do you love magic strings to get the configuration values? No. Me neither. It was a serious question except you are in JS/TS land. The amazing .NET supports strongly typed configurations. After all, it is a typed language.
 slug: no-more-magic-strings-for-configuration-values-in-asp-net-8 
 authors: adnan 
