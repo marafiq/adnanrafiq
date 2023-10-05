@@ -1,11 +1,11 @@
 ---
 title: ASP.NET 8 Configurations Simple but YET Complex Story
-description: What you think when the word Host comes to your mind? A fictional story about the ASP.NET 8 Host and its configurations. You will learn it all. 
+description: What you think when the word Host comes to your mind? A conversational story about the ASP.NET 8 Host and its configurations. You will learn it all. 
 slug: learn-asp-net-8-configurations-simple-but-yet-complex-story 
 authors: adnan 
 tags: [C#, .NET8, ASP.NET8]
 image : ./ASPNETCONFIGBANNER.jpeg
-keywords: [Fundamentals, ASP.NET8,Configurations,CustomConfigurationSource,reloadOnChangeConfigs]
+keywords: [Fundamentals, ASP.NET8,Configurations,CustomConfigurationSource,reloadOnChangeConfigs,ConfigSourceOrder]
 draft: true
 ---
 <head>
@@ -13,8 +13,9 @@ draft: true
 <meta property="og:image:width" content="1200"/>
 <meta property="og:image:height" content="670"/>  
 <meta name="twitter:creator" content="@madnan_rafiq" />
+<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="ASP.NET 8 Configurations Simple but YET Complex Story" />
-<meta name="twitter:description" content="What you think when the word Host comes to your mind? A fictional story about the ASP.NET 8 Host and its configurations. You will learn it all." />
+<meta name="twitter:description" content="What you think when the word Host comes to your mind? A conversational story about the ASP.NET 8 Host and its configurations. You will learn it all." />
 </head>
 
 <img src={require('./ASPNETCONFIGBANNER.jpeg').default} alt="ASP.NET 8 Configurations Simple but YET Complex Story Image"/>

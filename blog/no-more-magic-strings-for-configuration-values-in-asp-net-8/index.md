@@ -1,23 +1,24 @@
 ---
-title: Options Pattern in ASP.NET 8 
-description: Options Pattern in ASP.NET 8 
-slug: options-pattern-dotnet 
+title: No more magic strings for configuration values in ASP.NET 8 
+description: Do you love magic strings to get the configuration values? No. Me neither. It was a serious question except you are in JS/TS land. The amazing .NET supports strongly typed configurations. After all, it is a typed language.
+slug: no-more-magic-strings-for-configuration-values-in-asp-net-8 
 authors: adnan 
 tags: [C#, .NET8, ASP.NET8]
-image : ./optionspatternperfresults.png
-keywords: [Fundamentals, ASP.NET6]
+image : ./ASPNETCONFIGBANNERNOMOREMAGICSTRING.jpeg
+keywords: [Fundamentals, ASP.NET8,OptionsPattern,Configuration,Performance,OptionsMonitor,OptionsSnapshot,Options,FeatureFlag,SideCarPattern]
 draft: true
 ---
 <head>
 
 <meta property="og:image:width" content="1200"/>
-<meta property="og:image:height" content="670"/>  
+<meta property="og:image:height" content="500"/>  
 <meta name="twitter:creator" content="@madnan_rafiq" />
-<meta name="twitter:title" content="Explore ASP NET 6 Fundamentals" />
-<meta name="twitter:description" content="Exploring fundamentals of ASP.NET 6" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="No more magic strings for configuration values in ASP.NET 8" />
+<meta name="twitter:description" content="Do you love magic strings to get the configuration values? No. Me neither. It was a serious question except you are in JS/TS land. The amazing .NET supports strongly typed configurations. After all, it is a typed language." />
 </head>
 
-
+<img src={require('./ASPNETCONFIGBANNERNOMOREMAGICSTRING.jpeg').default} alt="ASP.NET 8 Configurations With no magic strings"/>
 
 
 # ASP.NET 8 Configurations
@@ -34,9 +35,6 @@ Let me show you the complete usage of strongly typed configurations in ASP.NET 8
 
 <!--truncate-->
 
-
-
-
 ## Options Patterns for Strongly Typed Configuration Values
 
 Do you love magic strings to get the configuration values?
@@ -48,7 +46,7 @@ It was a serious question except you are in JS/TS land.
 The .NET8 offers three services to read the strongly typed configuration values, 
 but each one is registered using different DI service lifetime (scope).
 Why?
-Total valid question.
+Totally valid question.
 But don't you want to know the names first?
 
 1. `IOptions<T>` - Singleton 
@@ -193,7 +191,6 @@ If you are using `IOptions<FileUploadLimits>` `Singleton` service via DI Injecti
 After running the application if you change the config values.
 You will not see the changes
 reflected in the injected `IOptions<FileUploadLimits>` instance anytime during the lifetime of the application.
-**Except** if you have set the reloadOnChange to true.
 
 ## `IOptionsSnapshot<FileUploadLimits>`
 If you are using `IOptionsSnapshot<FileUploadLimits>` `Scoped` service via DI Injection.
@@ -230,23 +227,88 @@ It will throw an exception when change is detected.
 If that is the excepted behavior you were looking for, then you found it.
 
 It tells you that changing values manually in the `appsettings.json` is not a good idea.
-You should write a script to do it.
+You should write a script to do it, and that should respect the validation rules.
+You can even write tests, but that is a different topic.
 
 I personally have implemented a feature flag using the `IOptionsMonitor` service.
 But it is bool and only flag in application.
 
+You are thinking; Show me the code, or it did not happen.
+
+
+## Feature Flag to Enable Side Car Pattern
+
+I was given the task to incrementally migrate the legacy .NET Framework application to .NET6.
+But in case any problems are detected in new application, the team should be able to disable the new application.
+
+The endpoints of the legacy are used in multiple places, especially in the front end application.
+We did not want to change any code in the front end application.
+
+The current workload runs in the Windows Server VMs behind the load balancer. I opted out for the simplest solution. 
+
+1. Change the binding of the legacy application to a different port and make it localhost only.
+2. Create a new ASP.NET application and bind it to the same public host & port as the legacy application was.
+3. Inside the new application, add `YARP` proxy.
+4. Add a feature flag settings in `appsettings.json` like `{"FeatureFlags" : {"UseNewApi":"True"} }`.
+5. Add middleware to check the feature flag and the list of migrated endpoints. 
+6. Then change the request path to the new application if the feature flag is enabled and the endpoint is migrated.
+
+```csharp title="Feature Flag to Enable Side Car Pattern"
+public class FeatureFlagRoutePathMiddleware(RequestDelegate next)
+{
+    public Task InvokeAsync(HttpContext context, IOptionsMonitor<FeatureFlags> featureFlagsMonitor)
+    {
+        var useNewApi = featureFlagsMonitor.CurrentValue.UseNewApi;
+        var path = context.Request.Path;
+        if (useNewApi && path.StartsWithSegments("/featureflagsoptions"))
+        {
+            context.Request.Path = context.Request.Path.Value?.Replace("/api/", "/oldapi/");
+        }
+        return next(context);
+    }    
+}
+```
+
+:::info
+
+Do not forget to use the middleware before the 'UseRouting' middleware.
+
+:::
+
+## Log when configurations change 
+
+Even simple things get complex when you bring observability into the picture.
+In production, how would you know
+if the feature flag is being using the value you updated it with?
+
+You can use the `IOptionsMonitor` on change event to log the changes.
+
+```csharp title="Log Changes when the config changes"
+public static IApplicationBuilder LogFeatureFlagChanges(this IApplicationBuilder app)
+{
+    var logger = app.Services.GetRequiredService<ILoggerFactory>().CreateLogger("FeatureFlagsChangeLogger");
+    var featureFlagsMonitor = app.ApplicationServices.GetRequiredService<IOptionsMonitor<FeatureFlags>>();
+    featureFlagsMonitor.OnChange((featureFlags, _) =>
+    {
+        logger.LogInformation("Feature Flag changed to {@FeatureFlags}", featureFlags);
+    });
+    return app;
+}
+```
+
+Note that you can also use `PostConfigure` to log the changes which is shown earlier in the post.
 
 ## Performance of Options vs OptionsMonitor vs OptionsSnapshot
 
 As you can see from the below image, the `OptionsSnapshotTrend` is slower than `OptionsMonitorTrend` and `OptionsTrend`.
 It's the 10th of a millisecond difference, so it is not a big deal.
-But the larger the file size, the more expensive it will be. 
+But the larger the file size of `appsettings.json`, the more expensive it will be. 
 
 <img src={require('./optionspatternperfresults.png').default} alt="Options Pattern Performance"/>
 
 :::information
 
-Avoid using `IOptionsSnapshot<FileUploadLimits>` because it can incur performance penalty.
+Avoid using `IOptionsSnapshot<FileUploadLimits>` especially on hot paths or middlewares because it can incur performance penalty.
 Why?
 It is calculating the hash of the configuration values on every request to detect the change which is expensive.
 The larger the file size, the more expensive it will be.
