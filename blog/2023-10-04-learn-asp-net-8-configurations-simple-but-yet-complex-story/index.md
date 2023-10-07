@@ -22,7 +22,7 @@ keywords: [Fundamentals, ASP.NET8,Configurations,CustomConfigurationSource,reloa
 
 # ASP.NET 8 Configurations
 
-## The Host
+## The WebApplication Host Builder
 
 **What comes to your mind when you think about the word Host?**
 
@@ -52,10 +52,26 @@ and many more.
 ~~~
 
 The `WebApplication.CreateBuilder(args);` configures the host for your web application with _reasonable defaults_.
+
+You can read the configuration by injection the `IConfiguration` in your components.
+In the below snippet values are read from the `appsettings.json`.
+
+```csharp title="Read Config Values"
+
+var defaultLogLevel=configuration["Logging:LogLevel:Default"];
+
+// Get Typed Values
+
+configuration.GetValue<string>("Logging:LogLevel:Default");
+
+// If you did the below it will throw errors
+//configuration.GetValue<string>("Logging:LogLevel:Default");
+
+```
+
 But does this mean you cannot customize the host configurations?
 
-
-> You can! 🎉🎉🎉 But how? 🤔 Before you learn about the customizations, would it be a bad idea to learn about reasonable defaults?
+> You can! 🎉🎉🎉 But how? 🤔 Before you learn about the customizations, would it be a bad idea to learn about reasonable defaults of the Host and Application configurations?
 
 ## Reasonable Host Configuration
 

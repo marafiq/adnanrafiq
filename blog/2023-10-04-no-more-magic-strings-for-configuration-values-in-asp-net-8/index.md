@@ -109,11 +109,13 @@ But then what is the point of strongly typed configurations?
 
 > There is a way. An elegant one.
 
-Earlier,
-we used the path overload
+Earlier, we used the path overload `BindConfiguration(nameof(FileUploadLimits))`
 which does not validate for the existence of the configuration section in the `appsettings.json`.
-It will automatically cover the case when your class name does not match configuration section name.
-You will get an exception in the startup rather than when you actually try to use it.
+
+The `BindConfiguration` method demands a path to your configuration section,
+you can use `configuration.GetRequiredSection(nameof(FileUploadLimits)`
+to force that the section must exist with the name. 
+If not, you will get an exception in the startup rather than when you're actually trying to use it.
 
 ```csharp title="Validate the existence of the configuration section"
 
@@ -148,14 +150,16 @@ public class FileUploadLimits
 }
 ```
 
-What if there is no attribute class to validate the property?
-You can use the `RegularExpression(@"any regular expression")` class.
+What if there is no existing attribute class to validate the property as per your requirements?
+You can use the `RegularExpression(@"any regular expression")` class,
+I heard Generative AI is exceptional at regular expressions.
 But if you insist on using the custom validation logic, you can use the `Validate` method which accepts a delegate.
 You can validate the property values like `.Validate(limits => limits.AllowedFileExtensions.Length>0)`.
+Or you can use the popular Fluent Validations.
 
 > 🎉🎉🎉 You have covered a lot of ground.
 > But you have a use case where you would like to load 
-> the configuration values from the database based on the `appsettings.json` config value.
+> the configuration values from the database or any external service based on the `appsettings.json` config value.
 
 Are you thinking of any hacks? Well, no need to hack. The .NET got you covered.
 
@@ -313,6 +317,19 @@ It is calculating the hash of the configuration values on every request to detec
 The larger the file size, the more expensive it will be.
 
 :::
+
+## Will `OnChange` cause the revalidation?
+
+The answer is Yes.
+
+Whenever you change the application configurations, the following events will be called.
+
+1. Validate delegate or any model annotations 
+2. PostConfigure
+
+If your change updated the values
+that violate the validation conditions, it will start
+throwing an exception whenever you will try to use `IOptionMonitor<T>` or `IOptionsSnapshot<T>`.
 
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
