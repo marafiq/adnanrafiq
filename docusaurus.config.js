@@ -38,8 +38,7 @@ const config = {
             copyright: `Copyright © ${new Date().getFullYear()} Adnan Rafiq`
           },
           sortPosts: "descending",
-          blogSidebarCount: "ALL",
-
+          blogSidebarCount: "ALL"
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
