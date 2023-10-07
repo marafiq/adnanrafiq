@@ -6,6 +6,7 @@ authors: adnan
 tags: [C#,CSharp]
 image : ./2023-07-21-a-tale-of-migration-from-netframework-to-net6.png
 keywords: [.NET6,ASP.NET6,KestrelHangs,ThreadStarvation,DiagnosticTools]
+draft: true
 ---
 <head>
 
