@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/palenight');
 const config = {
   title: "Adnan Rafiq - A Developer Blog",
   tagline: 'Developer Insights',
-  url: 'https://adnanrafiq.com/',
+  url: 'https://adnanrafiq.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
