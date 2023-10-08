@@ -4,7 +4,7 @@ description: What you think when the word Host comes to your mind? A conversatio
 slug: learn-asp-net-8-configurations-simple-but-yet-complex-story 
 authors: adnan 
 tags: [C#, .NET8, ASP.NET8]
-image : ./ASPNETCONFIGBANNER.jpeg
+image : ASPNETCONFIGBANNER.jpeg
 keywords: [Fundamentals, ASP.NET8,Configurations,CustomConfigurationSource,reloadOnChangeConfigs,ConfigSourceOrder]
 ---
 <head>
