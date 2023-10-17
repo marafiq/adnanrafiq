@@ -5,7 +5,7 @@ slug: develop-intuitive-understanding-of-middleware-in-asp-net8
 authors: adnan 
 tags: [C#, .NET8, ASP.NET8,Middleware]
 image : ./bannerimage.jpeg
-keywords: [Fundamentals, ASP.NET8,Middleware]
+keywords: [Fundamentals, ASP.NET8,Middleware,CustomMiddleware,InlineMiddleware,ClassMiddleware,FactoryBasedMiddleware,IMiddleware,DifferenceAmongThreeWaysToCreateMiddleware,HttpContext,RequestDelegate,ResponseStarted,ResponseCompleted]
 draft: true
 ---
 <head>
@@ -273,7 +273,7 @@ Few open questions for you to think about:
 - Where would you add the middleware to enforce HSTS?
 - where would you add the middleware to add CSP - Content Security Policy header?
 
-:::info
+:::note
 You might have noticed it is not worth it memorizing the order of the middleware components.
 Instead, you should visualize them as a pipeline and add them in the order which meets the requirement.
 And doing it explicitly makes it more readable.
@@ -304,12 +304,26 @@ public static IApplicationBuilder UseSpecialCoursesFeatureFlag(this IApplication
 In the next section, you will learn how to create custom middleware.
 
 ## How to create a Custom Middleware?
-The ASP.NET 8 process the request by composing a pipeline made of middleware components.
-The pipeline composition is done using the `Use` convention. You can define inline middleware as shown below.
+The ASP.NET 8 has provided three different ways to create the middleware.
+- Inline Middleware — A function.
+- Class Middleware — A class but follows a convention.
+- Factory-based Middleware — A class implementing an interface.
+
+### Inline Middleware
+
+The ASP.NET 8 exposes an extension method on the `IApplicationBuilder` interface to add the inline middleware.
+The extension method follows the `Use` convention and accepts a function.
+The runtime will call the function with the `HttpContext` object and the `RequestDelegate` object.
+Sample middleware is below:
 
 ~~~csharp title="Inline Middleware"
+// Order Number 1 in the pipeline
+// Middleware adding item to the Items dictionary
+// Logging some stuff
 app.Use(async (HttpContext context, RequestDelegate next) =>
 {
+    // You can resolve scoped services present in DI container
+    // Whe resolving any service in the middleware, you should be aware of the lifetime of the service
     var logger = context.RequestServices
         .GetRequiredService<ILoggerFactory>()
         .CreateLogger("Middleware");
@@ -320,6 +334,7 @@ app.Use(async (HttpContext context, RequestDelegate next) =>
     await next(context);
     logger.LogInformation("E");
 
+    //It is explained later in this blog post
     var httpResponse = context.Response;
     httpResponse.OnStarting(() =>
     {
@@ -327,19 +342,26 @@ app.Use(async (HttpContext context, RequestDelegate next) =>
         return Task.CompletedTask;
     });
 });
-//Another Middleware
+//Order number 2 in the pipeline
 app.Use(async (HttpContext context, RequestDelegate next) =>
 {
+    //logger.LogInformation(content.Items["RequestPath"]);
     logger.LogInformation("I");
-    await next(context);
+    return next(context);
     logger.LogInformation("P");
 });
 ~~~
 
-A middleware component has the following characteristics:
-- `HttpContext` object to manipulate the request and response.
-- `RequestDelegate` object to call the next middleware in the pipeline. If you do not call the next, the pipeline will be short-circuited.
+Few things to note:
+- You **cannot** inject any service in the function because the signature does not allow it, but you can resolve using `RequestedServices`. But it should be avoided as you cannot clearly see the dependencies.
+- When calling `next`, it is recommended to use `return next(context);` instead of `next();` as it is more performant.
+- If the pipeline is made of many middlewares, inline middleware does not have names, so it will be hard to find which middleware it is.
+- You should consider
+  writing an extension method with `Use{YourMiddlewareNameß}` on `IApplicationBuilder` to add the inline middleware as it the common convention.
 
+A middleware component has the following characteristics:
+- `HttpContext` object to manipulate the request, response, and items.
+- `RequestDelegate` object to call the next middleware in the pipeline. If you do not call the next, the pipeline will be short-circuited.
 
 ### Role of Next RequestDelegate (Middleware)
 The middleware components are composed together to form a pipeline in an order.
@@ -354,7 +376,7 @@ Because when the first middleware gets called, the flow is as follows:
 
 ### Role of HttpContext
 The `HttpContext` object holds all the information about the current request only,
-and it will be isolated from the other requests.
+and it will be isolated from the other requests as long as it is inside the pipeline.
 The context _importantly_ includes the following but not limited to:
 - `Request` object to read the request headers, body, and other information.
 - `Response` object to write the response headers, body, and other information.
@@ -362,17 +384,98 @@ The context _importantly_ includes the following but not limited to:
 - `RequestServices` object to access the services registered in the DI container.
 - `User` object to access the information about the current user.
 
+:::note
 The important thing to note is that information stored is shared among the middleware components in the pipeline.
 It means that if you add an item in the `Items` dictionary in the first middleware,
 it will be available in the second middleware and so on.
+:::
 
-### Role of ResponseStarted and ResponseCompleted
+### Role of ResponseStarted
 
 Any Middleware can manipulate the response, but the response cannot be modified after the response headers are sent to the client. 
-Thus, the middleware can subscribe to the `ResponseStarted` event to perform any action after the first byte of the response is sent to the client.
+Thus, the middleware can subscribe to the `httpContext.ResponseStarted` event to perform any action after the first byte of the response is sent to the client.
+This event can be subscribed in multiple middlewares in the pipeline,
+but it will be called in the reverse order it is defined.
 
-Similarly, the middleware can subscribe to the `ResponseCompleted` event to perform any action after the response is completed. 
+### Role of ResponseCompleted
+The middleware can subscribe to the `httpContext.ResponseCompleted` event to perform any action after the response is completed.
+It is useful to log, audit, dispose, or perform any action after the response is completed.
 
+### Class Middleware - A class but follows a convention
+
+A convention is nothing but a set of rules which you must have to follow so the framework can discover your middleware.
+
+The convention middleware has the following rules:
+1. The class must have a constructor with the following signature `public NameofYourMiddleware(RequestDelegate next)`.
+2. The class must have a method with the following signature `public Task InvokeAsync(HttpContext context)`.
+3. You can inject any service in the `InvokeAsync` method after the first parameter `HttpContext context`. And you can inject singleton services inside the constructor as well.
+4. You must call the `UseMiddleware<NameofYourMiddleware>()` extension method on the `IApplicationBuilder` interface to add the middleware to the pipeline.
+
+
+```csharp title="Class Middleware"
+
+//Primary constructor is used in the class
+public class DistributedCacheMiddleware(RequestDelegate next)
+{
+    //Services can only be injected inside the InvokeAsync method
+    public Task InvokeAsync(HttpContext context, IConfiguration configuration)
+    {
+        //Do the work
+        return next(context);
+    }
+}
+
+//Then use it with app.UseMiddleware<FeatureFlagRoutePathMiddleware>(); 
+//OR create the extension method on IApplicationBuilder 
+
+public static class MiddlewareExtensions{
+
+    public static IApplicationBuilder UseFeatureFlagRoutePath(this IApplicationBuilder app)
+    {
+        return app.UseMiddleware<FeatureFlagRoutePathMiddleware>();
+    }
+}
+
+```
+
+### Middleware — A class implementing an interface
+
+The ASP.NET 8 provides an interface `IMiddleware` to create middleware.
+Once you implement the logic inside the `InvokeAsync` method,
+you can add it to the pipeline using the `UseMiddleware<T>()` extension method.
+
+:::note
+You must add the middleware to the service's collection using the `AddTransient` method otherwise it would not work.
+:::
+
+It allows you
+to inject services inside the constructor of the middleware class
+where other two types of middleware do not allow constructor injection.
+
+```csharp title="IMiddleware Interface to create a middleware"
+public class SecurityHeadersMiddleware : IMiddleware
+{
+    private readonly IConfiguration _configuration;
+
+    public SecurityHeadersMiddleware(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
+    public Task InvokeAsync(HttpContext context, RequestDelegate next)
+    {
+        return next(context);
+    }
+}
+```
+
+## Difference among the three ways to create middleware
+
+| Feature                            | Inline Middleware    | Convention Middleware                                                 | Factory-based Middleware   |
+|------------------------------------|----------------------|-----------------------------------------------------------------------|----------------------------|
+| DI Services Injection              | httpContext.Services | Inject in InvokeAsync Or Constructor injection for singleton services | Via Constructor            |
+| Explicit Registration              | No                   | No                                                                    | Yes                        |
+| Name of Middleware while Debugging | No                   | Yes                                                                   | Yes                        |
+| Use with ThirdParty IoC Containers | No                   | Yes                                                                   | Yes - `IMiddlewareFactory` |
 
 
 
