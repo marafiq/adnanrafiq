@@ -50,8 +50,30 @@ Before you learn how to create and use a .NET middleware. Would it be a bad idea
 
 ## Why do you need Middleware?
 
+Any framework or protocol comes with a set of features out of the box.
+But it must allow consumers to extend it to meet the requirements.
+That means:
+> Middleware is a way to extend the framework to meet the requirements.
+
+Naturally, you ask: There are many ways to expose extension points then What is special about middleware?
+
+Nothing special.
+Extension points are exposed using the regular language constructs like Interface,
+Functions, etc. 
+
+Special is that when extension points are offered in a pipeline, then it is known as middleware.
+
+Why pipeline?
+
+When a request travels from point A to B and then reaches back to A from B,
+and on the way, it passes different points, it is treated with custom logic.
+
+Such flow is referred to as a pipeline. 
+
+Would it be a bad idea to have a brief high-level understanding of middleware in HTTP protocol and then ASP.NET 8?
+
 ### HTTP Middleware
-Basic definitions of terms:
+Basic definitions of terms to start with:
 - **Request** - A HTTP request is payload sent by the client to the server.
 - **Response** - A HTTP response is payload sent by the server to the client.
 - **Application Pipeline** - The series of _ordered steps_ that are executed to handle a request and generate a response.
@@ -478,7 +500,23 @@ public class SecurityHeadersMiddleware : IMiddleware
 | Use with ThirdParty IoC Containers | No                   | Yes                                                                   | Yes - `IMiddlewareFactory` |
 
 
+All approaches have their pros and cons.
+I would recommend to pick one which makes your code readable, testable and maintainable for you and your team.
+
+## Key Middlewares
+
+Two middlewares which you will using over and over when writing API in .NET are:
+1. Routing Middleware — Maps the incoming HTTP Request to a handler.
+2. Endpoint Middleware - Model Binding, Validation, Execution, Result Execution
+
+And then there is Filter Middleware Pipeline. 
+
+I will write details posts on each of these in the coming weeks. Be by accountability coach and remind me if I don't.
 
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
+
+Which part did you like the most? What did you learn? What did you not like? What can be improved?
+
+Or It's perfect. 😎 I definitely want to hear it loud.
 
