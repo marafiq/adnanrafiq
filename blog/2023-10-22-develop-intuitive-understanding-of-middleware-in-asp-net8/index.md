@@ -420,9 +420,79 @@ Thus, the middleware can subscribe to the `httpContext.ResponseStarted` event to
 This event can be subscribed in multiple middlewares in the pipeline,
 but it will be called in the reverse order it is defined.
 
+> You cannot change an operation which has already been started. 
+
+The below middleware will throw an exception that response as started and headers are readonly. 
+
+```csharp title="An Middleware which adds security headers to the response - Wont work"
+
+app.Use(async (HttpContext context, RequestDelegate next) =>
+{
+    
+    await next(context);
+    context.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
+    context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+    context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+    context.Response.Headers.Add("Content-Security-Policy", "default-src 'self';");
+});
+
+```
+
+:::tip
+`OnStarting` must be registered before calling the next middleware.
+:::
+
+```csharp title="An Middleware which adds security headers to the response - Will work"
+
+app.Use(async (HttpContext context, RequestDelegate next) =>
+{
+    //Must register the event before calling the next middleware
+    context.Response.OnStarting( () =>
+    {
+        //will be called second
+        context.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
+        context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+        context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+        context.Response.Headers.Add("Content-Security-Policy", "default-src 'self';");
+        return Task.CompletedTask;
+    });
+    
+    //Pass the state to on starting function
+    var state = "Complex State which is not part of the context items";
+    context.Response.OnStarting(data =>
+    {
+        //Will be called first
+        app.Logger.LogInformation("State is {Data}", data);
+        return Task.CompletedTask;
+    },state);
+    
+    await next(context);
+});
+
+```
+
 ### Role of ResponseCompleted
 The middleware can subscribe to the `httpContext.ResponseCompleted` event to perform any action after the response is completed.
 It is useful to log, audit, dispose, or perform any action after the response is completed.
+
+```csharp title="An Middleware which logs the response completion"
+app.Use(async (HttpContext context, RequestDelegate next) =>
+{
+    context.Response.OnCompleted(() =>
+    {
+        app.Logger.LogInformation("I get called second");
+        return Task.CompletedTask;
+    });
+    var state = "Complex State which is not part of the context items";
+    context.Response.OnCompleted(data =>
+    {
+        app.Logger.LogInformation("I get called first");
+        app.Logger.LogInformation("State is {Data}", data);
+        return Task.CompletedTask;
+    },state);
+    await next(context);
+});
+```
 
 ### Class Middleware - A class but follows a convention
 
