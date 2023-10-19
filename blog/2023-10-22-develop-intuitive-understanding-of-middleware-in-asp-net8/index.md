@@ -53,7 +53,7 @@ Before you learn how to create and use a .NET middleware. Would it be a bad idea
 Any framework or protocol comes with a set of features out of the box.
 But it must allow consumers to extend it to meet the requirements.
 That means:
-> Middleware is a way to extend the framework to meet the requirements.
+> Middleware is a way to extend the framework.
 
 Naturally, you ask: There are many ways to expose extension points then What is special about middleware?
 
@@ -62,6 +62,7 @@ Extension points are exposed using the regular language constructs like Interfac
 Functions, etc. 
 
 Special is that when extension points are offered in a pipeline, then it is known as middleware.
+Seriously, they could have chosen the name **Pipeline Hooks**.
 
 Why pipeline?
 
