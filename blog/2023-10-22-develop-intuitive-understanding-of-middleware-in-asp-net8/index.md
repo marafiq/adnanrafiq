@@ -658,7 +658,7 @@ for (var c = middlewareList.Count - 1; c >= 0; c--)
 var context = new HookContext();
 
 // Here we call the app function.
-// app function now contains a function returned by the last iteration of the loop
+// app variable now contains a function returned by the last iteration of the loop
 await app(context);
 // when it gets called what happens? read the loop comments above in reverse order
 
