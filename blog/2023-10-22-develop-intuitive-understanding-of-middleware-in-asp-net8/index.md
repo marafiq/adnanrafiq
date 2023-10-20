@@ -626,23 +626,41 @@ app.Use(async (hookContext, next) =>
 // and the middleware at the end of the list will execute last
 for (var c = middlewareList.Count - 1; c >= 0; c--)
 {
-    //When loops runs the first time
-    // you get Custom first delegate handling
     var middleware = middlewareList[c];
-    //next is the app function because it is the last middleware in the list
     var next = app;
-    
-    //pass the last function which is app to the middleware at the end of the list
     app = middleware(next);
 }
+// On first iteration of the loop c=3
+// middlewareList[3] is the last middleware in the list
+// next is the app function which is the handler and you want it to execute it in the end
+// so you pass the app variable value which is a function to the middleware function which returns a function
+// and assign it to the app variable. 
 
-//when we exit the loop the middleware at the zero index of list will be the first function
+// On second iteration of the loop c=2
+// middlewareList[2] is the second last middleware in the list
+// next is the function returned by the first iteration of the loop
+// so you pass the next variable value which is a function to the middleware function which returns a function
+// and assign it to the app variable.
 
-// Execute the middleware pipeline
+// On third iteration of the loop c=1
+// middlewareList[1] is the third last middleware in the list
+// next is the function returned by the second iteration of the loop
+// so you pass the next variable value which is a function to the middleware function which returns a function
+// and assign it to the app variable.
+
+// On fourth iteration of the loop c=0
+// middlewareList[0] is the fourth last middleware in the list
+// next is the function returned by the third iteration of the loop
+// so you pass the next variable value which is a function to the middleware function which returns a function
+// and assign it to the app variable.
+
+// create a context variable
 var context = new HookContext();
 
-//await the first function
+// Here we call the app function.
+// app function now contains a function returned by the last iteration of the loop
 await app(context);
+// when it gets called what happens? read the loop comments above in reverse order
 
 Console.ReadLine();
 
@@ -673,6 +691,12 @@ static class HookDelegateExtensions
 ```
 
 The ASP.NET 8 calls the pipeline as a request delegate on each request can be seen here [Source Code](https://github.com/dotnet/aspnetcore/blob/main/src/Hosting/Hosting/src/Internal/HostingApplication.cs#L89C34-L89C34)
+
+:::tip
+If you understand the flow of the above code.
+Now rename the HookDelegate with RequestDelegate and HookContext with HttpContext.
+That is the difference between this sample and ASP.NET 8 middleware pipeline.
+:::
 
 ## Key Middlewares
 
