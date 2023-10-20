@@ -577,6 +577,7 @@ I would recommend picking one which makes your code readable, testable and maint
 ## Build your own Middleware Pipeline Using the ASP.NET 8 Approach
 
 Copy the below code in a console application and run it.
+It would be best if you debug it to understand the flow.
 It builds a custom middleware pipeline, which behaves exactly like the ASP.NET 8 pipeline.
 
 ```csharp title="Build your own Middleware Pipeline"
@@ -670,6 +671,8 @@ static class HookDelegateExtensions
     }
 }
 ```
+
+The ASP.NET 8 calls the pipeline as a request delegate on each request can be seen here [Source Code](https://github.com/dotnet/aspnetcore/blob/main/src/Hosting/Hosting/src/Internal/HostingApplication.cs#L89C34-L89C34)
 
 ## Key Middlewares
 
