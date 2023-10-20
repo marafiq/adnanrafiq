@@ -572,7 +572,104 @@ public class SecurityHeadersMiddleware : IMiddleware
 
 
 All approaches have their pros and cons.
-I would recommend to pick one which makes your code readable, testable and maintainable for you and your team.
+I would recommend picking one which makes your code readable, testable and maintainable for you and your team.
+
+## Build your own Middleware Pipeline Using the ASP.NET 8 Approach
+
+Copy the below code in a console application and run it.
+It builds a custom middleware pipeline, which behaves exactly like the ASP.NET 8 pipeline.
+
+```csharp title="Build your own Middleware Pipeline"
+// List of middleware functions in the pipeline:
+// It is list of functions that take a HookDelegate and return a HookDelegate
+// HookDelegate is a delegate that takes a HookContext and returns a Task
+
+var middlewareList = new List<Func<HookDelegate, HookDelegate>>
+{
+    next => async context =>
+    {
+        Console.WriteLine("First delegate handling");
+        await next(context);
+        Console.WriteLine("First delegate after next");
+    },
+    next => async context =>
+    {
+        Console.WriteLine("Second delegate handling");
+        await next(context);
+        Console.WriteLine("Second delegate after next");
+    },
+    next => async context =>
+    {
+        Console.WriteLine("Third delegate handling");
+        await next(context);
+        Console.WriteLine("Third delegate after next");
+    }
+};
+
+// Create an application function - It represents the handler
+HookDelegate app = context =>
+{
+    Console.WriteLine("Final delegate handling");
+    return Task.CompletedTask;
+};
+
+//Add one more middleware to the pipeline - List of functions
+app.Use(async (hookContext, next) =>
+{
+    Console.WriteLine("Custom first delegate handling");
+    await next(hookContext);
+    Console.WriteLine("Custom first delegate after next");
+}, middlewareList);
+
+// Loop in reverse order so that the middleware at index zero will execute first
+// and the middleware at the end of the list will execute last
+for (var c = middlewareList.Count - 1; c >= 0; c--)
+{
+    //When loops runs the first time
+    // you get Custom first delegate handling
+    var middleware = middlewareList[c];
+    //next is the app function because it is the last middleware in the list
+    var next = app;
+    
+    //pass the last function which is app to the middleware at the end of the list
+    app = middleware(next);
+}
+
+//when we exit the loop the middleware at the zero index of list will be the first function
+
+// Execute the middleware pipeline
+var context = new HookContext();
+
+//await the first function
+await app(context);
+
+Console.ReadLine();
+
+class HookContext
+{
+    public Dictionary<string, object> Items { get; private set; } = new();
+}
+
+delegate Task HookDelegate(HookContext context);
+
+//write a extension method for HookDelegate to add a middleware
+static class HookDelegateExtensions
+{
+    private static HookDelegate Use(this HookDelegate app, Func<HookDelegate, HookDelegate> middleware,
+        List<Func<HookDelegate, HookDelegate>> middlewareList)
+    {
+        var m = middleware(app);
+        middlewareList.Add(middleware);
+        return m;
+    }
+
+    public static HookDelegate Use(this HookDelegate app, Func<HookContext, HookDelegate, Task> middleware,
+        List<Func<HookDelegate, HookDelegate>> middlewareList)
+    {
+        return app.Use(next => context => middleware(context, next), middlewareList);
+    }
+}
+```
 
 ## Key Middlewares
 
