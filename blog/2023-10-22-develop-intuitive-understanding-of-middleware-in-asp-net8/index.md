@@ -33,45 +33,48 @@ But in the context of the ASP.NET 8 why do you need it? What does it do? How doe
 
 ## What is Middleware?
 
-> Middleware is a software component assembled into an application pipeline to handle requests and responses.
+> Middleware is a software component assembled into an application pipeline to intercept requests and responses to apply custom behavior.
 
 In the ASP.NET 8,
 the middleware is a single responsibility function or a class which is added to the application pipeline to handle a specific functionality.
-The ASP.NET 8 has three ways to add middleware to the pipeline:
+The ASP.NET 8 has three ways to create middleware
+and add it to the pipeline by using the `Use` convention or `UseMiddleware` extension method.
+Three ways to create middleware are:
 - Inline Middleware — A function.
 - Class Middleware — A class.
 - Factory-based Middleware — A class implementing an interface.
 
-> Every middleware component makes one key decision of calling next or not.
+> Each ASP.NET 8 middleware component makes one key decision of calling next middleware or not.
 > If it doesn't call, the pipeline ends and starts to flow in reverse order.
-> Otherwise, it keeps calling the next until the end of the pipeline is found.
+> Otherwise, it keeps calling the next until the end of the pipeline is found and flow in reverse again.
 
 Before you learn how to create and use a .NET middleware. Would it be a bad idea to understand why you need it?
 
 ## Why do you need Middleware?
 
-Any framework or protocol comes with a set of features out of the box.
-But it must allow consumers to extend it to meet the requirements.
-That means:
-> Middleware is a way to extend the framework.
+> Middleware is a way to extend the framework features.
 
-Naturally, you ask: There are many ways to expose extension points then What is special about middleware?
+Or more formal way to say it is:
+> Middleware is a way to handle cross-cutting concerns.
 
-Nothing special.
-Extension points are exposed using the regular language constructs like Interface,
-Functions, etc. 
+When an HTTP request arrives at the server
+and goes through a series of steps before the response is sent back to the client.
+The number and nature of steps depends upon the requirements of the application.
 
-Special is that when extension points are offered in a pipeline, then it is known as middleware.
-Seriously, they could have chosen the name **Pipeline Hooks**.
+If I ask you, what is the best way to allow developers to add such steps?
+You answer: Let's maintain a list of steps and allow developers to add their custom steps.
+Each step executes sequentially.
+Developers can any number and nature of steps at any point in the list.
 
-Why pipeline?
+I would say: It is a great answer. So you are allowing developers to compose a pipeline of steps.
 
-When a request travels from point A to B and then reaches back to A from B,
-and on the way, it passes different points, it is treated with custom logic.
+Your answer: Yes, exactly.
+This way developers can compose or build any kind of pipeline.
 
-Such flow is referred to as a pipeline. 
-
-Would it be a bad idea to have a brief high-level understanding of middleware in HTTP protocol and then ASP.NET 8?
+Do you like detours?
+I sort of don't.
+But I am going to take one here.
+Let's take a brief look at middleware at the level of HTTP protocol.
 
 ### HTTP Middleware
 Basic definitions of terms to start with:
@@ -87,65 +90,71 @@ A very high-level exchange of messages is below:
 
 ![Simple Message Exchange](img.png)
 
-But the message route to the server involves many software layers generally known as Proxies.
-Each proxy performs a different function such as caching, routing (API Gateway, LoadBalancer etc), etc.
-But we can label them as Middleware as the layer is in the middle of a long pipeline, such as:
+The HTTP message route to the server involves many software layers generally known as Proxies.
+Each proxy performs a different function such as caching, routing (API Gateway, LoadBalancer, CDN etc), etc.
+Each layer performs a specific task and passes the message to the next layer like a pipeline.
+
+
+Each layer is a middleware. You can visualize the HTTP Middleware Pipeline below:
 
 ![Proxy In Middleware of HTTP Exchange](img_1.png)
 
 ### ASP.NET Middleware
-Your key concern is what middleware has to do with the ASP.NET 8?
-As soon as the server receives the HTTP Request Message, it has to understand it and respond back to the client.
-To generate the response,
-the .NET must perform a series of steps and allow you to perform the computation such as getting data from the database.
 
-It can be as simple as seen below.
+ASP.NET Middleware role starts when the HTTP request arrives at the server. 
+What must ASP.NET server do to generate the response?
+- Read the HTTP Request Payload.
+- Parse the HTTP Request Payload.
+- Find the matching endpoint.
+- Allow developers to hook custom logic A.
+- Execute the endpoint.
+- Allow developers to hook custom logic B.
+- Generate the response.
+- Allow developers to hook custom logic C. 
 
-![Computation Handler](img_2.png)
+The above steps will be different depending upon the requirements of the application.
 
-But you might ask that this might be okay to build a very high-level understanding of the exchange, 
-but in real applications, there are many things that need to be done before sending out the response like:
-- How the .NET decides which handler to call?
-- How the .NET decides about the user's authenticity?
-- How the .NET decides about the user is authorized to view the data?
-- How the .NET decides if the request payload is valid?
-- How the .NET converts the request payload into C# objects?
-- How to log what request payload comes in?
+Few examples of custom & built-in logic steps:
+- How the .NET decides which handler to call? Parse the payload and find the matching endpoint.
+- How the .NET decides about the user's authenticity? Authenticate the user.
+- How the .NET decides about the user is authorized to view the data? Authorize the user.
+- How the .NET decides if the request payload is valid? Validate the request payload.
+- How the .NET converts the request payload into C# objects? Bind the raw payload to C# objects.
+- How to log what request payload comes in? Log the request payload.
 
-With the above questions in mind, If I ask you
-to write a framework which abstracts away the complexities of understanding the HTTP request
-and allows the developers to hook their custom logic.
-How would you design it?
+The above steps will be different depending upon the requirements of the application.
+
+If I ask you to write a framework to handle the above steps, what would you do?
 
 Your answer: It seems like that there are many steps the server has to perform before it can generate an HTTP response.
 So it would be best if you divide the steps to form a pipeline, 
 so the output of one step becomes the input of the next step.
 This way a message is being massaged and passed to the next step, 
-but each step is performing one thing and easy to reason about,
-allows you to compose a small or long pipeline depending upon the requirements.
+but each step is performing one thing only.
+It allows you to compose a small or long pipeline depending upon the requirements.
 
-But you might say,
-there are steps that are best suited for the framework to handle like HTTP Connection Management,
+But there are steps that are best suited for the framework to handle like HTTP Connection Management,
 reading the streams, and sending the response back.
 So we can hide it from the developers and only provide hooks where needed.
-And there are steps like Routing, Authentication, Authorization, Logging,
+
+But there are steps like Routing, Authentication, Authorization, Logging,
 ErrorHandling, Caching, Compression, Enforcing HTTPS etc.
-which are common in most applications, 
-so the framework can provide these as built in steps with the ability to hook custom behavior.
+which are common in most applications.
+The Framework will provide such steps out of the box. 
 In technical jargon, these steps are known as Cross-Cutting Concerns.
-Basically two kinds of steps:
+So basically two kinds of steps:
 1. Cross-Cutting Concern Components
 2. Custom Logic Components
 
-That is exactly how the ASP.NET 8 implements the request/response mechanism.
-That is by composing a pipeline of single responsibility middleware components.
+Great answer. 
+I summarize by saying that is exactly how the ASP.NET 8 implements the request/response mechanism.
+That is by composing a pipeline of single responsibility middleware components in a sequential pipeline.
 You can visualize the ASP.NET 8 pipeline as below:
 
 ![ASP.NET Core Pipeline](img_4.png)
 The names of the middlewares in the above diagram are omitted intentionally. 
 
-So far, you have developed a high-level understanding of the middleware and pipeline.
-But the question is which middleware should a framework support out of the box?
+That brings us to the next question. What middleware components should be provided out of the box by the ASP.NET8?
 
 ## Wishlist of Middleware Components
 If I ask you to provide a wishlist of the middleware components
@@ -245,9 +254,7 @@ Finally, the middleware responsible to execute the handler and return the respon
 It is the last middleware in the pipeline.
 
 Anything in between the exception middleware and the endpoint middleware should be listed explicitly in the pipeline.
-You should reason about it
-by looking at the flow of HTTP Request going through the series of steps, 
-but which steps should be performed early in the pipeline depends upon the requirement.
+The below code shows the explicit ordering of the middleware components.
 
 ```csharp title="Between Exception Handling and Endpoint Middleware"
 var builder = WebApplication.CreateBuilder(args);
@@ -306,6 +313,8 @@ The below diagram shows the ASP.NET 8 pipeline with the middleware components ad
 
 ![ASP.NET Core Pipeline](img_5.png)
 
+
+## Use Convention
 You can create custom middleware and add it to the pipeline at any point. But what is this `Use` convention?
 
 To improve the readability, discoverability and shared knowledge in the dotnet community,
@@ -576,9 +585,12 @@ I would recommend picking one which makes your code readable, testable and maint
 
 ## Build your own Middleware Pipeline Using the ASP.NET 8 Approach
 
-Copy the below code in a console application and run it.
-It would be best if you debug it to understand the flow.
-It builds a custom middleware pipeline, which behaves exactly like the ASP.NET 8 pipeline.
+Are you wondering how the ASP.NET 8 actually coded the middleware pipeline?
+Yes.
+The Best way to learn is to build your own, which behaves exactly like the ASP.NET 8 pipeline.
+I have provided a sample code below which builds a middleware pipeline
+for you to debug and understand the flow even better. 
+The code has verbose comments to explain the flow.
 
 ```csharp title="Build your own Middleware Pipeline"
 // List of middleware functions in the pipeline:
