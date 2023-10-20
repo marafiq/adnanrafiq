@@ -1,6 +1,6 @@
 ---
 title: Develop Intuitive Understanding of Middleware in ASP.NET 8 
-description: What comes to your mind when you hear the word middleware? In the middle of two ware's, right? Obviously, but not clear and intuitive. Let's try to understand the middleware in ASP.NET 8.ß 
+description: What comes to your mind when you hear the word middleware? In the middle of two ware's, right? Obviously, but not clear and intuitive. Middleware pipeline is the most essential concept to get deep understanding as it is at the heart of writing API in the ASP.NET. You will learn the conceptual mental model, why you need middleware, different ways to write middleware and their pros & cons along with writing your own middleware pipeline which behaves likes ASP.NET middleware.
 slug: develop-intuitive-understanding-of-middleware-in-asp-net8
 authors: adnan 
 tags: [C#, .NET8, ASP.NET8,Middleware]
@@ -15,11 +15,10 @@ draft: true
 <meta name="twitter:creator" content="@madnan_rafiq" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Develop Intuitive Understanding of Middleware in ASP.NET 8" />
-<meta name="twitter:description" content="What comes to your mind when you hear the word middleware? In the middle of two ware's, right? Obviously, but not clear and intuitive. Let's try to understand the middleware in ASP.NET 8." />
+<meta name="twitter:description" content="What comes to your mind when you hear the word middleware? In the middle of two ware's, right? Obviously, but not clear and intuitive. Middleware pipeline is the most essential concept to get deep understanding as it is at the heart of writing API in the ASP.NET. You will learn the conceptual mental model, why you need middleware, different ways to write middleware and their pros & cons along with writing your own middleware pipeline which behaves likes ASP.NET middleware." />
 </head>
 
 <img src={require('./bannerimage.jpeg').default} alt="Understand Middleware Intuitively"/>
-
 
 # The Middleware
 
@@ -62,6 +61,7 @@ and goes through a series of steps before the response is sent back to the clien
 The number and nature of steps depends upon the requirements of the application.
 
 If I ask you, what is the best way to allow developers to add such steps?
+
 You answer: Let's maintain a list of steps and allow developers to add their custom steps.
 Each step executes sequentially.
 Developers can any number and nature of steps at any point in the list.
