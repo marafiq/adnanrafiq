@@ -95,64 +95,184 @@ Each proxy performs a different function such as caching, routing (API Gateway, 
 Each layer performs a specific task and passes the message to the next layer like a pipeline.
 
 
-Each layer is a middleware. You can visualize the HTTP Middleware Pipeline below:
+Each layer is middleware. You can visualize the HTTP Middleware Pipeline below:
 
 ![Proxy In Middleware of HTTP Exchange](img_1.png)
 
+You have a high-level understanding of the HTTP Middleware Pipeline.
+In the ASP.NET 8, the middleware pipeline is similar except all the steps are performed within the server (Kestrel).
+
 ### ASP.NET Middleware
 
-ASP.NET Middleware role starts when the HTTP request arrives at the server. 
-What must ASP.NET server do to generate the response?
-- Read the HTTP Request Payload.
-- Parse the HTTP Request Payload.
-- Find the matching endpoint.
-- Allow developers to hook custom logic A.
-- Execute the endpoint.
-- Allow developers to hook custom logic B.
-- Generate the response.
-- Allow developers to hook custom logic C. 
+ASP.NET Middleware role starts when the HTTP request arrives at the server.
 
-The above steps will be different depending upon the requirements of the application.
+```http request title="HTTP GET Request to get coures arrives at server "
+GET /api/courses HTTP/1.1
+Host: adnanrafiq.com
+Content-Type: application/json
+```
+What must ASP.NET server do to generate the response like below?
+```http request title="HTTP Response by the server"
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Date: Sat, 21 Oct 2023 21:28:22 GMT
+Server: Kestrel
+Transfer-Encoding: chunked
 
-Few examples of custom & built-in logic steps:
-- How the .NET decides which handler to call? Parse the payload and find the matching endpoint.
-- How the .NET decides about the user's authenticity? Authenticate the user.
-- How the .NET decides about the user is authorized to view the data? Authorize the user.
-- How the .NET decides if the request payload is valid? Validate the request payload.
-- How the .NET converts the request payload into C# objects? Bind the raw payload to C# objects.
-- How to log what request payload comes in? Log the request payload.
+[
+  "Course 1",
+  "Course 2"
+]
+```
+The ASP.NET server reads the HTTP request payload stream of bytes and creates a `HttpContext` to process the request.
+Then it calls the middleware pipeline, which is list of ordered functions chained together to form a pipeline.
 
-The above steps will be different depending upon the requirements of the application.
+But how does the ASP.NET weave the middleware pipeline?
 
-If I ask you to write a framework to handle the above steps, what would you do?
+The processing of the request happens in a pipeline of middleware components.
+The middleware component is function represented by the `RequestDelegate`.
+The `RequestDelegate` is a delegate/function that takes `HttpContext` as an input and returns a `Task`.
 
-Your answer: It seems like that there are many steps the server has to perform before it can generate an HTTP response.
-So it would be best if you divide the steps to form a pipeline, 
-so the output of one step becomes the input of the next step.
-This way a message is being massaged and passed to the next step, 
-but each step is performing one thing only.
-It allows you to compose a small or long pipeline depending upon the requirements.
+The below snippet shows how ASP.NET 8 implementation of `HttpProtocol.ProcessRequestsAsync` is [processing requests](https://github.com/dotnet/aspnetcore/blob/main/src/Servers/Kestrel/Core/src/Internal/Http/HttpProtocol.cs#L676).
 
-But there are steps that are best suited for the framework to handle like HTTP Connection Management,
-reading the streams, and sending the response back.
-So we can hide it from the developers and only provide hooks where needed.
+```csharp title="Process Requests in "
+//Code Omited for brevity
+var context = application.CreateContext(this);
+try
+{
+    KestrelEventSource.Log.RequestStart(this);
 
-But there are steps like Routing, Authentication, Authorization, Logging,
-ErrorHandling, Caching, Compression, Enforcing HTTPS etc.
-which are common in most applications.
-The Framework will provide such steps out of the box. 
-In technical jargon, these steps are known as Cross-Cutting Concerns.
-So basically two kinds of steps:
-1. Cross-Cutting Concern Components
-2. Custom Logic Components
+    // Run the application code for this request
+    await application.ProcessRequestAsync(context);
 
-Great answer. 
-I summarize by saying that is exactly how the ASP.NET 8 implements the request/response mechanism.
-That is by composing a pipeline of single responsibility middleware components in a sequential pipeline.
-You can visualize the ASP.NET 8 pipeline as below:
+    // Trigger OnStarting if it hasn't been called yet and the app hasn't
+    // already failed. If an OnStarting callback throws we can go through
+    // our normal error handling in ProduceEnd.
+    // https://github.com/aspnet/KestrelHttpServer/issues/43
+    if (!HasResponseStarted && _applicationException == null && _onStarting?.Count > 0)
+    {
+        await FireOnStarting();
+    }
+
+    if (!_connectionAborted && !VerifyResponseContentLength(out var lengthException))
+    {
+        ReportApplicationError(lengthException);
+    }
+}
+catch (BadHttpRequestException ex)
+{
+    // Capture BadHttpRequestException for further processing
+    // This has to be caught here so StatusCode is set properly before disposing the HttpContext
+    // (DisposeContext logs StatusCode).
+    SetBadRequestState(ex);
+    ReportApplicationError(ex);
+}
+//Code Omited for brevity
+```
+
+The ASP.NET is awaiting the task by calling `await application.ProcessRequestAsync(context)` but what is `application`?
+
+It is an instance of `IHttpApplication<TContext>` interface
+but the body of function is below taking from [ASP.NET Source Code](https://github.com/dotnet/aspnetcore/blob/main/src/Hosting/Hosting/src/Internal/HostingApplication.cs#L89).
+
+```csharp title="IHttpApplication<TContext> Interface"
+public Task ProcessRequestAsync(Context context)
+{
+    return _application(context.HttpContext!);
+}
+```
+
+The `_application` type is `RequestDelegate` which is a function
+that takes `HttpContext` as an input and returns a `Task`.
+
+This is the entry/start point of the ASP.NET 8 middleware pipeline.
+
+But the question is how the ASP.NET 8 builds the pipeline
+as it is evident
+it is a single function call as seen above when doing `await application.ProcessRequestAsync(context);` ?
+
+For that you have
+to look at the `ApplicationBuilder` interface implementation of `IApplicationBuilder` which exposes extension methods
+to add the middleware to the pipeline
+and internally maintains a list of middleware components with the following signature
+`List<Func<RequestDelegate, RequestDelegate>> _components = new();` that means
+it is a list of functions which accepts a RequestDelegate
+and return a RequestDelegate where Request Delegate is a function which accepts HttpContext and returns a task.
+
+How does the ASP.NET allow us to add it to the list of middleware components?
+For that, let's look at the below API:
+
+```csharp title="Course API with Response Caching Middleware"
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+app.UseResponseCaching();//Adding middleware component to the pipeline
+app.MapGet("/api/courses", () => new[] { "Course 1", "Course 2" });
+app.Run();
+```
+The `app` is an instance of `WebApplication` that implements
+`IApplicationBuilder` and `UseResponseCaching` is an extension method
+which eventually calls the `Use` method on the `IApplicationBuilder` interface.
+The `Use` method adds the middleware component to the list of middleware components.
+
+```csharp title="UseMiddleware Extension Method"
+public static IApplicationBuilder UseResponseCaching(this IApplicationBuilder app)
+{
+    ArgumentNullException.ThrowIfNull(app);
+
+    return app.UseMiddleware<ResponseCachingMiddleware>();
+}
+
+public IApplicationBuilder Use(Func<RequestDelegate, RequestDelegate> middleware)
+{
+    _components.Add(middleware);
+    _descriptions?.Add(CreateMiddlewareDescription(middleware));
+
+    return this;
+}
+```
+
+When the application builder is build, it loops over the list of middleware components,
+and calls the middleware function with the next middleware function like a chain in the order these were added to the list.
+This chain is known as the middleware pipeline.
+The below code shows the implementation of the `Build` method of the `ApplicationBuilder`.
+The code is taken from [ASP.NET Source Code](https://github.com/dotnet/aspnetcore/blob/main/src/Http/Http/src/Builder/ApplicationBuilder.cs#L195).
+
+```csharp title="Build Method of ApplicationBuilder"
+public RequestDelegate Build()
+{
+  //Code omitted for brevity
+  RequestDelegate app = context =>
+  {
+      return Task.CompletedTask;
+  };
+  //Chaining the middleware components
+  for (var c = _components.Count - 1; c >= 0; c--)
+  {
+      app = _components[c](app);
+  }
+  //Code omitted for brevity
+  return app;
+}
+```
+
+As you can see the result of chaining the middleware return a function
+which accepts `HttpContext` and returns a `Task`.
+The awaiting of the task
+you saw earlier in the `HttpProtocol.ProcessRequestsAsync` method is actually awaiting the result of the middleware pipeline
+which gets build when the application is run through the `app.Run()` method.
+But it is done via a complex number of steps, and it is different for each server implementation.
+
+
+
+You can visualize the ASP.NET 8 pipeline (chain of functions) as below:
 
 ![ASP.NET Core Pipeline](img_4.png)
 The names of the middlewares in the above diagram are omitted intentionally. 
+
+:::tip
+Each function in the pipeline handles a specific task is the key takeaway.
+It allows us to write functions to handle cross-cutting concerns like Authentication, Authorization, Logging, Caching, Compression, etc.
+:::
 
 That brings us to the next question. What middleware components should be provided out of the box by the ASP.NET8?
 
