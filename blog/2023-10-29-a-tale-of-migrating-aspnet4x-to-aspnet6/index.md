@@ -3,7 +3,7 @@ title: A tale of migrating an ASP.NET Framework 4.x application to ASP.NET 6
 description: Thread Starvation Detection or Hangs in ASP.NET 6 and beyond are tricky and require understanding of few concepts and tools. If you migrating an ASP.NET Framework 4.x application to .NET6+ and con not convert all paths to async then you should definitely keep reading.
 slug: a-tale-of-migrating-aspnet4x-to-aspnet6
 authors: adnan 
-tags: [C#,CSharp]
+tags: [C#,CSharp,ThreadPool,ThreadStarvation,DiagnosticTools]
 image : ./threadpoolzone.png
 keywords: [.NET6,ASP.NET6,KestrelHangs,ThreadStarvation,DiagnosticTools]
 ---
