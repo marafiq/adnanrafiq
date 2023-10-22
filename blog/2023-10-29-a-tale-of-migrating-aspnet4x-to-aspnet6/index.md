@@ -8,10 +8,12 @@ image : ./threadpoolzone.png
 keywords: [.NET6,ASP.NET6,KestrelHangs,ThreadStarvation,DiagnosticTools]
 ---
 <head>
-
 <meta property="og:image:width" content="1200"/>
-<meta property="og:image:height" content="670"/>  
+<meta property="og:image:height" content="500"/>  
 <meta name="twitter:creator" content="@madnan_rafiq" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="A tale of migrating an ASP.NET Framework 4.x application to ASP.NET 6" />
+<meta name="twitter:description" content="Thread Starvation Detection or Hangs in ASP.NET 6 and beyond are tricky and require understanding of few concepts and tools. If you migrating an ASP.NET Framework 4.x application to .NET6+ and con not convert all paths to async then you should definitely keep reading." />
 </head>
 
 <img src={require('./threadpoolzone.png').default} alt="Title Image of the blog"/>
