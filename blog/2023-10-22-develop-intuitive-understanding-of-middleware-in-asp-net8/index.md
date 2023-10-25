@@ -19,6 +19,18 @@ keywords: [Fundamentals, ASP.NET8,Middleware,CustomMiddleware,InlineMiddleware,C
 
 <img src={require('./bannerimage.jpeg').default} alt="Understand Middleware Intuitively"/>
 
+# What will you learn?
+It is a long blog post,
+but it builds the foundation and deep understanding of the middleware in the ASP.NET 8 or previous versions
+starting with ASP.NET 6.
+
+It explores middleware, introduces you to HTTP middleware and ASP.NET middleware.
+It deep dives how the ASP.NET middleware works & how it is actually built.
+Then you will learn different ways to create middleware in .NET and their pros and cons.
+Finally, you will build your own middleware pipeline using the ASP.NET approach.
+Do not miss the copy & paste console sample to debug the .NET like middleware pipeline.
+
+
 # The Middleware
 
 What comes to your mind when you hear the word **middleware**?
