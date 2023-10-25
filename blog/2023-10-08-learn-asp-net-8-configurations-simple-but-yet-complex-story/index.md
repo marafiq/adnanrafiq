@@ -21,6 +21,24 @@ keywords: [Fundamentals, ASP.NET8,Configurations,CustomConfigurationSource,reloa
 
 
 # ASP.NET 8 Configurations
+Think about a piece of software; it could be a web or mobile application or an API.
+What's its purpose?
+Well, it's here to solve a single or multiple problems for you by offering a suite of unique features.
+
+Now, let's say some of you are fans of a dark theme, while others love the bright hues of a light theme.
+How can one software cater to both tastes?
+
+Enter **Configurations**!
+
+Configurations help us customize how the software behaves.
+Interesting fact: this customization isn't always about you, the end-user.
+Behind the scenes, developers also utilize configurations to fine-tune the software's behavior,
+such as determining which database to connect to,
+adjusting log level based on the environment, deciding on scaling parameters, and more.
+Intriguing, isn't it?
+
+In the same sense as a developer, the ASP.NET 8 is a software (framework) that solves a problem for you.
+Let's start with Web Application Host Builder in ASP.NET 8.
 
 ## The WebApplication Host Builder
 
