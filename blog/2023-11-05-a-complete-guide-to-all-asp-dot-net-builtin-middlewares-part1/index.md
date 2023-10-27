@@ -6,6 +6,7 @@ authors: adnan
 tags: [C#,CSharp,ASP.NET,Middlewares]
 image : ./middlewares.png
 keywords: [ASP.NET,ASP.NET Core,Middlewares,Routing,CORS,StaticFiles,Authentication,Authorization,Session,ResponseCaching,ResponseCompression,RequestLocalization,EndpointRouting,HealthChecks,DeveloperExceptionPage,ExceptionHandler,StatusCodePages,StatusCodePagesWithReExec]
+draft: true
 ---
 <head>
 <meta property="og:image:width" content="1200"/>
