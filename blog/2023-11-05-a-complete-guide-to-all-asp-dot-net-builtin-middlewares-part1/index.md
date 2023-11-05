@@ -5,7 +5,7 @@ slug: a-complete-guide-to-all-asp-dot-net-builtin-middlewares-part1
 authors: adnan 
 tags: [C#,CSharp,ASP.NET,Middlewares]
 image : ./middlewares.png
-keywords: [ASP.NET,ASP.NET Core,Middlewares,Routing,CORS,StaticFiles,Authentication,Authorization,Session,ResponseCaching,ResponseCompression,RequestLocalization,EndpointRouting,HealthChecks,DeveloperExceptionPage,ExceptionHandler,StatusCodePages,StatusCodePagesWithReExec]
+keywords: [ASP.NET,ASP.NET Core,Middlewares,HostFiltering,HeaderPropagation]
 ---
 <head>
 <meta property="og:image:width" content="1200"/>
