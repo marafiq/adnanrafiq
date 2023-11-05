@@ -1,6 +1,6 @@
 ---
 title: A Complete Guide to all ASP.NET Builtin Middlewares - Part 1
-description: A Complete Guide to all ASP.NET Builtin Middlewares. How to use them and what are the best practices.
+description: Host filtering and Header Propagation Middlewares.
 slug: a-complete-guide-to-all-asp-dot-net-builtin-middlewares-part1
 authors: adnan 
 tags: [C#,CSharp,ASP.NET,Middlewares]
@@ -13,7 +13,7 @@ keywords: [ASP.NET,ASP.NET Core,Middlewares,HostFiltering,HeaderPropagation]
 <meta name="twitter:creator" content="@madnan_rafiq" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="A Complete Guide to all ASP.NET Builtin Middlewares - Part 1" />
-<meta name="twitter:description" content="A Complete Guide to all ASP.NET Builtin Middlewares. How to use them and what are the best practices? " />
+<meta name="twitter:description" content="Host filtering and Header Propagation Middlewares." />
 </head>
 
 <img src={require('./middlewares.png').default} alt="Title Image of the blog" border="1"/>
