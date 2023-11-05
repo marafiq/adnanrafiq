@@ -87,8 +87,9 @@ app.Run();
 ```
 You can customize the JSON property in the `appsettings.json` file.
 ```csharp Title="appsettings.json"
+//You can not use Port Number in the AllowedHosts.
 {
-  "AllowedHosts": "localhost,localhost:5000,localhost:5001,*.example.com,139.343.3434.3434"
+  "AllowedHosts": "localhost,*.example.com,139.343.3434.3434"
 }
 ```
 ```csharp Title="Add Options to HostFiltering Middleware"
