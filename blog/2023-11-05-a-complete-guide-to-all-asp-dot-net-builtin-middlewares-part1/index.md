@@ -42,7 +42,8 @@ There are 16 builtin middlewares in ASP.NET 8 to build a REST API. This post wil
 ## Host Filtering Middleware
 
 ### Purpose
-Allow requests only from the allowed hosts using the host header of HTTP Request.
+Allow requests only from the allowed hosts
+using the host header of HTTP Request but only serve the request if the host header is in the allowed list.
 
 ### Defaults
 - AllowedHosts: *
@@ -52,6 +53,19 @@ Allow requests only from the allowed hosts using the host header of HTTP Request
 ### Customization
 - AllowedHosts can be a comma-separated list of host names or IP addresses.
 - AllowedHosts can be a wildcard pattern like *.google.com.
+
+:::tip
+When you host the .NET Application using the Kestrel server exposed to public internet.
+You must use the Host Filtering middleware to allow only the allowed hosts to access your application.
+:::
+
+The default options would mean that any HTTP request with any host header value will be served.
+The `LinkGenerator` service is recommended to be used to generate the absolute links to your application, 
+either in the response or in the email.
+But if you are not filtering the Host header,
+then the attacker can send any host header value and generate the valid link to their website.
+Note that LinkGenerator extension methods allow you to pass the host,
+but if none provider it will default to the host header value.
 
 ### How to use it?
 
@@ -91,7 +105,7 @@ services.AddHostFiltering(options =>
 ```
 ### Best Practices
 - Should be added after the ExceptionHandler middleware.
-- It should not be used as a replacement of security features. Attacker can easily manipulate the host header.
+- Attacker can easily manipulate the host header, thus this middleware validates it before serving the request.
   - Example: If you ask your security to let only in person with the name of adnan. Anyone pretending to be adnan will be allowed.
 - Read the source code in .NET repository [here](https://github.com/dotnet/aspnetcore/blob/main/src/Middleware/HostFiltering/src/HostFilteringMiddleware.cs).
 
