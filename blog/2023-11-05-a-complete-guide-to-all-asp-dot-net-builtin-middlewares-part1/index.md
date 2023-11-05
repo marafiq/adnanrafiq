@@ -109,6 +109,30 @@ services.AddHostFiltering(options =>
   - Example: If you ask your security to let only in person with the name of adnan. Anyone pretending to be adnan will be allowed.
 - Read the source code in .NET repository [here](https://github.com/dotnet/aspnetcore/blob/main/src/Middleware/HostFiltering/src/HostFilteringMiddleware.cs).
 
+### Evil Link Generation Example
+```csharp Title="Evil Link Generation Example"
+var builder = WebApplication.CreateBuilder();
+var app = builder.Build();
+app.MapGet("/welcome", () => "Hello World!").WithName("Welcome");
+app.MapGet("/handmewelcomeurl", (HttpContext httpContext,LinkGenerator linkGenerator) =>
+{
+    var uriByName = linkGenerator.GetUriByName(httpContext, "Welcome");
+    return uriByName;
+}).WithName("HandMeWelcomeUrl");
+app.Run();
+```
+Given your server is running on `http://localhost:5000`.
+```http request
+
+GET http://localhost:5149/handmewelcomeurl
+Host: evilsite.com
+
+```
+What response did you expect?
+
+It **will not be** `http://localhost:5000/welcome` but instead it will be `http://evilsite.com/welcome`.
+
+
 ## Header Propagation Middleware
 ### Purpose
 It propagates the headers from the incoming request to the outgoing request. 
