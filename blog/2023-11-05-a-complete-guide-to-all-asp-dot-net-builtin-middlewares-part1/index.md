@@ -108,6 +108,7 @@ services.AddHostFiltering(options =>
 - Attacker can easily manipulate the host header, thus this middleware validates it before serving the request.
   - Example: If you ask your security to let only in person with the name of adnan. Anyone pretending to be adnan will be allowed.
 - Read the source code in .NET repository [here](https://github.com/dotnet/aspnetcore/blob/main/src/Middleware/HostFiltering/src/HostFilteringMiddleware.cs).
+- [A Security Issue](https://github.com/aspnet/Announcements/issues/295)
 
 ### Evil Link Generation Example
 ```csharp Title="Evil Link Generation Example"
