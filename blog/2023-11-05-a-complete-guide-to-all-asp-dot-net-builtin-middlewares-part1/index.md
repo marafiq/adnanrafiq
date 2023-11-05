@@ -6,7 +6,6 @@ authors: adnan
 tags: [C#,CSharp,ASP.NET,Middlewares]
 image : ./middlewares.png
 keywords: [ASP.NET,ASP.NET Core,Middlewares,Routing,CORS,StaticFiles,Authentication,Authorization,Session,ResponseCaching,ResponseCompression,RequestLocalization,EndpointRouting,HealthChecks,DeveloperExceptionPage,ExceptionHandler,StatusCodePages,StatusCodePagesWithReExec]
-draft: true
 ---
 <head>
 <meta property="og:image:width" content="1200"/>
@@ -21,39 +20,24 @@ draft: true
 
 # A Complete Guide to all ASP.NET Builtin Middlewares
 
-You will learn about all the builtin middlewares in ASP.NET Core. 
-How to use them and what are the best practices?
+Middleware is a function in then ASP.NET 8,
+when many functions are invoked one after the other like a chain; 
+it becomes a middleware pipeline.
+The middleware pipeline is responsible for handling the incoming HTTP request and outgoing HTTP response.
+
+For in depth understanding of the middleware
+you can read my blog post [here](https://adnanrafiq.com/blog/develop-intuitive-understanding-of-middleware-in-asp-net8/).
+
+This is a series of blog posts in which I will cover all the builtin middlewares in ASP.NET 8. 
 
 <!--truncate-->
 
 ## How many Middlewares are in ASP.NET 8?
 
-There are 16 builtin middlewares in ASP.NET 8 to build a REST API.
+There are 16 builtin middlewares in ASP.NET 8 to build a REST API. This post will cover two of them.
 
 - [HostingFiltering](#host-filtering-middleware)
 - [HeaderPropagation](#header-propagation-middleware)
-- DeveloperExceptionPage
-- ExceptionHandler
-- UseStatusCodePages
-- RequestDecompression
-- Routing
-- CORS
-- StaticFiles
-- RateLimiting
-- Authentication
-- Authorization
-- Session
-- ResponseCaching
-- ResponseCompression
-- RequestLocalization
-- EndpointRouting
-- HealthChecks
-- StatusCodePages
-- StatusCodePagesWithReExecute
-- ServerTiming
-- ForwardedHeaders
-- Hsts
-- HttpsRedirection
 
 ## Host Filtering Middleware
 
@@ -113,18 +97,26 @@ services.AddHostFiltering(options =>
 
 ## Header Propagation Middleware
 ### Purpose
-It propagates the headers from the incoming request to the outgoing request.
-
-Example: You have a service named Motto running behind a load balancer.
-TLS termination is done at the load balancer.
-The load balancer adds the header `X-Forwarded-Proto` to the request 
-so the service named Motto can know if the request is coming from HTTP or HTTPS.
-The service named Motto calls another service named `Greeting` using HTTP Client, 
-you would like to forward the `X-Forwarded-Proto` header to the outgoing request.
+It propagates the headers from the incoming request to the outgoing request. 
+For example,
+a Service receives a header named X-Custom-Header, and it calls Service B, 
+and you would like to send the header whenever this call is made.
 That is Propagation of Headers.
 :::info
 Must install the package `Microsoft.AspNetCore.HeaderPropagation` from NuGet.
 :::
+
+In Legacy applications if you have not adapted the [Open Telemetry](https://opentelemetry.io/docs/instrumentation/net/getting-started/)
+and you rely on correlation id to trace the request across multiple services.
+For example,
+your request flows through a reverse proxy which adds certain e-commerce, unique request id and other headers
+on which your system relies on.
+You could use the Header Propagation middleware to propagate the headers to the outgoing request.
+Simple correlation header flow will give you an end to end logs of the request.
+Currently, I am using this technique in production
+to trace the request across multiple services which uses different technologies like Node.js,
+Java, .NET 6, .NET Framework 4.8.
+
 ### Defaults
 - Allows to configure the headers to be propagated to the outgoing HTTP requests using `HttpClient`.
 - Allows configuring the headers to be propagated with value provider function which does have access to `HTTPContext`.
@@ -174,8 +166,8 @@ app.Run();
 ### Best Practices
 - Should be added after the ExceptionHandler middleware.
 - Every server receiving the request has a limit on the number of headers it can receive. It also has limit on the size of the header. Kestrel has a limit of 100 headers and 32KB size. You should take this into consideration when propagating headers.
-- Keep the number of headers and size to the minimum. Minimum means only add if it is required. Do not violate the [YAGNI](https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it) principle.
-
+- Keep the number of headers and size to the minimum. Minimum means only add if it is required. Do not violate [You ain't going to need it](https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it) principle (YAGNI).
+- Read the source code in .NET repository [here](https://github.com/dotnet/aspnetcore/blob/main/src/Middleware/HeaderPropagation/src/HeaderPropagationMiddleware.cs)
 
 
 
