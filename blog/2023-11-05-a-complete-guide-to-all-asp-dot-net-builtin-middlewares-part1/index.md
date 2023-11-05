@@ -126,7 +126,7 @@ That is Propagation of Headers.
 Must install the package `Microsoft.AspNetCore.HeaderPropagation` from NuGet.
 :::
 ### Defaults
-- Allows to configure the headers to be propagated.
+- Allows to configure the headers to be propagated to the outgoing HTTP requests using `HttpClient`.
 - Allows configuring the headers to be propagated with value provider function which does have access to `HTTPContext`.
 - Allows changing the header name from incoming request to outgoing request.
 
@@ -137,24 +137,28 @@ Must install the package `Microsoft.AspNetCore.HeaderPropagation` from NuGet.
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHeaderPropagation(options =>
 {
-    options.Headers.Add("X-Forwarded-Proto");
-    options.Headers.Add("X-Forwarded-Proto", context =>
+    //Add the header to be propagated.
+    options.Headers.Add("X-Custom-Header");
+    
+    //Add the header to be propagated with value provider function.
+    options.Headers.Add("CorelationId", context =>
     {
         var request = context.Request;
-        var header = request.Headers["X-Forwarded-Proto"].FirstOrDefault();
+        var header = request.Headers["CorelationId"].FirstOrDefault();
         if (string.IsNullOrEmpty(header))
         {
-            header = request.Scheme;
+            header = Guid.NewGuid().ToString();
         }
         return header;
     });
-    options.Headers.Add("X-Forwarded-Host", "X-Forwarded-Host-Original");
+    options.Headers.Add("CorelationId", "X-CorelationId");
 });
 var app = builder.Build();
 app.UseHeaderPropagation();
-app.MapGet("/motto", async (HttpContext context) =>
+app.MapGet("/motto", async (HttpContext context, HttpClient client) =>
 {
-    var client = new HttpClient();
+    //Now the outgoing request will have the header X-CorelationId and X-Custom-Header.
+    // No need to add the header manually.
     var response = await client.GetAsync("http://localhost:5000/greeting");
     var content = await response.Content.ReadAsStringAsync();
     await context.Response.WriteAsync(content);
@@ -162,7 +166,7 @@ app.MapGet("/motto", async (HttpContext context) =>
 app.MapGet("/greeting", async (HttpContext context) =>
 {
     //Read the header from the incoming request.
-    var header = context.Request.Headers["X-Forwarded-Proto"].FirstOrDefault();
+    var header = context.Request.Headers["X-CorelationId"].FirstOrDefault();
     await context.Response.WriteAsync($"Hello from Greeting Service. You are using {header}");
 });
 app.Run();
@@ -170,7 +174,7 @@ app.Run();
 ### Best Practices
 - Should be added after the ExceptionHandler middleware.
 - Every server receiving the request has a limit on the number of headers it can receive. It also has limit on the size of the header. Kestrel has a limit of 100 headers and 32KB size. You should take this into consideration when propagating headers.
-- Keep the headers number and size to the minimum. Minimum means only add if it is required. Do not violate the [YAGNI](https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it) principle.
+- Keep the number of headers and size to the minimum. Minimum means only add if it is required. Do not violate the [YAGNI](https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it) principle.
 
 
 
