@@ -134,6 +134,13 @@ What response did you expect?
 
 It **will not be** `http://localhost:5000/welcome` but instead it will be `http://evilsite.com/welcome`.
 
+To fix it, you have to add only `localhost` to the allowed hosts. After that, you will receive a 400-Bad Request response.
+
+```csharp Title="appsettings.json"
+{
+  "AllowedHosts": "localhost"
+}
+```
 
 ## Header Propagation Middleware
 ### Purpose
