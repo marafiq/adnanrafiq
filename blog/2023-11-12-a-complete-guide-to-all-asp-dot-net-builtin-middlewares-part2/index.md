@@ -6,7 +6,6 @@ authors: adnan
 tags: [C#,CSharp,ASP.NET,Middlewares]
 image : ./middlewares.png
 keywords: [ASP.NET,ASP.NET Core,Middlewares,HostFiltering,HeaderPropagation,ForwardedHeaders,Spoofing,AllowedHosts,CIDR]
-draft: true
 ---
 <head>
 <meta property="og:image:width" content="1200"/>
@@ -237,11 +236,12 @@ for example, you can pass the value of `X-Forwarded-For` as `192.2.5.5, 58.65.65
 But for the `X-Forwarded-Proto` header, you only passed the value as `http`. 
 Now the middleware reads the comma seperated values, and compares the array length to determine if they are symmetrical.
 If not, it will generate a warning log and will not set the `HttpContext` properties.
-In the above example, the middleware will not set the `Scheme` property of the `HttpContext`.
+
+In the above example, the middleware will not apply changes to the `HttpContext` properties.
 
 This is done for all the `X-Fowarded-*` headers.
 
-## What about the Forward Limit?
+### What about the Forward Limit?
 The `ForwardLimit` property of the `ForwardedHeadersOptions` is used
 to limit the number of entries in the comma-separated list of values for the `X-Forwarded-*` headers.
 The values are read from right to left, 
