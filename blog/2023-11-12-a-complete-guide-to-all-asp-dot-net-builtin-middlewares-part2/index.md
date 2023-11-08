@@ -253,6 +253,7 @@ You can set to null to disable it.
 2. Accept the headers from the known hosts only.
 3. Use the Host filtering middleware to avoid spoofing attacks on your application.
 4. Discard the `X-Forwarded-*` headers at the public proxy or load balancer.
+5. If you are using `Kestrel` as public server then you should not use this middleware. Instead, if you intend to use `Kestrel` as a reverse proxy, then you should use the `YARP` reverse proxy which is written in .NET and allows you to configure the `X-Forwarded-*` headers.
 
 ### A question for you?
 Should this middleware be added before or after the Host Filtering middleware? And Why?
