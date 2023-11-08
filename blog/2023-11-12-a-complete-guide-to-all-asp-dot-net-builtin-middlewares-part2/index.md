@@ -254,8 +254,10 @@ You can set to null to disable it.
 3. Use the Host filtering middleware to avoid spoofing attacks on your application.
 4. Discard the `X-Forwarded-*` headers at the public proxy or load balancer.
 
+### A question for you?
+Should this middleware be added before or after the Host Filtering middleware? And Why?
 
-
+Let me know your answer on [Twitter](https://twitter.com/madnan_rafiq).
 
 
 
