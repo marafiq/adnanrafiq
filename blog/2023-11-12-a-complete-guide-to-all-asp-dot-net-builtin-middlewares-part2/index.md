@@ -5,7 +5,7 @@ slug: a-complete-guide-to-all-asp-dot-net-builtin-middlewares-part2
 authors: adnan 
 tags: [C#,CSharp,ASP.NET,Middlewares]
 image : ./middlewares.png
-keywords: [ASP.NET,ASP.NET Core,Middlewares,HostFiltering,HeaderPropagation,ForwardedHeaders,Spoofing,AllowedHosts,CIDR]
+keywords: [ASP.NET,ASP.NET Core,Middlewares,HostFiltering,HeaderPropagation,ForwardedHeaders,Spoofing,AllowedHosts,CIDR,Logging,HTTPLogging,PII,RedactPII,Interceptor,CombineLogs,LogLevel,HttpLoggingMiddleware,HttpLoggingInterceptor]
 ---
 <head>
 <meta property="og:image:width" content="1200"/>
@@ -264,20 +264,31 @@ Let me know your answer on [Twitter](https://twitter.com/madnan_rafiq).
 ## HTTP Logging Middleware
 
 ### Purpose
-Log the HTTP request and response. But it gives you powerful customization features such as:
+To log the HTTP request and response properties to get observability (visibility) into your production.
+But it gives you powerful customization features such as:
 - Customize the HTTP Request and Response fields to log. 
-- Add interceptors to redact sensitive information (PII) or enrich (add) the information to the HTTP Request and Response.
-- Customize the HTTP Request and Response fields, request & response body size to log per endpoint using `.WithHttpLogging`.
-- Combine logs belonging to one HTTP request. It means that there will only be one log line for one HTTP request.
+- Add interceptors to redact sensitive information (PII) or enrich (add) the information to the HTTP Request and Response Logging Context to log.
+- Customize the HTTP Request and Response fields to log, and change request & response body size to log per endpoint using `.WithHttpLogging`.
+- Combine multiple log lines belonging to one HTTP request and response to one log line.
 - Provide control over the log level for the HTTP Request and Response by using `Microsoft.AspNetCore.HttpLogging.HttpLoggingMiddleware` in `appsettings.json`.
 
 ### How to use it?
 The sample below shows how to use the HTTP Logging Middleware.
-```csharp title="Configure HTTP Logging Middleware"
+It follows the convention
+of adding the required services for the middleware to function correctly, and the use the middleware.
+
+```csharp title="Http Loggin Middleware - With Options, Interceptor, and Endpoint Specific Logging"
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
+//If you would like change the logging middleware options using appsettings.json file.
+// And expect the application behavior to change, you can use the below. Since LoggingMiddleware uses 
+// IOptionsMonitor to get the current options, it will respond to it.
+
+//builder.Services.Configure<HttpLoggingOptions>(builder.Configuration.GetSection("HttpLogging"));
+
+//Add the required services for the middleware to function correctly.
 builder.Services.AddHttpLogging(options =>
 {
    //logging fields defaults to the below - shown for demo purpose
@@ -288,6 +299,8 @@ builder.Services.AddHttpLogging(options =>
 });
 builder.Services.AddHttpLoggingInterceptor<RedactKnownPII>();
 var app = builder.Build();
+
+//Use the middleware
 app.UseHttpLogging();
 
 app.MapGet("/", () => "Hello World!");
@@ -341,6 +354,54 @@ public class RedactKnownPII : IHttpLoggingInterceptor
       "Microsoft.AspNetCore.HttpLogging.HttpLoggingMiddleware": "Information"
     }
   }
+}
+```
+
+### How to add an interceptor?
+Interceptors are used to redact sensitive information (PII) or enrich (add)
+the information to the HTTP Request and Response Logging Context to log.
+You can implement the `IHttpLoggingInterceptor` interface
+and register it as a service using `AddHttpLoggingInterceptor` extension method on `IServiceCollection`.
+
+The interceptor requires implementing two methods:
+- `OnRequestAsync` - You can add/remove/modify the HTTP Request Logging Context to log for the HTTP Request.
+- `OnResponseAsync` - You can add/remove/modify the HTTP Response Logging Context to log for the HTTP Response.
+
+The `HttpLoggingInterceptorContext` contains the current `HttpContext` and `HttpLoggingFields`.
+```csharp title="How to add interceptor?"
+using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.Net.Http.Headers;
+
+builder.Services.AddHttpLogging(options =>{});
+builder.Services.AddHttpLoggingInterceptor<RedactKnownPII>();
+
+var app = builder.Build();
+//Use the middleware
+app.UseHttpLogging();
+
+app.MapGet("/", () => "Hello World!");
+
+app.Run();
+
+public class RedactKnownPII : IHttpLoggingInterceptor
+{
+    public ValueTask OnRequestAsync(HttpLoggingInterceptorContext logContext)
+    {
+        RedactPII(logContext);
+        return default;
+    }
+
+    public ValueTask OnResponseAsync(HttpLoggingInterceptorContext logContext)
+    {
+        RedactPII(logContext);
+        return default;
+    }
+
+    // ReSharper disable once InconsistentNaming
+    private static void RedactPII(HttpLoggingInterceptorContext logContext)
+    {
+        logContext.AddParameter(HeaderNames.Authorization, "**********");
+    }
 }
 ```
 
