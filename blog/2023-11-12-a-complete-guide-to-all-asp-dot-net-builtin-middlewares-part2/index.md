@@ -37,6 +37,7 @@ This is a series of blog posts in which I will cover all the builtin middlewares
 There are 16 builtin middlewares in ASP.NET 8 to build a REST API. This post will cover two of them.
 
 - [Forwarded Headers Middleware](#Forwarded-Headers-Middleware)
+- [HTTP Logging Middleware](#Http-Logging-Middleware)
 
 You can read about Host Filtering and Header Propagation middlewares in the [Part 1](https://adnanrafiq.com/blog/a-complete-guide-to-all-asp-dot-net-builtin-middlewares-part1/).
 
@@ -260,7 +261,111 @@ Should this middleware be added before or after the Host Filtering middleware? A
 
 Let me know your answer on [Twitter](https://twitter.com/madnan_rafiq).
 
+## HTTP Logging Middleware
 
+### Purpose
+Log the HTTP request and response. But it gives you powerful customization features such as:
+- Customize the HTTP Request and Response fields to log. 
+- Add interceptors to redact sensitive information (PII) or enrich (add) the information to the HTTP Request and Response.
+- Customize the HTTP Request and Response fields, request & response body size to log per endpoint using `.WithHttpLogging`.
+- Combine logs belonging to one HTTP request. It means that there will only be one log line for one HTTP request.
+- Provide control over the log level for the HTTP Request and Response by using `Microsoft.AspNetCore.HttpLogging.HttpLoggingMiddleware` in `appsettings.json`.
+
+### How to use it?
+The sample below shows how to use the HTTP Logging Middleware.
+```csharp title="Configure HTTP Logging Middleware"
+using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.Net.Http.Headers;
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddHttpLogging(options =>
+{
+   //logging fields defaults to the below - shown for demo purpose
+    options.LoggingFields =
+        HttpLoggingFields.RequestPropertiesAndHeaders | HttpLoggingFields.ResponsePropertiesAndHeaders;
+    
+    options.CombineLogs = true;
+});
+builder.Services.AddHttpLoggingInterceptor<RedactKnownPII>();
+var app = builder.Build();
+app.UseHttpLogging();
+
+app.MapGet("/", () => "Hello World!");
+
+//Do not log all fields in production.
+app.MapGet("/alllogs", () => "All Logs")
+    .WithHttpLogging(HttpLoggingFields.All);
+
+app.MapGet("/logs", () => "Logs")
+    .WithHttpLogging(HttpLoggingFields.RequestMethod | HttpLoggingFields.RequestHeaders |
+                     HttpLoggingFields.ResponseHeaders);
+//Logging all fields, see how email and password is dumped into logs. 
+//Not a good idea                    
+app.MapPost("/login", (LoginRequest loginRequest, ILogger<LoginRequest> logger) =>
+{
+    logger.LogInformation("Login request received ");
+    return Results.Ok();
+}).WithHttpLogging(HttpLoggingFields.All);
+app.Run();
+
+record LoginRequest(string EmailAddress, string Password);
+
+// ReSharper disable once InconsistentNaming
+public class RedactKnownPII : IHttpLoggingInterceptor
+{
+    public ValueTask OnRequestAsync(HttpLoggingInterceptorContext logContext)
+    {
+        RedactPII(logContext);
+        return default;
+    }
+
+    public ValueTask OnResponseAsync(HttpLoggingInterceptorContext logContext)
+    {
+        RedactPII(logContext);
+        return default;
+    }
+
+    // ReSharper disable once InconsistentNaming
+    private static void RedactPII(HttpLoggingInterceptorContext logContext)
+    {
+        logContext.AddParameter(HeaderNames.Authorization, "**********");
+    }
+}
+```
+```json title="appsettings.json"
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning",
+      "Microsoft.AspNetCore.HttpLogging.HttpLoggingMiddleware": "Information"
+    }
+  }
+}
+```
+
+### Best Practices
+- Do not log the request and response body in production because:
+  - It degrades performance.
+  - It will leak PII (Personal Identifiable Information) if the request or response payload contains it. It is a violation of GDPR.
+- Carefully choose fields to log, do not log all fields in production because you can.
+- Redact sensitive information but not limited to PII
+  - Redact the Authorization header.
+  - Redact the authentication cookies.
+
+:::warning
+There should not have been All fields logging option
+either because it is too easy to use and include request and response body which is PII.
+:::
+
+### A question for you?
+In the above sample, the logging options are configured at three different places
+(Global before build, Interceptor, and Endpoint).
+Which one will take precedence?
+
+Hint: You can copy the code and use break points to find out, or 
+you can read the source code of the [HTTP Logging Middleware](https://github.com/dotnet/aspnetcore/blob/main/src/Middleware/HttpLogging/src/HttpLoggingMiddleware.cs)
+to find the answer.
 
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
