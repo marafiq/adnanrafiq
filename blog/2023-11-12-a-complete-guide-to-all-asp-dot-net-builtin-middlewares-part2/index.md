@@ -526,9 +526,16 @@ app.Run();
 - If you are inclined to log all fields, be sure to check with your legal team to log IP Addresses.
 - Use one logging middleware either HTTP Logging or W3C Logging unless you have an exceptional reason to use both.
 
-### Inviting you to read the code
+### Challenge to read the code
 The .NET team has done amazing work to make the code easy to read. 
 You can read the source code of the [W3C Logging Middleware](https://github.com/dotnet/aspnetcore/blob/main/src/Middleware/HttpLogging/src/W3CLoggingMiddleware.cs).
+
+## HTTP Logging vs W3C Logging Performance
+I have not done any performance testing, but 
+my gut says after reading the code that W3C Logging Middleware will be faster than HTTP Logging Middleware.
+
+Do not trust my gut as it should be in all performance investigation.
+If there is a lot of interest in this topic, I may try to run local benchmarks and share the results.
 
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
