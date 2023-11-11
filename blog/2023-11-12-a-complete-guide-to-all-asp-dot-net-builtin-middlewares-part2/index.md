@@ -262,7 +262,7 @@ Should this middleware be added before or after the Host Filtering middleware? A
 Let me know your answer on [Twitter](https://twitter.com/madnan_rafiq).
 
 ## HTTP Logging Middleware
-
+Logging gives you superpowers to observe your application in production. 
 ### Purpose
 To log the HTTP request and response properties to get observability (visibility) into your production.
 But it gives you powerful customization features such as:
@@ -271,6 +271,13 @@ But it gives you powerful customization features such as:
 - Customize the HTTP Request and Response fields to log, and change request & response body size to log per endpoint using `.WithHttpLogging`.
 - Combine multiple log lines belonging to one HTTP request and response to one log line.
 - Provide control over the log level for the HTTP Request and Response by using `Microsoft.AspNetCore.HttpLogging.HttpLoggingMiddleware` in `appsettings.json`.
+
+:::note
+PII stands for Personal Identifiable Information.
+Anything that can be used to identify a person is PII.
+Avoiding logging PII is extremely important,
+especially if the person closes the account on your application and request to be forgotten.
+:::
 
 ### How to use it?
 The sample below shows how to use the HTTP Logging Middleware.
@@ -368,6 +375,10 @@ The interceptor requires implementing two methods:
 - `OnResponseAsync` - You can add/remove/modify the HTTP Response Logging Context to log for the HTTP Response.
 
 The `HttpLoggingInterceptorContext` contains the current `HttpContext` and `HttpLoggingFields`.
+
+<details>
+<summary>Click to see the sample on how to add interceptor</summary>
+
 ```csharp title="How to add interceptor?"
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.Net.Http.Headers;
@@ -404,6 +415,7 @@ public class RedactKnownPII : IHttpLoggingInterceptor
     }
 }
 ```
+</details>
 
 ### Best Practices
 - Do not log the request and response body in production because:
@@ -427,6 +439,96 @@ Which one will take precedence?
 Hint: You can copy the code and use break points to find out, or 
 you can read the source code of the [HTTP Logging Middleware](https://github.com/dotnet/aspnetcore/blob/main/src/Middleware/HttpLogging/src/HttpLoggingMiddleware.cs)
 to find the answer.
+
+## W3C Logging Middleware
+Logging gives you powers to observe your application in production. 
+W3C logging middleware logs in the [W3C](https://www.w3.org/TR/WD-logfile.html) format.
+
+The reason I used powers instead of superpowers is that it is not as powerful as the HTTP Logging Middleware.
+It logs what request is coming in and what response is going out.
+
+### Purpose
+To log the HTTP request and response properties to get observability (visibility) into your production.
+But it gives you features such as:
+- Compact log format and follows the W3C standard.
+- Specify the file path to log to along with control over the file size etc and flush duration.
+- Customize the fields to log and ability to add additional headers to log.
+
+### How to use it?
+The sample below shows how to use the HTTP Logging Middleware.
+It follows the convention
+of adding the required services for the middleware to function correctly, and the use the middleware.
+
+```csharp title="Http Loggin Middleware - With Options, Interceptor, and Endpoint Specific Logging"
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddW3CLogging(options =>
+{
+    
+    options.AdditionalRequestHeaders.Add("X-Correlation-Id");
+});
+var app = builder.Build();
+app.UseW3CLogging();
+
+
+app.MapGet("/", () => "Hello World!");
+
+app.Run();
+```
+
+### How to use `appsettings.json` to control logging fields?
+
+W3C Logging Middleware uses `IOptionsMonitor`
+to get the current options that means you can control the logging fields using `appsettings.json` file.
+As soon as you change app settings file, the application will start logging as per new settings without restarting the application.
+
+<details>
+<summary>Click to see the sample on how to control logging fields from config</summary>
+
+```csharp title="Control logging fields and file settings via appsettings.json"
+
+var builder = WebApplication.CreateBuilder(args);
+
+var w3CLoggingConfigSection = builder.Configuration.GetRequiredSection(nameof(W3CLoggerOptions));
+builder
+    .Services
+    .Configure<W3CLoggerOptions>(w3CLoggingConfigSection);
+builder.Services.AddW3CLogging(options =>
+{
+    
+    options.AdditionalRequestHeaders.Add("X-Correlation-Id");
+});
+var app = builder.Build();
+app.UseW3CLogging();
+
+
+app.MapGet("/", () => "Hello World!");
+
+app.Run();
+
+```
+```json title="Include the section in appsettings.json"
+{
+"W3CLoggerOptions": {
+    "FileSizeLimit": 10485760,
+    "RetainedFileCountLimit": 4,
+    "FileName": "w3clog-",
+    "LogDirectory": "./logs/",
+    "FlushInterval": "00:00:01",
+    "LoggingFields": "Date,Time,ServerName,Method,UriStem,UriQuery,ProtocolStatus,TimeTaken,ProtocolVersion,Host,UserAgent,Referer,ConnectionInfoFields"
+  }
+}
+```
+</details>
+
+### Best Practices
+- If you are inclined to log all fields, be sure to check with your legal team to log IP Addresses.
+- Use one logging middleware either HTTP Logging or W3C Logging unless you have an exceptional reason to use both.
+
+### Inviting you to read the code
+The .NET team has done amazing work to make the code easy to read. 
+You can read the source code of the [W3C Logging Middleware](https://github.com/dotnet/aspnetcore/blob/main/src/Middleware/HttpLogging/src/W3CLoggingMiddleware.cs).
 
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
