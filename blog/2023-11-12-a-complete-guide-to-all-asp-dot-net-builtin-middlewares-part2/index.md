@@ -34,10 +34,11 @@ This is a series of blog posts in which I will cover all the builtin middlewares
 
 ## How many Middlewares are in ASP.NET 8?
 
-There are 16 builtin middlewares in ASP.NET 8 to build a REST API. This post will cover two of them.
+There are 16 builtin middlewares in ASP.NET 8 to build a REST API. This post will cover three of them.
 
 - [Forwarded Headers Middleware](#Forwarded-Headers-Middleware)
 - [HTTP Logging Middleware](#Http-Logging-Middleware)
+- [W3C Logging Middleware](#W3C-Logging-Middleware)
 
 You can read about Host Filtering and Header Propagation middlewares in the [Part 1](https://adnanrafiq.com/blog/a-complete-guide-to-all-asp-dot-net-builtin-middlewares-part1/).
 
