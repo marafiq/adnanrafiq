@@ -5,7 +5,7 @@ slug: a-complete-guide-to-all-asp-dot-net-builtin-middlewares-part2
 authors: adnan 
 tags: [C#,CSharp,ASP.NET,Middlewares]
 image : ./middlewares.png
-keywords: [ASP.NET,ASP.NET Core,Middlewares,HostFiltering,HeaderPropagation,ForwardedHeaders,Spoofing,AllowedHosts,CIDR,Logging,HTTPLogging,PII,RedactPII,Interceptor,CombineLogs,LogLevel,HttpLoggingMiddleware,HttpLoggingInterceptor]
+keywords: [ASP.NET,ASP.NET Core,Middlewares,HostFiltering,HeaderPropagation,ForwardedHeaders,Spoofing,AllowedHosts,CIDR,Logging,HTTPLogging,PII,RedactPII,Interceptor,CombineLogs,LogLevel,HttpLoggingMiddleware,HttpLoggingInterceptor,W3CLoggingMiddleware,W3CLoggerOptions]
 ---
 <head>
 <meta property="og:image:width" content="1200"/>
