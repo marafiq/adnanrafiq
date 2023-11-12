@@ -37,6 +37,8 @@ This is a series of blog posts in which I will cover all the builtin middlewares
 There are 16 builtin middlewares in ASP.NET 8 to build a REST API. This post will cover three of them.
 
 - [Welcome Page Middleware](#Welcome-Page-Middleware)
+- [Developer Exception Middleware](#Developer-Exception-Middleware)
+- [Exception Handler Middleware](#Exception-Handler-Middleware)
 
 
 You can read about Host Filtering and Header Propagation middlewares in the [Part 1](https://adnanrafiq.com/blog/a-complete-guide-to-all-asp-dot-net-builtin-middlewares-part1/).
