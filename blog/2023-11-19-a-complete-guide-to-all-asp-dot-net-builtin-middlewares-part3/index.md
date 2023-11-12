@@ -90,17 +90,27 @@ it can be accessed via `app.Environment.IsDevelopment()` or `builder.Environment
 
 You can set the application environment using the `ASPNETCORE_ENVIRONMENT` environment variable.
 
+:::tip
+You can configure the number of lines of source code 
+to display in the stack trace using the `SourceCodeLineCount` property of `DeveloperExceptionPageOptions`.
+:::
+
 ```csharp title="Use Developer Exception Page Middleware in Development Environment"
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
+    //OR 
+    app.UseDeveloperExceptionPage(new DeveloperExceptionPageOptions()
+    {
+        SourceCodeLineCount = 10
+    });
 }
 
 app.UseWelcomePage(new WelcomePageOptions
 {
-    Path = "welcome"
+    Path = "/"
 });
 
 app.Run();
