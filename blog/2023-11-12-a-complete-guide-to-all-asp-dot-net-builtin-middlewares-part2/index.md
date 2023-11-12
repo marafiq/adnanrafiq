@@ -1,6 +1,6 @@
 ---
-title: A Complete Guide to all ASP.NET Builtin Middlewares - Part 2
-description: A Complete Guide to all ASP.NET Builtin Middlewares. How to use them and what are the best practices.
+title: Forwarded Headers, HTTP Logging and W3C Logging Middlewares - Part 2 of the series on the ASP.NET Middlewares
+description: A series to explore all the builtin middlewares in ASP.NET 8. This post covers Forwarded Headers, HTTP Logging, and W3C Logging Middlewares.
 slug: a-complete-guide-to-all-asp-dot-net-builtin-middlewares-part2
 authors: adnan 
 tags: [C#,CSharp,ASP.NET,Middlewares]
@@ -12,8 +12,8 @@ keywords: [ASP.NET,ASP.NET Core,Middlewares,HostFiltering,HeaderPropagation,Forw
 <meta property="og:image:height" content="500"/>  
 <meta name="twitter:creator" content="@madnan_rafiq" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="A Complete Guide to all ASP.NET Builtin Middlewares - Part 2" />
-<meta name="twitter:description" content="A Complete Guide to all ASP.NET Builtin Middlewares. How to use them and what are the best practices? " />
+<meta name="twitter:title" content="Forwarded Headers, HTTP Logging and W3C Logging Middlewares - Part 2 of the series on the ASP.NET Middlewares" />
+<meta name="twitter:description" content="A series to explore all the builtin middlewares in ASP.NET 8. This post covers Forwarded Headers, HTTP Logging, and W3C Logging Middlewares. " />
 </head>
 
 <img src={require('./middlewares.png').default} alt="Title Image of the blog" border="1"/>
@@ -45,7 +45,7 @@ You can read about Host Filtering and Header Propagation middlewares in the [Par
 ## Forwarded Headers Middleware
 
 ### Purpose
-Accept the Forwarded http request headers from the known proxy or load balancer. 
+Accept the Forwarded http request headers from the known proxy or load balancer and set the `HttpContext`.
 
 The headers are:
 - `X-Forwarded-For` - The IP address of the client.
@@ -53,10 +53,10 @@ The headers are:
 - `X-Forwarded-Proto` - The original scheme (HTTP or HTTPS) of the request.
 - `X-Forwarded-Prefix` - The original path of the request.
 
-<img src={require('./hostfilterandforwardedmiddleware.png').default} alt="Title Image of the blog" border="1"/>
+<img src={require('./hostfilterandforwardedmiddleware.png').default} alt="Show the flow of HTTP request from public internet to nginx proxy to .NET Application and the use of Host Filtering and Forwarded Headers Middlewares"
+border="1"/>
 
-**But why do you need this middleware?**
-
+### Understanding the Problem
 Your application DNS resolves to a reverse proxy or load balancer. 
 The proxy or load balancer forwards the request to your application.
 
@@ -66,10 +66,10 @@ Now, when your application receives the request, what it will have in the reques
 - The scheme of the proxy or load balancer.
 - The path of the proxy or load balancer.
 
-But you want to know the IP address, host name, scheme, and path of the client who made the request.
+But you want to know the IP address, host name, scheme, and path of the client who originally made the request.
 
 Two things are required to achieve this:
-1. Reverse Proxy or Load Balancer is configured to forward the client's IP address, host name, scheme, and path.
+1. Reverse Proxy or Load Balancer is configured to forward the client's IP address, host name, scheme, and path in the HTTP request headers.
 2. Your application is configured to accept/trust the forwarded headers.
 
 **First thing**:Once you configure the reverse proxy to forward the request headers, it will add the headers to the request 
@@ -88,10 +88,13 @@ What does **Trust** mean?
 It means that the middleware will use the forwarded headers to set the properties 
 `RemoteIpAddress`, `Host`, `Scheme`, and `PathBase` on the `HttpContext` in your current request.
 
-Note that the request headers `X-Forward-{name*}` will be forwarded even they are received from an unknown proxy or unknown network.
-But will not modify to the `HttpContext` properties in the current request.
+:::note
+The request headers `X-Forward-{name*}` coming from unknown host will not get applied to the `HttpContext`. 
+But the HTTP request payload will still have the headers.
+:::
 
-It is important to configure the host filtering middleware to avoid spoofing attacks on your application.
+It is important to configure the host filtering middleware
+to avoid spoofing attacks on your application so that the application can issue a response 400 - Bad Request.
 You can read more about it in the [Host Filtering Middleware](https://adnanrafiq.com/blog/a-complete-guide-to-all-asp-dot-net-builtin-middlewares-part1/#host-filtering-middleware) section.
 
 `AllowedHosts` is a **special case**. 
@@ -102,38 +105,11 @@ using the `Host` header of the http request which in this case will be the host 
 
 ### How to use it?
 Below is the complete code of sample which correctly accepts headers from the proxy running using docker-compose.
-<details>
-<summary>Complete Example including a .NET service, docker, docker-compose and nginx</summary>
+<details aria-expanded="true">
+<summary>Step by Step example of configuring ForwardedHeaderMiddleware with nginx proxy and .NET</summary>
 
-```yaml title="docker-compose.yml put it in the root"
-version: '3.4'
-services:
-  hostfilteringmiddleware:
-    image: hostfilteringmiddleware
-    build:
-      context: .
-      dockerfile: 01_HostFiltering/Dockerfile
-    ports:
-      - "8080:8080"
-    networks:
-      - mynetwork
-    environment:
-      - ReverseProxyHostName=nginx
 
-  nginx:
-    image: nginx:latest
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-    ports:
-      - "80:80"
-    networks:
-      - mynetwork
-networks:
-  mynetwork:
-    driver: bridge
-```
-
-``` title="nginx configuration to forward the request headers"
+```yaml title="Step 1: Create a file nginx.conf to configure nginx at the root"
 events {
     worker_connections  1024;
 }
@@ -145,13 +121,13 @@ http {
             proxy_set_header    X-Forwarded-For $remote_addr;
             proxy_set_header    X-Forwarded-Host $host;
             proxy_set_header    X-Forwarded-Proto $scheme;
-            proxy_set_header    X-Forwarded-Prefix /; # Replace /myprefix with your desired value or a specific nginx variable if available. 
+            proxy_set_header    X-Forwarded-Prefix /;  
             proxy_pass          http://hostfilteringmiddleware:8080;
         }
     }
 }
 ```
-```csharp title="Configure Forwarded Headers Middleware to accept from any proxy or network and localhost only"
+```csharp title="Step 2: Create a .NET8 Application in folder 01_HostFiltering and replace the code in Program.cs"
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
@@ -202,19 +178,77 @@ app.Run();
 record Customer(int Id, string Name, string? AddressUrl);
 record Address(int Id, string Street, string City, string State, string ZipCode);
 ```
+```csharp title="Step 3: Create a Dockerfile in the .NET Project to build the .NET Application"
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+EXPOSE 8080
 
-In the above example, if you comment out the code related to Forwarded Header Middleware,
-and get a response from the customer response, you will notice addresses URL contains different host.
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY ["01-HostFiltering/HostFilteringMiddleware/HostFilteringMiddleware.csproj", "01-HostFiltering/HostFilteringMiddleware/"]
+RUN dotnet restore "01-HostFiltering/HostFilteringMiddleware/HostFilteringMiddleware.csproj"
+COPY . .
+WORKDIR "/src/01-HostFiltering/HostFilteringMiddleware"
+RUN dotnet build "HostFilteringMiddleware.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "HostFilteringMiddleware.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "HostFilteringMiddleware.dll"]
+
+```
+
+```yaml title="Step 4: Create the docker-compose.yml put it in the root"
+version: '3.4'
+services:
+  hostfilteringmiddleware:
+    image: hostfilteringmiddleware
+    build:
+      context: .
+      dockerfile: 01_HostFiltering/Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - mynetwork
+    environment:
+      - ReverseProxyHostName=nginx
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    networks:
+      - mynetwork
+networks:
+  mynetwork:
+    driver: bridge
+```
+```shell title="Step 5: Run the docker-compose up command"
+docker-compose up
+```
+```shell title="Step 6: Browse the endpoint /customers and notice the links to customer addresses"
+curl http://localhost:8080/customers
+```
+```markdown title="Step 7: Run the docker-compose up command"
+1. Delete the line `app.UseForwardedHeaders();`  in .NET application. 
+2. Run `docker-compose down`
+3. Run `docker-compose up`
+4. Run `curl http://localhost:8080/customers`
+5. Notice the links to customer addresses are not correct because they use the host header of the proxy.
+
+```
 
 </details>
 
 ### What about X-Original-* headers?
-The `X-Original-For`, `X-Original-Host`,
-`X-Original-Proto`,
-and `X-Original-Prefix` are the headers
+The `X-Original-For`, `X-Original-Host`, `X-Original-Proto`, and `X-Original-Prefix` are the headers
 added by the forward headers middleware so that you can access the original values of the headers
 after it gets applied to the `HttpContext` properties.
-
 
 ### What about when proxy is forwarding headers with different names?
 If your proxy is forwarding the headers with different names,
@@ -224,11 +258,12 @@ when configuring `ForwardedHeaderOptions`.
 Once you specify the name of the header, the middleware will use that header to set the `HttpContext` properties.
 
 ### How to diagnose when forwarded headers are not working?
-You should set the logging to `Debug` level and look for the logs from the middleware.
+You should set the logging to `Debug` level for the `Microsoft.AspNetCore` in 
+`appsettings.json` and look for the logs from the middleware.
 It will generate warning logs when the header criteria is not met.
 Some log samples are:
 - Unknown proxy: {RemoteIpAndPort}
-- Unparsable IP: {IpAndPortText}
+- UnParsable IP: {IpAndPortText}
 
 But if you cannot figure out and require help,
 you can read the code of the middleware [here](https://github.com/dotnet/aspnetcore/blob/main/src/Middleware/HttpOverrides/src/ForwardedHeadersMiddleware.cs)
@@ -236,12 +271,10 @@ you can read the code of the middleware [here](https://github.com/dotnet/aspnetc
 Header values are passed as strings —
 for example, you can pass the value of `X-Forwarded-For` as `192.2.5.5, 58.65.65.5`.
 But for the `X-Forwarded-Proto` header, you only passed the value as `http`. 
-Now the middleware reads the comma seperated values, and compares the array length to determine if they are symmetrical.
-If not, it will generate a warning log and will not set the `HttpContext` properties.
-
-In the above example, the middleware will not apply changes to the `HttpContext` properties.
-
-This is done for all the `X-Fowarded-*` headers.
+Now the middleware reads the comma seperated values of all the `X-Forwarded-*` headers
+and compare the length of all the header values.
+If all the host headers have the same number of values, then it will set the `HttpContext` properties otherwise it won't.
+And that means it has header symmetry.
 
 ### What about the Forward Limit?
 The `ForwardLimit` property of the `ForwardedHeadersOptions` is used
@@ -256,6 +289,10 @@ You can set to null to disable it.
 3. Use the Host filtering middleware to avoid spoofing attacks on your application.
 4. Discard the `X-Forwarded-*` headers at the public proxy or load balancer.
 5. If you are using `Kestrel` as public server then you should not use this middleware. Instead, if you intend to use `Kestrel` as a reverse proxy, then you should use the `YARP` reverse proxy which is written in .NET and allows you to configure the `X-Forwarded-*` headers.
+
+:::note
+CIDR notation is used to specify a range of IP addresses, for example `192.168.0.0/16` cover the IP addresses from `192.168.0.0` to `192.168.255.255`.
+:::
 
 ### A question for you?
 Should this middleware be added before or after the Host Filtering middleware? And Why?
@@ -353,7 +390,7 @@ public class RedactKnownPII : IHttpLoggingInterceptor
     }
 }
 ```
-```json title="appsettings.json"
+```json title="appsettings.json -  Notice how you can control log level of the HttpLogging Middleware"
 {
   "Logging": {
     "LogLevel": {
@@ -422,15 +459,10 @@ public class RedactKnownPII : IHttpLoggingInterceptor
 - Do not log the request and response body in production because:
   - It degrades performance.
   - It will leak PII (Personal Identifiable Information) if the request or response payload contains it. It is a violation of GDPR.
-- Carefully choose fields to log, do not log all fields in production because you can.
+- Carefully choose fields to log, do not log all fields in production just because you can.
 - Redact sensitive information but not limited to PII
   - Redact the Authorization header.
   - Redact the authentication cookies.
-
-:::warning
-There should not have been All fields logging option
-either because it is too easy to use and include request and response body which is PII.
-:::
 
 ### A question for you?
 In the above sample, the logging options are configured at three different places
