@@ -116,15 +116,9 @@ app.UseWelcomePage(new WelcomePageOptions
 app.Run();
 
 ```
-
-### Best Practices
-- Do not log the request and response body in production because:
-  - It degrades performance.
-  - It will leak PII (Personal Identifiable Information) if the request or response payload contains it. It is a violation of GDPR.
-- Carefully choose fields to log, do not log all fields in production just because you can.
-- Redact sensitive information but not limited to PII
-  - Redact the Authorization header.
-  - Redact the authentication cookies.
+:::note
+When you create a new ASP.NET 8 project, the `UseDeveloperExceptionPage` is already added to the pipeline.
+:::
 
 ## Exception Handler Middleware
 
