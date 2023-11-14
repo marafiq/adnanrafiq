@@ -78,7 +78,13 @@ To improve the developer experience (DX).
 It displays a detailed error page with stack trace so that you won't have to read the logs or attach a debugger.
 As all nice things in life come with a cost, so does this middleware.
 If you enable an application environment other than **Development**, 
-it will leak sensitive information and become a security risk.
+it will leak sensitive information and become a security risk because it does display:
+- Stack Trace
+- Exception Message
+- Source Code
+- Request and Response Headers
+- Routing Information
+- Query String
 ### How to use it?
 The development lifecycle of any application mostly passes through three environments.
 1. Development
@@ -121,27 +127,385 @@ When you create a new ASP.NET 8 project, the `UseDeveloperExceptionPage` is alre
 :::
 
 ## Exception Handler Middleware
+In an ideal application in which unhandled exceptions will never ever occur, you do not need this middleware.
+But such an application does not exist in the real world.
 
+To gracefully handle the unhandled exceptions, you need this middleware.
 
 ### Purpose
+Observe-fully handle the unhandled exceptions and return a response to the client. 
+But it does do the following as well:
+- Logs the exception to logger, diagnostic listener, and diagnostic meter.
+- Allows you to provide a custom route to display a custom error page.
+- Allows customizing the response with the help of `IProblemDetails` service.
+- Allows you to add custom exception handlers to handle specific exceptions.
 
 ### How to use it?
 
+#### Use Exception Handler with Custom Route
+Errors will be logged to the logger, diagnostic listener, and diagnostic meter.
+The response will be returned from the custom route.
+```csharp title="Use Exception Handler with Custom Route"
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+app.UseExceptionHandler("/error");
+app.MapGet("/error", (context) => {
+    context.Response.ContentType = "text/html";
+    return context.Response.WriteAsync("<h1>Error Page</h1><p>Something went wrong!</p>");
+});
+app.Run();
+```
+### Use Exception Handler with Custom Route with Options
 
-### Best Practices
-- If you are inclined to log all fields, be sure to check with your legal team to log IP Addresses.
-- Use one logging middleware either HTTP Logging or W3C Logging unless you have an exceptional reason to use both.
+```csharp title="Use Exception Handler with Custom Route with Options"
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+app.UseExceptionHandler(new ExceptionHandlerOptions()
+{
+    CreateScopeForErrors = true
+    ExceptionHandlingPath = "/error"
+});
+app.MapGet("/error", (context) => {
+    context.Response.ContentType = "text/html";
+    return context.Response.WriteAsync("<h1>Error Page</h1><p>Something went wrong!</p>");
+});
+app.Run();
+```
 
-### Challenge to read the code
-The .NET team has done amazing work to make the code easy to read. 
-You can read the source code of the [W3C Logging Middleware](https://github.com/dotnet/aspnetcore/blob/main/src/Middleware/HttpLogging/src/W3CLoggingMiddleware.cs).
+#### Use Exception Handler with Handler Delegate
 
-## HTTP Logging vs W3C Logging Performance
-I have not done any performance testing, but 
-my gut says after reading the code that W3C Logging Middleware will be faster than HTTP Logging Middleware.
+```csharp title="Use Exception Handler with Handler Delegate"
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+app.UseExceptionHandler(new ExceptionHandlerOptions()
+{
+    ExceptionHandler = async context =>
+    {
+        var exceptionHandlerPathFeature = context.Features.GetRequiredFeature<IExceptionHandlerPathFeature>();
+        var exception = exceptionHandlerPathFeature.Error;
 
-Do not trust my gut as it should be in all performance investigation.
-If there is a lot of interest in this topic, I may try to run local benchmarks and share the results.
+        var problemDetails = new ProblemDetails
+        {
+            Title = "An error occurred",
+            Status = 500,
+            Detail = exception.Message,
+            Instance = context.Request.Path
+        };
+
+        context.Response.StatusCode = problemDetails.Status.Value;
+        context.Response.ContentType = "application/problem+json";
+
+        var jsonProblemDetails = JsonSerializer.Serialize(problemDetails);
+
+        await context.Response.WriteAsync(jsonProblemDetails);
+    }
+});
+app.Run();
+
+```
+
+### Inner Workings of Exception Handler Middleware
+Let's start by taking a look at the Exception Handler Middleware.
+
+```csharp title="Exception Handler Middleware"
+public class ExceptionHandlerMiddleware
+{
+    private readonly ExceptionHandlerMiddlewareImpl _innerMiddlewareImpl;
+
+    public ExceptionHandlerMiddleware(
+        RequestDelegate next,
+        ILoggerFactory loggerFactory,
+        IOptions<ExceptionHandlerOptions> options,
+        DiagnosticListener diagnosticListener)
+    {
+        _innerMiddlewareImpl = new(
+            next,
+            loggerFactory,
+            options,
+            diagnosticListener,
+            Enumerable.Empty<IExceptionHandler>(),
+            new DummyMeterFactory(),
+            problemDetailsService: null);
+    }
+
+    public Task Invoke(HttpContext context)
+        => _innerMiddlewareImpl.Invoke(context);
+}
+```
+
+The `ExceptionHandlerMiddleware` is a wrapper around `ExceptionHandlerMiddlewareImpl` which does the actual work.
+The `ExceptionHandlerMiddlewareImpl` is not used when calling the `UseExceptionHandler` extension method.
+
+The constructor of `ExceptionHandlerMiddlewareImpl` takes the following dependencies. 
+The list and brief description of each dependency are as follows:
+- `RequestDelegate next` - The next middleware in the pipeline.
+- `ILoggerFactory loggerFactory` - The logger factory to create the logger
+- `IOptions<ExceptionHandlerOptions> options` - The options of the exception handler middleware configured by you.
+- `DiagnosticListener diagnosticListener` - The diagnostic listener to listen to the exceptions.
+- `IEnumerable<IExceptionHandler> exceptionHandlers` - The list of exception handlers to handle specific exceptions.
+- `IMeterFactory meterFactory` - The meter factory to log the exception.
+- `IProblemDetailsFactory problemDetailsService` - The problem details service to customize the response.
+
+By the list of dependencies, you can tell that it does a lot of things but customizable.
+
+#### How `next` middleware is invoked?
+The next middleware is invoked in try catch block so that any exception thrown by it can be caught and handled.
+Few things to note here:
+- The performance trick to avoid `await` to check if the task is completed or not.
+- The `Awaited` local function to await the task and capture the exception.
+- The [`ExceptionDispatchInfo`](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.exceptionservices.exceptiondispatchinfo?view=net-8.0) to capture the exception and rethrow it.
+- The `HandleException` method to handle the exception when the exception is observed without `await`.
+
+The below source code is from the [ExceptionHandlerMiddlewareImpl.cs](https://github.dev/dotnet/aspnetcore/blob/main/src/Middleware/Diagnostics/src/ExceptionHandler/ExceptionHandlerMiddlewareImpl.cs) 
+ with a few additional comments from me.
+
+```csharp title="How next middleware is invoked and exception is captured?"
+public Task Invoke(HttpContext context)
+{
+    ExceptionDispatchInfo edi;
+    try
+    {
+        //task for the next middleware starts
+        var task = _next(context);
+        //check if it already completed
+        if (!task.IsCompletedSuccessfully)
+        {
+            //if not completed return the task so it can be awaited
+            return Awaited(this, context, task);
+        }
+
+        return Task.CompletedTask;
+    }
+    catch (Exception exception)
+    {
+        // Get the Exception, but don't continue processing in the catch block as its bad for stack usage.
+        edi = ExceptionDispatchInfo.Capture(exception);
+    }
+
+    return HandleException(context, edi);
+    // Local function to await a task and capture any resulting exception.
+    static async Task Awaited(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+    {
+        ExceptionDispatchInfo? edi = null;
+        try
+        {
+            await task;
+        }
+        catch (Exception exception)
+        {
+            // Get the Exception, but don't continue processing in the catch block as its bad for stack usage.
+            edi = ExceptionDispatchInfo.Capture(exception);
+        }
+
+        if (edi != null)
+        {
+            // If we have an exception, handle it.
+            await middleware.HandleException(context, edi);
+        }
+    }
+}
+```
+#### How exception is handled?
+
+The `handleException` method does make use of all the dependencies, you have seen in the constructor.
+
+The first thing it does is to check if the exception belongs to `OperationCanceledException` or `IOException` 
+or the request is aborted.
+It logs the exception to multiple destinations and returns a response with status code 499
+(500 will be returned if the response is already started because it is the default status).
+
+:::note
+In case of the above-mentioned exceptions,
+the exception middleware will not invoke the `IExceptionHandler` implementations,
+no custom response when you have added your implementation of `IProblemDetails` 
+service and no custom route to display the error page.
+:::
+
+```csharp title="1 - How exception is handled?"
+private async Task HandleException(HttpContext context, ExceptionDispatchInfo edi)
+{
+    var exceptionName = edi.SourceException.GetType().FullName!;
+
+    if ((edi.SourceException is OperationCanceledException || edi.SourceException is IOException) && context.RequestAborted.IsCancellationRequested)
+    {
+        _logger.RequestAbortedException();
+
+        if (!context.Response.HasStarted)
+        {
+            context.Response.StatusCode = StatusCodes.Status499ClientClosedRequest;
+        }
+
+        _metrics.RequestException(exceptionName, ExceptionResult.Aborted, handler: null);
+        return;
+    }
+    //More Code removed for brevity
+}
+```
+
+Why do you need to check if the response is already started?
+HTTP messages must follow the [HTTP Message Format](https://datatracker.ietf.org/doc/html/rfc7230#section-3.1.2).
+> The first line of a response message is the status-line, consisting
+of the protocol version, a space (SP), the status code, another
+space, a possibly empty textual phrase describing the status code,
+and ending with CRLF.
+
+> status-line = HTTP-version SP status-code SP reason-phrase CRLF
+
+When a client interprets the response, it expects the status line to be the first line of the response. 
+If you notice that by sending status code to the client, 
+you have already conveyed to the client about the status of the request.
+Thus, any changes to the status code are not allowed, even if they were it will be meaningless.
+
+The next part of the `HandleException` method tries to check if the response is already started.
+If yes, it logs the exception and rethrows it.
+
+```csharp title="2 - How exception is handled?"
+private async Task HandleException(HttpContext context, ExceptionDispatchInfo edi)
+{
+    var exceptionName = edi.SourceException.GetType().FullName!;
+    //More Code removed for brevity
+    DiagnosticsTelemetry.ReportUnhandledException(_logger, context, edi.SourceException);
+
+    // We can't do anything if the response has already started, just abort.
+    if (context.Response.HasStarted)
+    {
+        _logger.ResponseStartedErrorHandler();
+
+        _metrics.RequestException(exceptionName, ExceptionResult.Skipped, handler: null);
+        edi.Throw();
+    }
+    //More Code removed for brevity
+}
+```
+
+The next part of the `HandleException` method tries to check and call the `IExceptionHandler` implementations.
+If the exception is handled by any of the implementations,
+it won't try to call the `ExceptionHandler` provided on the options during `UseExceptionHander` middleware.
+The exception handlers will be called in the order they are added.
+
+```csharp title="3 - How exception is handled?"
+private async Task HandleException(HttpContext context, ExceptionDispatchInfo edi)
+{
+    //More Code removed for brevity
+    string? handler = null;
+    var handled = false;
+    foreach (var exceptionHandler in _exceptionHandlers)
+    {
+        handled = await exceptionHandler.TryHandleAsync(context, edi.SourceException, context.RequestAborted);
+        if (handled)
+        {
+            handler = exceptionHandler.GetType().FullName;
+            break;
+        }
+    }
+    //More Code removed for brevity
+}
+```
+It will also log the exception to the diagnostic listener and diagnostic meter. 
+
+But at what point, 
+it will try to call the `ExceptionHandler` provided on the options during `UseExceptionHander` middleware?
+
+If the exception is not handled by any of the `IExceptionHandler` implementations,
+then it will try to call the delegate provided via options.
+But if the delegate is not provided, it will try to call the `IProblemDetails` service.
+You can add your implementation of `IProblemDetails` service to customize the response.
+This is only possible if you use the middleware like `app.UseExceptionHandler(new ExceptionHandlerOptions())`.
+```csharp title="4 - How exception is handled?"
+//more code removed for brevity
+if (!handled)
+{
+    if (_options.ExceptionHandler is not null)
+    {
+        await _options.ExceptionHandler!(context);
+    }
+    else
+    {
+        handled = await _problemDetailsService!.TryWriteAsync(new()
+        {
+            HttpContext = context,
+            AdditionalMetadata = exceptionHandlerFeature.Endpoint?.Metadata,
+            ProblemDetails = { Status = DefaultStatusCode },
+            Exception = edi.SourceException,
+        });
+        if (handled)
+        {
+            handler = _problemDetailsService.GetType().FullName;
+        }
+    }
+}
+//More Code removed for brevity
+```
+
+
+But when it will execute the route for custom error page?
+
+It will execute the route for custom error page
+if the response is not started
+by creating a new scope based on the options on `CreateScopeForErrors` property
+only if the exceptions are not handled by:
+- `OperationCanceledException` or `IOException` or the request is aborted.
+- `IExceptionHandler` implementations.
+- The Response has not started.
+- `ExceptionHandler` provided on the options during `UseExceptionHander` middleware.
+
+When you use the middleware by calling `UseExceptionHandler` extension method, it does the following:
+
+```csharp title="5 - How exception is handled?"
+private static IApplicationBuilder SetExceptionHandlerMiddleware(IApplicationBuilder app, IOptions<ExceptionHandlerOptions>? options)
+{
+    var problemDetailsService = app.ApplicationServices.GetService<IProblemDetailsService>();
+
+    app.Properties["analysis.NextMiddlewareName"] = "Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware";
+
+    // Only use this path if there's a global router (in the 'WebApplication' case).
+    if (app.Properties.TryGetValue(RerouteHelper.GlobalRouteBuilderKey, out var routeBuilder) && routeBuilder is not null)
+    {
+        return app.Use(next =>
+        {
+            var loggerFactory = app.ApplicationServices.GetRequiredService<ILoggerFactory>();
+            var diagnosticListener = app.ApplicationServices.GetRequiredService<DiagnosticListener>();
+            var exceptionHandlers = app.ApplicationServices.GetRequiredService<IEnumerable<IExceptionHandler>>();
+            var meterFactory = app.ApplicationServices.GetRequiredService<IMeterFactory>();
+
+            if (options is null)
+            {
+                options = app.ApplicationServices.GetRequiredService<IOptions<ExceptionHandlerOptions>>();
+            }
+
+            //highlight-start
+            if (!string.IsNullOrEmpty(options.Value.ExceptionHandlingPath) && options.Value.ExceptionHandler is null)
+            {
+                var newNext = RerouteHelper.Reroute(app, routeBuilder, next);
+                // store the pipeline for the error case
+                options.Value.ExceptionHandler = newNext;
+            }
+            //highlight-end
+            return new ExceptionHandlerMiddlewareImpl(next, loggerFactory, options, diagnosticListener, exceptionHandlers, meterFactory, problemDetailsService).Invoke;
+        });
+    }
+
+    if (options is null)
+    {
+        return app.UseMiddleware<ExceptionHandlerMiddlewareImpl>();
+    }
+
+    return app.UseMiddleware<ExceptionHandlerMiddlewareImpl>(options);
+}
+```
+Notice the highlighted code above.
+It is assigning a terminal `RequestDelegate` to the `ExceptionHandler` property on the options.
+So the exception handler delegate will never be null
+unless you have not provided the exception handling path or the delegate when calling `UseExceptionHandler` extension method.
+
+#### Order of Exception Handling
+In the end order of execution is as follows:
+- Special case exceptions handling - `OperationCanceledException` or `IOException` or the request is aborted.
+- Handle response already started.
+- Call `IExceptionHandler` implementations in order implementations are added.
+- Call `ExceptionHandler` provided on the options during `UseExceptionHander` middleware.
+- Call `IProblemDetails` service on the provided route via Options.
+
 
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
