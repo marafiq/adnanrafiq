@@ -5,7 +5,7 @@ slug: a-complete-guide-to-all-asp-dot-net-builtin-middlewares-part3
 authors: adnan 
 tags: [C#,CSharp,ASP.NET,Middlewares]
 image : ./middlewares.png
-keywords: [ASP.NET,ASP.NET Core,Middlewares,HostFiltering,HeaderPropagation,ForwardedHeaders,Spoofing,AllowedHosts,CIDR,Logging,HTTPLogging,PII,RedactPII,Interceptor,CombineLogs,LogLevel,HttpLoggingMiddleware,HttpLoggingInterceptor,W3CLoggingMiddleware,W3CLoggerOptions]
+keywords: [ASP.NET,ASP.NET Core,Middlewares,DeveloperExceptionMiddleware,ExceptionHandlerMiddleware,WelcomePageMiddleware,InnerWorkingsOfExceptionMiddleware,HowToUseExceptionMiddleware,ExceptionHandlers,ExceptionHandling]
 ---
 <head>
 <meta property="og:image:width" content="1200"/>
@@ -13,7 +13,7 @@ keywords: [ASP.NET,ASP.NET Core,Middlewares,HostFiltering,HeaderPropagation,Forw
 <meta name="twitter:creator" content="@madnan_rafiq" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Forwarded Headers, HTTP Logging and W3C Logging Middlewares - Part 2 of the series on the ASP.NET Middlewares" />
-<meta name="twitter:description" content="A series to explore all the builtin middlewares in ASP.NET 8. This post covers Forwarded Headers, HTTP Logging, and W3C Logging Middlewares. " />
+<meta name="twitter:description" content="A series to explore all the builtin middlewares in ASP.NET 8. This post covers Developer Exception, Exception Middleware and Exception Handlers. " />
 </head>
 
 <img src={require('./middlewares.png').default} alt="Title Image of the blog" border="1"/>
@@ -155,7 +155,7 @@ app.MapGet("/error", (context) => {
 });
 app.Run();
 ```
-### Use Exception Handler with Custom Route with Options
+#### Use Exception Handler with Custom Route with Options
 
 ```csharp title="Use Exception Handler with Custom Route with Options"
 var builder = WebApplication.CreateBuilder(args);
@@ -202,6 +202,80 @@ app.UseExceptionHandler(new ExceptionHandlerOptions()
 });
 app.Run();
 
+```
+
+#### Use Exception Handler with `IExceptionHandler` implementations
+You have to add your implementation of `IExceptionHandler` to the service collection. 
+If the exception is handled by your implementation, it will not call the delegate provided via options.
+But if the exception is not handled by your implementation, it will call the delegate provided via options.
+
+```csharp title="Use Exception Handler with IExceptionHandler implementations"
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddExceptionHandler<TimeoutExceptionHandler>();
+var app = builder.Build();
+app.UseExceptionHandler(new ExceptionHandlerOptions()
+{
+    ExceptionHandler = async context =>
+    {
+        var exceptionHandlerPathFeature = context.Features.GetRequiredFeature<IExceptionHandlerPathFeature>();
+        var exception = exceptionHandlerPathFeature.Error;
+
+        var problemDetails = new ProblemDetails
+        {
+            Title = "An error occurred",
+            Status = 500,
+            Detail = exception.Message,
+            Instance = context.Request.Path
+        };
+
+        context.Response.StatusCode = problemDetails.Status.Value;
+        context.Response.ContentType = "application/problem+json";
+
+        var jsonProblemDetails = JsonSerializer.Serialize(problemDetails);
+
+        await context.Response.WriteAsync(jsonProblemDetails);
+    }
+});
+app.MapGet("/timeoutexception", () =>
+    {
+        throw new TimeoutException();
+    });
+app.MapGet("/overflowexception", () =>
+{
+    throw new OverflowException();
+});
+app.Run();
+
+class TimeoutExceptionHandler(ILogger<TimeoutExceptionHandler> logger) : IExceptionHandler
+{
+    public ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,
+        CancellationToken cancellationToken)
+    {
+        if (exception is not TimeoutException) return ValueTask.FromResult(false);
+        logger.LogError(exception, "Timeout occurred for {@HttpRequest}", httpContext.Request);
+        httpContext.Response.StatusCode = StatusCodes.Status408RequestTimeout;
+        return ValueTask.FromResult(true);
+    }
+}
+```
+#### Use Exception Handler with `IProblemDetails` service 
+All the exceptions will be handled by the `IProblemDetails` service.
+
+```csharp title="Use Exception Handler with IProblemDetails"
+var builder = WebApplication.CreateBuilder(args);
+//If you do not add problem details, you server will not start
+builder.Services.AddProblemDetails();
+var app = builder.Build();
+app.UseExceptionHandler();
+app.MapGet("/timeoutexception", () =>
+    {
+        throw new TimeoutException();
+    });
+app.MapGet("/overflowexception", () =>
+{
+    throw new OverflowException();
+});
+app.Run();
 ```
 
 ### Inner Workings of Exception Handler Middleware
@@ -505,7 +579,12 @@ In the end order of execution is as follows:
 - Call `IExceptionHandler` implementations in order implementations are added.
 - Call `ExceptionHandler` provided on the options during `UseExceptionHander` middleware.
 - Call `IProblemDetails` service on the provided route via Options.
+### Best Practices
+- Always use the middleware in the production environment.
+- Always use the middleware as the first middleware in the pipeline.
+- Return Problem details when using exception handler delegate when you are writing the REST API.
 
+[Problem Details RFC](https://datatracker.ietf.org/doc/html/rfc7807) can be read here.
 
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
