@@ -42,6 +42,7 @@ There are 16 builtin middlewares in ASP.NET 8 to build a REST API. This post wil
 
 
 You can read about Host Filtering and Header Propagation middlewares in the [Part 1](https://adnanrafiq.com/blog/a-complete-guide-to-all-asp-dot-net-builtin-middlewares-part1/).
+You can read about the Forwarded Header, Http Logging, W3C Logging middlewares in the [Part 2](https://adnanrafiq.com/blog/a-complete-guide-to-all-asp-dot-net-builtin-middlewares-part2/).
 
 ## Welcome Page Middleware
 I am starting the series with the Welcome Middleware. 
