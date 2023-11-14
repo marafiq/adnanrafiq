@@ -1,5 +1,5 @@
 ---
-title: Part 3 of the series on the ASP.NET Middlewares
+title: Welcome Page, Developer Exception, and Exception Handler Middlewares - Part 3 of the series on the ASP.NET Middlewares
 description: A series to explore all the builtin middlewares in ASP.NET 8. This post covers Developer Exception, Exception Middleware and Exception Handlers.
 slug: a-complete-guide-to-all-asp-dot-net-builtin-middlewares-part3
 authors: adnan 
@@ -12,7 +12,7 @@ keywords: [ASP.NET,ASP.NET Core,Middlewares,DeveloperExceptionMiddleware,Excepti
 <meta property="og:image:height" content="500"/>  
 <meta name="twitter:creator" content="@madnan_rafiq" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Forwarded Headers, HTTP Logging and W3C Logging Middlewares - Part 2 of the series on the ASP.NET Middlewares" />
+<meta name="twitter:title" content="Welcome Page, Developer Exception, and Exception Handler Middlewares - Part 3 of the series on the ASP.NET Middlewares" />
 <meta name="twitter:description" content="A series to explore all the builtin middlewares in ASP.NET 8. This post covers Developer Exception, Exception Middleware and Exception Handlers. " />
 </head>
 
@@ -587,9 +587,6 @@ In the end order of execution is as follows:
     - Use `IProblemDetails` by adding to the services and `UseExceptionHandler()` without any options should be default option unless you have a specific requirement.
     - Use `ExceptionHandler` delegate when you want to handle all the exceptions and perform some work other than logging.
     - Use `IExceptionHandler` implementations when you want to handle specific exceptions and perform some work other than logging.
-    
-    
-
 
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
