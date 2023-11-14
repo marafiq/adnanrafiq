@@ -582,9 +582,14 @@ In the end order of execution is as follows:
 ### Best Practices
 - Always use the middleware in the production environment.
 - Always use the middleware as the first middleware in the pipeline.
-- Return Problem details when using exception handler delegate when you are writing the REST API.
+- Return Problem details when using exception handler delegate when you are writing the REST API. [Problem Details RFC](https://datatracker.ietf.org/doc/html/rfc7807) can be read here.
+- There are multiple ways to handle the exception which one to use depends on the use case. But you can use the following as a rule of thumb:
+    - Use `IProblemDetails` by adding to the services and `UseExceptionHandler()` without any options should be default option unless you have a specific requirement.
+    - Use `ExceptionHandler` delegate when you want to handle all the exceptions and perform some work other than logging.
+    - Use `IExceptionHandler` implementations when you want to handle specific exceptions and perform some work other than logging.
+    
+    
 
-[Problem Details RFC](https://datatracker.ietf.org/doc/html/rfc7807) can be read here.
 
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
