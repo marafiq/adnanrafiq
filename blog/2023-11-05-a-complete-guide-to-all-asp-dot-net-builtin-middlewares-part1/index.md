@@ -18,8 +18,6 @@ keywords: [ASP.NET,ASP.NET Core,Middlewares,HostFiltering,HeaderPropagation]
 
 <img src={require('./middlewares.png').default} alt="Title Image of the blog" border="1"/>
 
-A Complete Guide to all ASP.NET Builtin Middlewares
-
 Middleware is a function in then ASP.NET 8,
 when many functions are invoked one after the other like a chain; 
 it becomes a middleware pipeline.
@@ -32,7 +30,7 @@ This is a series of blog posts in which I will cover all the builtin middlewares
 
 <!--truncate-->
 
-## How many Middlewares are in ASP.NET 8?
+## Overview
 
 There are 16 builtin middlewares in ASP.NET 8 to build a REST API. This post will cover two of them.
 
