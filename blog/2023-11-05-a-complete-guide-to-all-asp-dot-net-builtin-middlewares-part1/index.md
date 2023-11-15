@@ -18,7 +18,7 @@ keywords: [ASP.NET,ASP.NET Core,Middlewares,HostFiltering,HeaderPropagation]
 
 <img src={require('./middlewares.png').default} alt="Title Image of the blog" border="1"/>
 
-# A Complete Guide to all ASP.NET Builtin Middlewares
+A Complete Guide to all ASP.NET Builtin Middlewares
 
 Middleware is a function in then ASP.NET 8,
 when many functions are invoked one after the other like a chain; 
