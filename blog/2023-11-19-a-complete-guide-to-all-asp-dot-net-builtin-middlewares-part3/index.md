@@ -1,19 +1,19 @@
 ---
-title: Welcome Page, Developer Exception, and Exception Handler Middlewares - Part 3 of the series on the ASP.NET Middlewares
-description: A series to explore all the builtin middlewares in ASP.NET 8. This post covers Developer Exception, Exception Middleware and Exception Handlers.
+title: Welcome Page, Developer Exception, Status Code Pages, and Exception Handler Middlewares - Part 3 of the series on the ASP.NET Middlewares
+description: A series to explore all the builtin middlewares in ASP.NET 8. This post covers Developer Exception,  and Status Code Pages Middleware, Exception Middleware and Exception Handlers.
 slug: a-complete-guide-to-all-asp-dot-net-builtin-middlewares-part3
 authors: adnan 
 tags: [C#,CSharp,ASP.NET,Middlewares]
 image : ./middlewares.png
-keywords: [ASP.NET,ASP.NET Core,Middlewares,DeveloperExceptionMiddleware,ExceptionHandlerMiddleware,WelcomePageMiddleware,InnerWorkingsOfExceptionMiddleware,HowToUseExceptionMiddleware,ExceptionHandlers,ExceptionHandling]
+keywords: [ASP.NET,ASP.NET Core,Middlewares,DeveloperExceptionMiddleware,ExceptionHandlerMiddleware,WelcomePageMiddleware,InnerWorkingsOfExceptionMiddleware,HowToUseExceptionMiddleware,ExceptionHandlers,ExceptionHandling,StatusCodePages,ProblemDetailsWithStatusCodePages]
 ---
 <head>
 <meta property="og:image:width" content="1200"/>
 <meta property="og:image:height" content="500"/>  
 <meta name="twitter:creator" content="@madnan_rafiq" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Welcome Page, Developer Exception, and Exception Handler Middlewares - Part 3 of the series on the ASP.NET Middlewares" />
-<meta name="twitter:description" content="A series to explore all the builtin middlewares in ASP.NET 8. This post covers Developer Exception, Exception Middleware and Exception Handlers. " />
+<meta name="twitter:title" content="Welcome Page, Developer Exception, Status Code Pages,and Exception Handler Middlewares - Part 3 of the series on the ASP.NET Middlewares" />
+<meta name="twitter:description" content="A series to explore all the builtin middlewares in ASP.NET 8. This post covers Developer Exception, Exception Middleware and Exception Handlers and Status Code Pages Middleware. " />
 </head>
 
 <img src={require('./middlewares.png').default} alt="Title Image of the blog" border="1"/>
@@ -34,18 +34,20 @@ This is a series of blog posts in which I will cover all the builtin middlewares
 
 ## How many Middlewares are in ASP.NET 8?
 
-There are 16 builtin middlewares in ASP.NET 8 to build a REST API. This post will cover three of them.
+There are 16 builtin middlewares in ASP.NET 8 to build a REST API. This post will cover four of them.
 
-- [Welcome Page Middleware](#Welcome-Page-Middleware)
-- [Developer Exception Middleware](#Developer-Exception-Middleware)
-- [Exception Handler Middleware](#Exception-Handler-Middleware)
+- [Welcome Page Middleware](#welcome-page-middleware)
+- [Developer Exception Middleware](#developer-exception-middleware)
+- [Exception Handler Middleware](#exception-handler-middleware)
+- [Status Code Pages Middleware](#status-code-pages-middleware)
 
 
 You can read about Host Filtering and Header Propagation middlewares in the [Part 1](https://adnanrafiq.com/blog/a-complete-guide-to-all-asp-dot-net-builtin-middlewares-part1/).
 You can read about the Forwarded Header, Http Logging, W3C Logging middlewares in the [Part 2](https://adnanrafiq.com/blog/a-complete-guide-to-all-asp-dot-net-builtin-middlewares-part2/).
 
 ## Welcome Page Middleware
-I am starting the series with the Welcome Middleware. 
+I am starting the series with the Welcome Middleware.
+
 ### Purpose
 To display a welcome message on the route of your choosing. 
 It displays a page with a welcome message but the page is not customizable.
