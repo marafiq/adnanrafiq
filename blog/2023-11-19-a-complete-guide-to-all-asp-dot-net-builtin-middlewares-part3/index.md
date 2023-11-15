@@ -134,10 +134,12 @@ But such an application does not exist in the real world.
 To gracefully handle the unhandled exceptions, you need this middleware.
 
 ### Purpose
-Observe-fully handle the unhandled exceptions and return a response to the client. 
-But it does do the following as well:
+Handle the unhandled exceptions and return an appropriate response to the client.
+But make it observable so that you can log it and monitor it.
+It does so by allowing you to do the following:
 - Logs the exception to logger, diagnostic listener, and diagnostic meter.
 - Allows you to provide a custom route to display a custom error page.
+- Allows you to provide a custom delegate to handle the exception.
 - Allows customizing the response with the help of `IProblemDetails` service.
 - Allows you to add custom exception handlers to handle specific exceptions.
 
@@ -146,6 +148,7 @@ But it does do the following as well:
 #### Use Exception Handler with Custom Route
 Errors will be logged to the logger, diagnostic listener, and diagnostic meter.
 The response will be returned from the custom route.
+
 ```csharp title="Use Exception Handler with Custom Route"
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
@@ -318,10 +321,13 @@ The list and brief description of each dependency are as follows:
 - `IOptions<ExceptionHandlerOptions> options` - The options of the exception handler middleware configured by you.
 - `DiagnosticListener diagnosticListener` - The diagnostic listener to listen to the exceptions.
 - `IEnumerable<IExceptionHandler> exceptionHandlers` - The list of exception handlers to handle specific exceptions.
-- `IMeterFactory meterFactory` - The meter factory to log the exception.
+- `IMeterFactory meterFactory` - The meter factory to log that exception has occurred.
 - `IProblemDetailsFactory problemDetailsService` - The problem details service to customize the response.
 
 By the list of dependencies, you can tell that it does a lot of things but customizable.
+
+You are aware that every middleware receives the next middleware in the pipeline as a dependency. 
+Let's take a look at how the next middleware is invoked in `ExceptionHandlerMiddlewareImpl`.
 
 #### How `next` middleware is invoked?
 The next middleware is invoked in try catch block so that any exception thrown by it can be caught and handled.
@@ -588,6 +594,79 @@ In the end order of execution is as follows:
     - Use `IProblemDetails` by adding to the services and `UseExceptionHandler()` without any options should be default option unless you have a specific requirement.
     - Use `ExceptionHandler` delegate when you want to handle all the exceptions and perform some work other than logging.
     - Use `IExceptionHandler` implementations when you want to handle specific exceptions and perform some work other than logging.
+## Status Code Pages Middleware
+### Purpose
+To include the content-type header and body in the response when the status code is between 400 and 599.
+But why?
+Let's say you are returning a `Results.BadRequest()` from one of your endpoints under some condition.
+It will send back a response like below:
+```text
+HTTP/1.1 400 Bad Request
+Content-Length: 0
+Date: Wed, 15 Nov 2023 01:15:09 GMT
+Server: Kestrel
+```
+It is a valid response, but it does not include the content-type header and body.
+If you are requesting the endpoint from the browser,
+it will display the browser's default error page, which can be confusing to understand.
+
+Now consider a different scenario, where you are consuming the endpoint from the JavaScript client. 
+It always expects the response with a body and content-type header, 
+so it can parse the response to understand the error.
+
+Well, you can say that it must rely on the status code to understand the error.
+
+But won't it be a good idea to include a reason in the body and content-type header 
+so that the client can parse it properly?
+
+That is where the status code pages middleware comes into play.
+But it will only act if the response body is empty and the status code is between 400 and 599.
+
+### How to use it?
+The below example by default uses `text/plain` content type in the response header.
+
+```csharp title="01 - Use Status Code Pages Middleware with text/plain"
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+app.UseStatusCodePages();
+app.MapGet("/badrequest", () =>
+{
+    return Results.BadRequest();
+});
+app.Run();
+
+```
+
+:::tip
+Run the above code, and hit the end point from your browser, once with `app.UseStatusCodePages()` and once without it.
+You will see the difference, also observe the response headers from the browser network tab in developer tools.
+:::
+
+But if you would like return the response as per the `ProblemDetails` schema. 
+You can add the `ProblemDetails` service to the service collection. 
+Now the middleware will return the response with `application/problem+json` content type.
+
+```csharp title="02 - Use Status Code Pages Middleware with Problem Details Service"
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddProblemDetails();
+var app = builder.Build();
+app.UseStatusCodePages();
+app.MapGet("/badrequest", () =>
+{
+    return Results.BadRequest();
+});
+app.Run();
+```
+
+The `Status Code Pages Middleware` provides multiple extension methods to customize the response.
+- `UseStatusCodePagesWithReExecute` - Re-execute the request pipeline with the given path.
+- `UseStatusCodePagesWithRedirects` - Redirect to the given path.
+- `UseStatusCodePages` - With the given handler as delegate.
+
+Lastly,
+you can disable the `Status Code Pages Middleware` on any endpoint
+by getting `IStatusCodePagesFeature` from context features and set the enabled property like 
+`context.Features.GetRequiredFeature<IStatusCodePagesFeature>().Enabled = false;`.
 
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
