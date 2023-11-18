@@ -104,7 +104,7 @@ The code looks good, but it is still depended upon magic string.
 What if `nameof(FileUploadLimits)` does not exist or exist with slightly different name.
 Will the application throw an error?
 No, it will not.
-It will silently fail.
+It will silently fail to load any values in the `FileUploadLimits` because all the properties will get default values.
 But then what is the point of strongly typed configurations? 
 
 > There is a way. An elegant one.

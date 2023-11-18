@@ -27,12 +27,16 @@ draft: true
 The word Host will repeatedly appear in the post so let's briefly understand what it means?
 
 ## What is Host?
-The Host is a container which offers rich built-in services such as Dependency Injection, Configuration, Logging, Host Services and others. The NET 6 offers Generic DefaultHost which can be configured to handle the activities as per your use case. Two major variations of the Host are:
-- Console Host - CLI based applications.
-- Web Host - Web API & Applications.
+The Host is a container that offers rich built-in services such as Dependency Injection,
+Configuration, Logging, and Hosted Services.
+NET 6 offers Generic DefaultHost, which can be configured to handle the activities as per your use case. 
+Two major variations of the Host are:
+- Console Host - CLI-based applications.
+- Web Host — Web API & Applications.
 
 Think of it as Airbnb Host who keeps the property ready to serve when the guests arrive.
-The property offers a different set of services and allows you to bring your own services. The lifetime of such services depends upon the contract, which the Host controls.
+The property offers a different set of services and allows you to bring your own services. 
+The lifetime of such services depends upon the contract, which the Host controls.
 
 <!--truncate-->
 
