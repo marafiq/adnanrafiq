@@ -20,7 +20,7 @@ keywords: [Fundamentals, ASP.NET8,Configurations,CustomConfigurationSource,reloa
 <img src={require('./ASPNETCONFIGBANNER.jpeg').default} alt="ASP.NET 8 Configurations Simple but YET Complex Story Image"/>
 
 
-# ASP.NET 8 Configurations
+**ASP.NET 8 Configurations**
 Think about a piece of software; it could be a web or mobile application or an API.
 What's its purpose?
 Well, it's here to solve a single or multiple problems for you by offering a suite of unique features.

@@ -1,5 +1,5 @@
 ---
-title: Forwarded Headers, HTTP Logging and W3C Logging Middlewares - Part 2 of the series on the ASP.NET Middlewares
+title: A Complete Guide to all ASP.NET Builtin Middlewares - Part 2
 description: A series to explore all the builtin middlewares in ASP.NET 8. This post covers Forwarded Headers, HTTP Logging, and W3C Logging Middlewares.
 slug: a-complete-guide-to-all-asp-dot-net-builtin-middlewares-part2
 authors: adnan 
@@ -12,13 +12,11 @@ keywords: [ASP.NET,ASP.NET Core,Middlewares,HostFiltering,HeaderPropagation,Forw
 <meta property="og:image:height" content="500"/>  
 <meta name="twitter:creator" content="@madnan_rafiq" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Forwarded Headers, HTTP Logging and W3C Logging Middlewares - Part 2 of the series on the ASP.NET Middlewares" />
+<meta name="twitter:title" content="A Complete Guide to all ASP.NET Builtin Middlewares - Part 2" />
 <meta name="twitter:description" content="A series to explore all the builtin middlewares in ASP.NET 8. This post covers Forwarded Headers, HTTP Logging, and W3C Logging Middlewares. " />
 </head>
 
 <img src={require('./middlewares.png').default} alt="Title Image of the blog" border="1"/>
-
-# A Complete Guide to all ASP.NET Builtin Middlewares
 
 Middleware is a function in then ASP.NET 8,
 when many functions are invoked one after the other like a chain;
@@ -32,13 +30,13 @@ This is a series of blog posts in which I will cover all the builtin middlewares
 
 <!--truncate-->
 
-## How many Middlewares are in ASP.NET 8?
+## Overview
 
 There are 16 builtin middlewares in ASP.NET 8 to build a REST API. This post will cover three of them.
 
-- [Forwarded Headers Middleware](#Forwarded-Headers-Middleware)
-- [HTTP Logging Middleware](#Http-Logging-Middleware)
-- [W3C Logging Middleware](#W3C-Logging-Middleware)
+- [Forwarded Headers Middleware](#forwarded-headers-middleware)
+- [HTTP Logging Middleware](#http-logging-middleware)
+- [W3C Logging Middleware](#w3c-logging-middleware)
 
 You can read about Host Filtering and Header Propagation middlewares in the [Part 1](https://adnanrafiq.com/blog/a-complete-guide-to-all-asp-dot-net-builtin-middlewares-part1/).
 
