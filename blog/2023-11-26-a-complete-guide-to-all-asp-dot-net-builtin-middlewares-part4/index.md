@@ -102,9 +102,9 @@ you can clear the excluded hosts list and access the website over HTTPS.
 
 Now, all your `localhost` requests will be sent over HTTPS, no matter on which port you are running the application.
 
-How to clear the HSTS header from the browser?
+### How to clear the HSTS header from the browser?
 
-Go the 'edge://net-internals/#hsts' or 'chrome://net-internals/#hsts' and enter `localhost` 
+Go the `edge://net-internals/#hsts` or `chrome://net-internals/#hsts` and enter `localhost` 
 in the Delete domain security policies and press the Delete button.
 
 ### What if user never visits the website over HTTPS?
