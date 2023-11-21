@@ -156,6 +156,11 @@ app.Run();
 
 By using the `HttpsRedirection` and `Hsts` middlewares together, users will always be redirected to HTTPS.
 
+If you only use HTTPS Redirection, middleware user will be redirected to HTTPS,
+but it causes a round trip to the server.
+
+You'll be rerouted to HTTPS, however; unless flagged as secure, all cookies will be transmitted via HTTP.
+
 ## Conclusion
 Use the HSTS middleware to instruct the browser to only use HTTPS for all future requests, but 
 use it with HTTPS Redirection middleware to redirect all HTTP requests to HTTPS.
