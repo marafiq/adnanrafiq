@@ -1,7 +1,7 @@
 ---
 title: A Complete Guide to all ASP.NET Builtin Middlewares - Part 4
 description: A series to explore all the builtin middlewares in ASP.NET 8. This post covers HSTS and HTTPS Redirection Middleware.
-slug: validation-options-of-type-array-and-named-options-in-net8
+slug: a-complete-guide-to-all-asp-dot-net-builtin-middlewares-part4
 authors: adnan 
 tags: [C#,CSharp,ASP.NET,Middlewares]
 image : ./middlewares.png
