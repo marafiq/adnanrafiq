@@ -73,8 +73,9 @@ builder.Services.AddHsts(options =>
     options.MaxAge = TimeSpan.FromDays(365);
     options.IncludeSubDomains = true;
     options.Preload = true;
-    //options.ExcludedHosts.Clear(); - localhost will only work on HTTPS if you uncomment this line.
-    options.ExcludedHosts.Add("localhost");
+    //localhost will only work on HTTPS
+    options.ExcludedHosts.Clear(); 
+    //options.ExcludedHosts.Add("localhost");
 });
 
 var app = builder.Build();
