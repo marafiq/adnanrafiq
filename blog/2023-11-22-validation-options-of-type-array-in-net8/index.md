@@ -216,8 +216,9 @@ public enum WeatherMood
     Cloudy
 }
 ```
-[A Sample Repository Targeting NET6](https://github.com/marafiq/BindCityWeatherMoods) is on GitHub. It will work with 
-.NET 7 and .NET8.
+[A Sample Repository Targeting NET6](https://github.com/marafiq/BindCityWeatherMoods) is on GitHub. 
+It will work with 
+.NET 7 and .NET8 as well as .NET 6.
 
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
