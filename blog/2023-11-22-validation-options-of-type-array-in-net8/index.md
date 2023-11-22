@@ -63,8 +63,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOptions<List<City>>()
     .Bind(builder.Configuration.GetSection("Cities"))
-    .ValidateDataAnnotations();
-    
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
 var app = builder.Build();
 app.UseWelcomePage();
 app.Run();
@@ -102,13 +102,17 @@ So far, so good. But what if you add weather mood as `Snowy` in the configuratio
 }
 ```
 
-Yes, but it will only have two cities in the list. The third city will be **ignored**.
+Yes, but it will only have two cities in the list. 
+The third city is **ignored** because the weather 
+mood Snowy does not have a value in `WeatherMood` enum.
 
-### What is the fix?
+Key is it is silently ignored, which can lead to a nasty bug because the item inside the array is ignored.
+
+### What is the fix number 1 with added perf?
 
 You can fix it by adding the below flag in `.csproj` file.
 
-```xml title=".csproj"
+```xml title=".csproj with AOT - Next Big Thing"
 <PropertyGroup>
     <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
 </PropertyGroup>
@@ -118,6 +122,43 @@ It will add a source generator to your project to bind the configuration to the 
 Now it will throw an exception on startup.
 But also improves your startup time by generating the code at compile time 
 and a good practice if you would like to use AOT compilation in the future.
+
+### What is the fix number 2?
+
+You can configure how the binding should behave by using `BinderOptions` 
+and set the `ErrorOnUnknownConfiguration` to `true`.
+
+```csharp title="Throw on unknown configuration"
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddOptions<List<City>>()
+    .Bind(builder.Configuration.GetSection("Cities"),
+    //highlight-start
+    ,options =>
+    {
+        //Bind non public properties - do not do it without a fantastic reason
+        //options.BindNonPublicProperties = true;
+        options.ErrorOnUnknownConfiguration = true;
+    })
+    //highlight-end
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+    
+var app = builder.Build();
+app.UseWelcomePage();
+app.Run();
+
+public class City
+{
+    [Required] public string Name { get; set; }
+    [Required] public WeatherMood WeatherMood { get; set; }
+}
+public enum WeatherMood {
+    Sunny,
+    Rainy,
+    Cloudy
+}
+```
 
 
 ## Feedback
