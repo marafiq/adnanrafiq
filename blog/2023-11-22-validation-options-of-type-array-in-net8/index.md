@@ -159,7 +159,65 @@ public enum WeatherMood {
     Cloudy
 }
 ```
+But what if you have validation attribute classes like `[Required]` on the List Item, will those be validated?
+No, even if you assign the city an empty string, so how to get those validated?
 
+### Apply `[ValidateEnumeratedItems]` to validate array items
+
+Create `Config` class, and create a property named `Cities` with `[ValidateEnumeratedItems]` class,
+and then bind the root configuration path 
+to the options. 
+
+:::tip
+Applying `[ValidateEnumeratedItems]` is required to validate array items.
+:::
+
+```csharp title="Validate Array Items"
+var builder = Host.CreateApplicationBuilder(args);
+builder.Services.AddOptions<Config>()
+    .Bind(builder.Configuration)
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+builder.Services.AddHostedService<Worker>();
+
+var host = builder.Build();
+host.Run();
+
+public class Worker(ILogger<Worker> logger, IOptions<Config> config) : BackgroundService
+{
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        while (!stoppingToken.IsCancellationRequested)
+        {
+            foreach (var city in config.Value.Cities)
+            {
+                logger.LogInformation("{CityName} is {CityWeatherMood}", city.Name, city.WeatherMood);
+            }
+            await Task.Delay(10000, stoppingToken);
+        }
+    }
+}
+
+public class Config
+{
+    [ValidateEnumeratedItems] public List<City> Cities { get; set; }
+}
+
+public class City
+{
+    [Required] public string Name { get; set; }
+    [Required] public WeatherMood WeatherMood { get; set; }
+}
+
+public enum WeatherMood
+{
+    Sunny,
+    Rainy,
+    Cloudy
+}
+```
+[A Sample Repository Targeting NET6](https://github.com/marafiq/BindCityWeatherMoods) is on GitHub. It will work with 
+.NET 7 and .NET8.
 
 ## Feedback
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq). 
