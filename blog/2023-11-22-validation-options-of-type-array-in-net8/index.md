@@ -128,6 +128,14 @@ and a good practice if you would like to use AOT compilation in the future.
 You can configure how the binding should behave by using `BinderOptions` 
 and set the `ErrorOnUnknownConfiguration` to `true`.
 
+:::warning
+When `ErrorOnUnknownConfiguration` is true.
+The configuration object or path or section, you pass to the `Bind` method or `BindConfiguration` extension method,
+must have all the properties defined in the C# class. 
+Do not try to bind to the root configuration path because it includes all the configuration values including
+the environment variables, CLI arguments, and other configuration providers.
+:::
+
 ```csharp title="Throw on unknown configuration"
 var builder = WebApplication.CreateBuilder(args);
 
