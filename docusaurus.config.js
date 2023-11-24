@@ -72,7 +72,7 @@ const config = {
                     {to: '/cards', label: 'Cards', position: 'left'},
                     {
                         href: 'https://youtube.com/@OpenSourcedotNET?sub_confirmation=1',
-                        label: 'Show Support by Subscribing to my YouTube Channel',
+                        label: 'Counting on you to reach 1000 subscribers on YouTube',
                         position: 'right',
                         className: 'subscribe-to-youtube',
                     },
