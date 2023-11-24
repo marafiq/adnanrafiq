@@ -26,3 +26,25 @@ html[data-theme='dark'] {
   --ifm-color-primary-lightest: #f9c4e9; /* the lightest shade of the primary color */
   --ifm-code-font-size: 95%;
 }
+.subscribe-to-youtube {
+
+
+
+
+    background-color: var(--ifm-color-primary);
+    border-radius: 0.5rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+    color: white;
+
+    text-decoration: none;
+    transition: transform 0.3s ease-in-out;
+
+    &:hover {
+        transform: scale(1.05);
+        text-decoration: none;
+        color: white;
+
+    }
+
+
+}
