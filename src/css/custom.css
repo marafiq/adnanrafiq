@@ -34,7 +34,7 @@ html[data-theme='dark'] {
     background-color: var(--ifm-color-primary);
     border-radius: 0.5rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
-    color: white;
+    color: white!important;
 
     text-decoration: none;
     transition: transform 0.3s ease-in-out;
@@ -42,7 +42,7 @@ html[data-theme='dark'] {
     &:hover {
         transform: scale(1.05);
         text-decoration: none;
-        color: white;
+        color: white!important;
 
     }
 
