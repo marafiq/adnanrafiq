@@ -42,6 +42,13 @@ You can read about the Forwarded Header, Http Logging, W3C Logging middlewares i
 
 You can read about the Developer Exception, Exception Middleware and Exception Handlers and Status Code Pages middlewares in the [Part 3](https://adnanrafiq.com/blog/a-complete-guide-to-all-asp-dot-net-builtin-middlewares-part3/).
 
+:::tip
+I would appreciate
+if you can subscribe to my [YouTube Channel](https://youtube.com/@OpenSourcedotNET?sub_confirmation=1).
+
+I know it's a big ask, but it will help me to keep writing and producing awesome content for you.
+:::
+
 ## HSTS Middleware
 
 ### Purpose

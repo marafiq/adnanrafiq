@@ -20,6 +20,13 @@ keywords: [Background,Worker,IHosted,Hosted,Service,.NET6,LongRunningTasks]
 
 Image by [awcreativeut](https://unsplash.com/@awcreativeut)
 
+:::tip
+I would appreciate
+if you can subscribe to my [YouTube Channel](https://youtube.com/@OpenSourcedotNET?sub_confirmation=1).
+
+I know it's a big ask, but it will help me to keep writing and producing awesome content for you.
+:::
+
 The word Host will repeatedly appear in the post so let's briefly understand what it means?
 
 ## What is Host?
