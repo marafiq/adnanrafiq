@@ -100,6 +100,14 @@ const config = {
                 additionalLanguages: ['sql', 'csharp', 'powershell'],
                 defaultLanguage: 'csharp'
             },
+            announcementBar: {
+                id: 'SubscribeBanner',
+                content:
+                    'I have started a YouTube Channel, please show your support by subscribing <a target="_blank" rel="noopener noreferrer" href="https://youtube.com/@OpenSourcedotNET?sub_confirmation=1">Now</a>. It will be a great motivation for me.',
+                backgroundColor: '#fafbfc',
+                textColor: '#091E42',
+                isCloseable: false,
+            }
         }),
 };
 
