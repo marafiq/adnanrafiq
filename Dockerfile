@@ -1,7 +1,7 @@
 # Fetch the base node image
 # syntax=docker/dockerfile:1
 
-FROM node:18-alpine
+FROM node:18
 EXPOSE 3000
 # Set working directory in the container
 WORKDIR /usr/src/app
