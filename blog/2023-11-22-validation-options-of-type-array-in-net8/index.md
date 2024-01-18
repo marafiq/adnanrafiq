@@ -32,6 +32,15 @@ But there are two interesting aspects of it, which I will explain in this post.
 
 <!--truncate-->
 
+:::info
+Do you learn better by watching videos?
+Yes, I got you covered.
+
+A detailed course on .NET configuration is available on YouTube.
+Remember to subscribe to the channel for more content.
+
+[Free Configuration and Options Pattern Course](https://www.youtube.com/playlist?list=PLIY-nis9DD66uYNvz_J9zpe_7f7t4xhMO)
+:::
 
 ## Validate Complex Types
 

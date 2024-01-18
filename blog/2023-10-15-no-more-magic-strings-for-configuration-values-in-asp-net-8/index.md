@@ -34,6 +34,16 @@ Let me show you the complete usage of strongly typed configurations in ASP.NET 8
 
 <!--truncate-->
 
+:::info
+Do you learn better by watching videos?
+Yes, I got you covered.
+
+A detailed course on .NET configuration is available on YouTube.
+Remember to subscribe to the channel for more content.
+
+[Free Configuration and Options Pattern Course](https://www.youtube.com/playlist?list=PLIY-nis9DD66uYNvz_J9zpe_7f7t4xhMO)
+:::
+
 ## Options Patterns for Strongly Typed Configuration Values
 
 Do you love magic strings to get the configuration values?

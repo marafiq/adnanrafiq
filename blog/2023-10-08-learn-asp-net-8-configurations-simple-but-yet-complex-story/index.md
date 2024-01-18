@@ -29,6 +29,17 @@ Now, let's say some of you are fans of a dark theme, while others love the brigh
 How can one software cater to both tastes?
 
 Enter **Configurations**!
+<!--truncate-->
+
+:::info
+Do you learn better by watching videos?
+Yes, I got you covered.
+
+A detailed course on .NET configuration is available on YouTube.
+Remember to subscribe to the channel for more content.
+
+[Free Configuration and Options Pattern Course](https://www.youtube.com/playlist?list=PLIY-nis9DD66uYNvz_J9zpe_7f7t4xhMO)
+:::
 
 Configurations help us customize how the software behaves.
 Interesting fact: this customization isn't always about you, the end-user.
@@ -57,9 +68,6 @@ Well, the .NET Host takes care of your application by providing out-of-the-box f
 - Dependency Injection
 
 and many more. 
-
-<!--truncate-->
-
 
 ~~~csharp title="Web Application Host in ASP.NET 8"
     var builder = WebApplication.CreateBuilder(args);  
