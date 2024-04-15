@@ -27,7 +27,7 @@ Otherwise, you will be frustrated to the least.
 There is no better refactoring than making the code more readable.
 After all, to change code, you first have to understand it: by reading it.
 
-
+<!--truncate-->
 ## Simplify Expressions with Variables
 Expressions appear in many places in code like conditions, loops, and mathematical expressions.
 Complex expressions are hard to read and understand, especially when their parts can be named naturally.
