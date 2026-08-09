@@ -5,7 +5,7 @@ import CodeBlock from "@theme/CodeBlock";
 import {Cards} from './_cards';
 
 
-export default function Home(): JSX.Element {
+export default function Home(): React.JSX.Element {
     const {siteConfig} = useDocusaurusContext();
     // @ts-ignore
     // @ts-ignore
@@ -21,7 +21,9 @@ export default function Home(): JSX.Element {
                 <div className="row" style={{gap:"20px"}}>
                     {Cards.map(({description, fileName, language, title}, index) =>
                         <div className="col" key={index}>
-                            <CodeBlock className={language} title={title} index={index} key={index}
+                            <CodeBlock className={language} title={title}
+                                // @ts-ignore
+                                       index={index} key={index}
                                 // @ts-ignore
                                        description={description}
                                 // @ts-ignore
