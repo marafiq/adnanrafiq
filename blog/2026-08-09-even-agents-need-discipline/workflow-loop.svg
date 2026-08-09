@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="478" viewBox="0 0 1280 478" role="img" aria-label="The delivery loop: a stable EPIC is decomposed into a STORY contract, which passes the scope call at refinement and the context call before the agent starts. The agent generates disposable tasks, a human reviews for what differs from expectation and may return the work to the agent at most three times before a human judges it, CI blocks the merge, and the increment is demonstrated. Failures at the scope call re-slice the story; failures at the context call raise a SPIKE.">
+<style>
+  svg { --surface:#FFFFFF; --ink:#171C19; --muted:#5F6B64; --line:#D5DBD6;
+        --accent:#8F6210; --accent-line:#C39A3E; --accent-soft:#F4EAD6;
+        --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  @media (prefers-color-scheme: dark) {
+    svg { --surface:#1B211C; --ink:#E7ECE7; --muted:#98A69C; --line:#2F382F;
+          --accent:#E0AE55; --accent-line:#A67F31; --accent-soft:#2A2418; }
+  }
+  .node   { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
+  .node-h { fill: var(--accent-soft); stroke: var(--accent-line); stroke-width: 1.75; }
+  .node-a { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 5 4; }
+  .lbl    { font-family: var(--mono); font-size: 13px; font-weight: 600; fill: var(--ink); }
+  .lbl-a  { font-family: var(--mono); font-size: 13px; font-weight: 600; fill: var(--accent); }
+  .sub    { font-family: var(--mono); font-size: 10.5px; fill: var(--muted); }
+  .edge      { stroke: var(--ink); stroke-width: 1.4; fill: none; opacity: 0.75; }
+  .edge-back { stroke: var(--muted); stroke-width: 1.3; fill: none; stroke-dasharray: 4 4; }
+  .edge-lbl  { font-family: var(--mono); font-size: 10.5px; fill: var(--muted); }
+  .rule   { stroke: var(--accent-line); stroke-width: 1.5; stroke-dasharray: 7 5; }
+</style>
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="currentColor" opacity="0.75"/></marker>
+        <marker id="arb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="currentColor" opacity="0.55"/></marker>
+      </defs>
+      <rect class="node-h" x="24" y="108" width="128" height="76" rx="3"/>
+      <text class="lbl-a" x="40" y="136">EPIC</text><text class="sub" x="40" y="154">larger value</text><text class="sub" x="40" y="169">stable by default</text>
+      <rect class="node-h" x="188" y="108" width="148" height="76" rx="3"/>
+      <text class="lbl-a" x="204" y="136">STORY</text><text class="sub" x="204" y="154">contract carries</text><text class="sub" x="204" y="169">the outcome</text>
+      <rect class="node-h" x="372" y="108" width="118" height="76" rx="3"/>
+      <text class="lbl-a" x="388" y="136">SCOPE CALL</text><text class="sub" x="388" y="154">team · ready?</text><text class="sub" x="388" y="169">value + scope</text>
+      <rect class="node-h" x="526" y="108" width="118" height="76" rx="3"/>
+      <text class="lbl-a" x="542" y="136">CONTEXT CALL</text><text class="sub" x="542" y="154">engineer</text><text class="sub" x="542" y="169">startable?</text>
+      <rect class="node-a" x="680" y="108" width="128" height="76" rx="3"/>
+      <text class="lbl" x="696" y="136">AGENT</text><text class="sub" x="696" y="154">tasks below</text><text class="sub" x="696" y="169">disposable</text>
+      <rect class="node-h" x="844" y="108" width="118" height="76" rx="3"/>
+      <text class="lbl-a" x="860" y="136">REVIEW</text><text class="sub" x="860" y="154">what differs</text><text class="sub" x="860" y="169">from expected</text>
+      <rect class="node" x="998" y="108" width="104" height="76" rx="3"/>
+      <text class="lbl" x="1014" y="136">MERGE</text><text class="sub" x="1014" y="154">CI blocks</text><text class="sub" x="1014" y="169">a gate, not delivery</text>
+      <rect class="node-h" x="1138" y="108" width="118" height="76" rx="3"/>
+      <text class="lbl-a" x="1154" y="136">DEMO</text><text class="sub" x="1154" y="154">stakeholder</text><text class="sub" x="1154" y="169">judges it</text>
+      <line class="edge" x1="154" y1="146" x2="184" y2="146" marker-end="url(#ar)"/><text class="edge-lbl" x="152" y="136">slice</text>
+      <line class="edge" x1="338" y1="146" x2="368" y2="146" marker-end="url(#ar)"/>
+      <line class="edge" x1="492" y1="146" x2="522" y2="146" marker-end="url(#ar)"/>
+      <line class="edge" x1="646" y1="146" x2="676" y2="146" marker-end="url(#ar)"/><text class="edge-lbl" x="640" y="136">contract in</text>
+      <line class="edge" x1="810" y1="146" x2="840" y2="146" marker-end="url(#ar)"/>
+      <path class="edge-back" d="M 900 108 L 900 74 L 744 74 L 744 104" marker-end="url(#arb)"/>
+      <text class="edge-lbl" x="762" y="68">returns to the agent · at most 3 times</text>
+      <line class="edge" x1="964" y1="146" x2="994" y2="146" marker-end="url(#ar)"/>
+      <text class="edge-lbl" x="928" y="204">4th time, a human judges</text>
+      <line class="edge" x1="1104" y1="146" x2="1134" y2="146" marker-end="url(#ar)"/>
+      <path class="edge-back" d="M 400 184 L 400 232 L 252 232 L 252 188" marker-end="url(#arb)"/>
+      <text class="edge-lbl" x="264" y="226">fails → re-slice by SPIDR, not by layer</text>
+      <rect class="node-h" x="500" y="282" width="148" height="66" rx="3"/>
+      <text class="lbl-a" x="516" y="308">SPIKE</text><text class="sub" x="516" y="325">one defendable</text><text class="sub" x="516" y="340">recommendation</text>
+      <path class="edge-back" d="M 585 184 L 585 278" marker-end="url(#arb)"/>
+      <text class="edge-lbl" x="593" y="238">fails → terrain unknown</text>
+      <path class="edge-back" d="M 500 314 L 262 314 L 262 188" marker-end="url(#arb)"/>
+      <path class="edge-back" d="M 262 314 L 120 314 L 120 188" marker-end="url(#arb)"/>
+      <text class="edge-lbl" x="336" y="306">approach → STORIES</text>
+      <text class="edge-lbl" x="130" y="306">scope → amend EPIC</text>
+      <text class="edge-lbl" x="336" y="340">code re-enters as a story</text>
+      <path class="edge" d="M 1197 184 L 1197 434 L 88 434 L 88 188" marker-end="url(#ar)"/>
+      <text class="edge-lbl" x="700" y="424" text-anchor="middle">value accrues against a stable EPIC — amending it requires new evidence</text>
+      <text class="edge-lbl" x="188" y="384">did not advance → was it Valuable, Small, Independent? → rewrite it</text>
+    </svg>
