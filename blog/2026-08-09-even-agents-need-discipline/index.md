@@ -474,3 +474,6 @@ Write it down there.
 ## Feedback
 
 I would love to hear your feedback, feel free to share it on [Twitter](https://twitter.com/madnan_rafiq).
+
+**Disclaimer:** It is written with the help of Claude. The ideas are mine,
+the canvas is mine, and the arguments are mine.
