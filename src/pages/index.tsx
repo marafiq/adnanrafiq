@@ -11,7 +11,7 @@ import BostonPictureUrl from '@site/static/img/boston.jpg';
 // @ts-ignore
 import DubaiPictureUrl from '@site/static/img/dubai.jpg';
 
-export default function Home(): JSX.Element {
+export default function Home(): React.JSX.Element {
     const {siteConfig} = useDocusaurusContext();
     return (
         <Layout

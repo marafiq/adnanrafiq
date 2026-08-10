@@ -1,8 +1,12 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+// prism-react-renderer v2 exposes all bundled themes from the package root
+// (v1's `prism-react-renderer/themes/*` deep imports were removed).
+const {themes: prismThemes} = require('prism-react-renderer');
+
+const lightCodeTheme = prismThemes.github;
+const darkCodeTheme = prismThemes.dracula;
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -11,13 +15,25 @@ const config = {
     url: 'https://adnanrafiq.com',
     baseUrl: '/',
     onBrokenLinks: 'throw',
-    onBrokenMarkdownLinks: 'warn',
     favicon: 'img/favicon.ico',
     trailingSlash: true,
     i18n: {
         defaultLocale: 'en',
         locales: ['en'],
     },
+
+    markdown: {
+        // Docusaurus 3 renders ```mermaid code fences natively via @docusaurus/theme-mermaid.
+        // This replaces the mdx-mermaid remark plugin + standalone mermaid@8 dependency,
+        // neither of which is compatible with Docusaurus 3 / MDX v3.
+        mermaid: true,
+        hooks: {
+            // Moved here from the top-level `onBrokenMarkdownLinks`, which is
+            // deprecated in Docusaurus 3 and removed in v4.
+            onBrokenMarkdownLinks: 'warn',
+        },
+    },
+    themes: ['@docusaurus/theme-mermaid'],
 
     /*plugins: [require.resolve("@cmfcmf/docusaurus-search-local")],https://github.com/cmfcmf/docusaurus-search-local*/
     presets: [
@@ -27,7 +43,6 @@ const config = {
             ({
                 docs: false,
                 blog: {
-                    remarkPlugins: [[require('mdx-mermaid'), {mermaid: {config: {sequence: {showSequenceNumbers: true}}}}]],
                     showReadingTime: true,
                     editUrl: 'https://github.com/marafiq/adnanrafiq/edit/main/',
                     feedOptions: {
@@ -93,6 +108,12 @@ const config = {
             footer: {
                 style: 'dark',
                 copyright: `Copyright © ${new Date().getFullYear()} Adnan Rafiq.`,
+            },
+            mermaid: {
+                // Carried over from the previous mdx-mermaid plugin configuration.
+                options: {
+                    sequence: {showSequenceNumbers: true},
+                },
             },
             prism: {
                 theme: darkCodeTheme,

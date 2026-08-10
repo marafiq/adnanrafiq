@@ -319,7 +319,7 @@ But the larger the file size of `appsettings.json`, the more expensive it will b
 
 <img src={require('./optionspatternperfresults.png').default} alt="Options Pattern Performance"/>
 
-:::information
+:::info
 
 Avoid using `IOptionsSnapshot<FileUploadLimits>` especially on hot paths or middlewares because it can incur performance penalty.
 Why?

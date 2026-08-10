@@ -21,3 +21,6 @@ yarn-error.log*
 /.idea/
 /.yarn/
 
+
+# Agent worktrees and local agent state
+.claude/

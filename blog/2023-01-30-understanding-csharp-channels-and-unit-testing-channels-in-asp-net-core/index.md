@@ -198,8 +198,8 @@ public class BoundedChannelTests
 </details>
 
 <details>
-<summary>UnBounded Channel has no capacity - A unit test to write for x amount of time to the unbounded channel
-</summary>
+<summary>UnBounded Channel has no capacity - A unit test to write for x amount of time to the unbounded channel</summary>
+
 The Unbounded Channel:
 
 - Has no capacity but the available memory to the process.

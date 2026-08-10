@@ -71,7 +71,7 @@ Two things are required to achieve this:
 2. Your application is configured to accept/trust the forwarded headers.
 
 **First thing**:Once you configure the reverse proxy to forward the request headers, it will add the headers to the request 
-using the prefix `X-Forwarded-{Name}` where {Name} can be `For`, `Host`, `Proto`, and `Path of request`.
+using the prefix `X-Forwarded-{Name}` where \{Name} can be `For`, `Host`, `Proto`, and `Path of request`.
 
 **the 2nd thing**, does your application trust the forwarded headers?
 Forwarded Headers Middleware has three properties to configure and each plays a role:
@@ -260,8 +260,8 @@ You should set the logging to `Debug` level for the `Microsoft.AspNetCore` in
 `appsettings.json` and look for the logs from the middleware.
 It will generate warning logs when the header criteria is not met.
 Some log samples are:
-- Unknown proxy: {RemoteIpAndPort}
-- UnParsable IP: {IpAndPortText}
+- Unknown proxy: \{RemoteIpAndPort}
+- UnParsable IP: \{IpAndPortText}
 
 But if you cannot figure out and require help,
 you can read the code of the middleware [here](https://github.com/dotnet/aspnetcore/blob/main/src/Middleware/HttpOverrides/src/ForwardedHeadersMiddleware.cs)
