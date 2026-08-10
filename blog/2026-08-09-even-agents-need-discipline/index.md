@@ -33,26 +33,59 @@ The key point I am driving home is: How to transform your Team or Organization t
 
 ## The Discipline and the Good Parts
 
-The pre-AI workflow expands or collapses with different value streams. But even this does not capture the nuances of the people involved in the process, with their different experiences and tastes.
-The story refinement meeting — you may think of it as a waste of time, but it is not. Think about it: every acceptance criterion written to achieve a goal gets written deliberately. Now, the deliberation is the nuance — written and spoken language never captures the whole.
-
-If you notice, it is a process. Each box serves its purpose well. It is not always about code; it is more about discipline, and walking home fulfilled.
-Where does the call-to-action go on the hero image of the home page? A team will argue about its placement, and even though the decision can be reached in one minute, it becomes a conscious choice on assumptions.
-
-I do not believe any of the good parts are changing. In fact, in agentic-first orgs, the discipline and principles have to be defined more clearly. Saying otherwise is wishful thinking.
-
-Here is the nuance about the nuance: it was never captured as it was.
-That does not mean it was lost.
-
-Intuition held it. Memory held it. Accountability held it — and so did
-communication, and the socializing around it. A lot was at play,
-and none of it was in the ticket.
-
-The record was thin. What the team knew was not.
-
-What it means in agentic first org?
+The pre-AI workflow expands or collapses with different value streams.
+The boxes hold the work. They do not hold the people —
+their different experiences, their different tastes.
 
 ![AGILE run by hand, as one loop. Vision, Values and Goals set direction, and an EPIC is sliced in refinement — a room holding Product, UX/UI, Engineering and QA/Test, whose work is checked against INVEST and produces four artifacts: a STORY, its acceptance criteria, a SPIKE when the terrain is unknown, and a Definition of Done agreed once for every story. That output enters the sprint, and inside the sprint the engineering process is a sub-workflow of its own: optional TASKS, then EXECUTION, then REVIEW, with review sending work back for changes. After it come the DONE check against the same DoD, the DEMO, and the RETRO, which feeds back into the goals.](./manual-agile-loop.svg)
+
+If you notice, it is a process. Each box serves its purpose well.
+
+Now look inside one box.
+
+**The story refinement meeting.** You may think of it as a waste of time.
+
+Where does the call-to-action go on the hero image of the home page?
+
+You already have an answer. So does everyone else in the room,
+and none of you are answering the same question.
+
+Product wants it above the fold, because the funnel says so.
+Design wants it where the eye lands, not where the metric points.
+Engineering knows the hero is a shared component, so the change is not local.
+QA asks what happens at 360 pixels wide.
+
+Twenty minutes, for a button that moves forty pixels.
+
+Somebody senior could have said left and shipped it, and it would probably
+have been fine. That is what makes it look like waste.
+
+Here is what the twenty minutes bought. The button is the smaller half of it.
+The four of them now agree on what will produce the valuable outcome.
+Every acceptance criterion written to achieve a goal gets written deliberately.
+
+The deliberation is the nuance. Written and spoken language never captures the whole.
+
+I do not believe any of the good parts are changing. In fact, in agentic-first orgs,
+the discipline and principles have to be defined more clearly.
+Saying otherwise is wishful thinking.
+
+Here is the nuance about the nuance. Some of it was captured, and captured well.
+The criteria made the story testable and demoable, and that is not a small thing.
+
+The ticket had no field for the rest of it.
+
+Skill. Communication. Psychological safety — a room where the junior engineer
+can say the funnel is wrong. The drive to make the thing good, and the need
+that made anyone care in the first place.
+
+Those are human things, and they are what drove the high-value outcome.
+The people mechanics were never static either. The same four argue differently
+next quarter, because they remember this one.
+
+That lived in the team's culture. Not in a document, and not lost either.
+
+What does that mean in an agentic-first org?
 
 Before you read on, answer this.
 
@@ -87,11 +120,11 @@ instead of at each other.
 
 If you know one thing humans are *good* at, it is emotions.
 
-## Here is the kicker
+It was a joke; the last line; but emotions does help.
 
-Agents do not have them.
+## Agent Focus & Attention
 
-Not unless you cater their attention to it, and you pay for that attention in tokens.
+Agents do not have emotions neither focus. Focus is attention of tokens. 
 
 An agent feels no discomfort when a story is vague.
 It carries no social cost for shipping something it privately doubts.
@@ -102,7 +135,7 @@ Give it a line-count limit and it will slice horizontally and destroy the value.
 Give it a test suite and it will weaken the test.
 Ask it for gaps and it will find gaps in sound work.
 
-One behaviour, three faces. Scope it to the thing you want, never to a proxy for it —
+One behavior, three faces. Scope it to the thing you want, never to a proxy for it —
 because a proxy gets pursued with total fidelity and no discomfort at all.
 
 ## The questions that remain
@@ -160,6 +193,57 @@ you can see it, because both are written down and they now disagree.
 A story whose criteria all passed and whose value never landed
 is the commonest defect there is. It is only visible if you kept both.
 
+## Agent context
+
+Open the agent's config and look at what you actually gave it.
+A file explaining your conventions. A directory of notes it wrote to itself
+last week. Some retrieved code. A list of tools with descriptions.
+
+That is the harness. It is a depiction of a person —
+skills written down, memory filed, the room summarized.
+
+The four people in that meeting brought all three in with them, for free,
+and still had them the next morning. An agent is handed a copy at the start
+of every session and charged by the token for holding it.
+
+Which makes one question the only one worth asking.
+Not how large the window is. How much of it still works by the end.
+
+[Chroma](https://www.trychroma.com/research/context-rot) ran 18 frontier models
+at growing input lengths. Every one of them degraded. Their conclusion is flat:
+models "do not maintain consistent performance across input lengths."
+The sharpest result is the one that should bother you. On the same memory task,
+the roughly 300-token version of the prompt beat the 113,000-token version.
+Same question. Same model. More context made it worse.
+
+That is the window. Now the agent working inside it.
+
+[METR](https://metr.org/time-horizons/) measures how long a task a frontier agent
+can finish, and the frontier has run far enough that their own note says measurements
+past 16 hours are unreliable with the current task suite. That part is real,
+and it is remarkable.
+
+Then you read which number it is. Fifty percent — a coin flip.
+
+Ask for 80% and the horizon shrinks by
+[roughly five times](https://arxiv.org/abs/2503.14499). Ask for the 99% you would need
+before you stop watching it, and it
+[cannot be fitted at all](https://metr.org/notes/2026-01-22-time-horizon-limitations/) —
+the benchmark is not large enough to see that far. METR puts it without decoration:
+"a 50% time horizon of X hours does not mean we can delegate tasks under X hours to AIs."
+
+And every one of those tasks is, in their own word, low-context.
+Isolated. Cleanly scoped. Nothing like the repository you are about to point one at.
+
+Put the three together. The window is large, the usable part of it is smaller,
+and the number you were quoted assumed a coin flip on work that arrived clean.
+
+So every token spent telling an agent what you should have settled before it started
+is a token it does not spend on the work.
+
+You are not paying for that in money. You are paying with the only thing
+it has to think with.
+
 ## Small was never about how much a person could carry
 
 S is how you break an EPIC into stories that each deliver value in small chunks,
@@ -210,9 +294,20 @@ An agent will ask you questions — anyone who tells you otherwise has not used 
 The problem is *when* it asks: mid-session, with an approach already half committed,
 after the cheap moment has passed.
 
-**A human sits on every stage, and is called only when a decision is required.**
-That is the trade. You do not get the ceremonies back.
-You get people stationed where the judgment lives, and quiet everywhere else.
+**A human sits on every stage, and is called when a decision is required.**
+Being called is the smaller half of it. At every level a person writes the thing down —
+the value statement, by hand, and agreed. To a degree, the acceptance criteria too.
+
+That is the trade, and it is not a loss. What you called a ceremony was a container
+for a writing discipline. The container goes. The writing gets stricter,
+because now it is the only thing that carries.
+
+You get people stationed where the judgment lives, writing the few lines
+that bind everything downstream, and quiet everywhere else.
+
+Agents will get better at this, and that is not the question.
+The question is what one badly sized criterion costs you now. It burns the context
+before the work is finished, and what you lose is not the criterion. It is the task.
 
 <!-- ADNAN: this is where you take over. The stage-by-stage detail — triage, the contract
      fields, review bounds, SPIDR, the ready column, the bypass audit — is deliberately
@@ -251,8 +346,66 @@ does not smell right — no gate in that loop produces any of them.
 What the loop does is make room for them, by taking the typing away
 and leaving the arguing behind.
 
-Exchanging ideas is a human thing.
-That is what you will lean on to transform your org.
+Exchanging ideas is a human thing, and culture carried it between people for years.
+It does not carry to an agent. What carries is what you wrote down.
+
+The value statement, at every level. A strict structure on size.
+Acceptance criteria that came out of an argument rather than a template.
+An ADR when the decision outlives the story that caused it.
+
+Agents take the verbose part, and the verbose part is most of it —
+the volume, the restating, the long first draft.
+
+Write ten stories that way and you will see what no process document can hand you:
+which part was the same every time. That is repeatability. It is also the only reason
+two different agents, on two different days, produce work you recognize.
+
+## What value means at each level
+
+![One chain, many streams. Vision leads to Goals, Goals to a Roadmap of sequenced bets, and the Roadmap to many EPICS running in parallel. From EPICS the work fans out into three value streams of different sizes: a full room with Product, UX/UI, Engineering and QA running three EPICS at full size; two engineers and an agent running one EPIC with the same contract and fewer chairs; and one engineer and an agent running stories only against a standing goal. Every stream runs the same loop at its own size, and the value each stream demonstrates returns to the goals, which either move or do not. An EPIC with no line back to a goal is work nobody can judge.](./value-streams.svg)
+
+One vision. A few goals. A roadmap that says what comes first and what waits.
+Many EPICS in parallel, in streams of very different sizes — a full room here,
+one person and an agent there, running the same loop at a different scale.
+
+That chain is not hierarchy for its own sake. It is what lets you answer one question
+at any altitude: what would make this valuable, and who says so.
+
+Value is not one thing. It changes shape as you climb.
+
+| Level | Value is | Judged by |
+|---|---|---|
+| **Vision** | who we are for, and what we refuse | the market, over years |
+| **Goals** | a number that moves, or a state that changes | the org, each quarter |
+| **Roadmap** | order — what we bet on first, and what we defer on purpose | reality, when it disagrees |
+| **EPIC** | a capability a stakeholder can name | a demo of the whole thing |
+| **STORY** | one observable change | its acceptance criteria |
+| **CRITERION** | one check somebody can run | pass, or fail |
+| **TASK** | nothing at all | nobody |
+
+Sit with the last row. A task carries no value of its own, which is why an agent
+may invent, discard and rewrite its tasks freely, and why reviewing them is a waste
+of the only budget it has.
+
+Now put the agent where it belongs. Below the story it can take everything —
+drafting the criteria, arguing them back at you, writing the tasks, doing the work,
+and all of the verbose parts of every rung above.
+
+What stays yours is the value statement at each level. Not out of sentiment.
+Value is a claim about somebody else's world, and the agent does not live there.
+
+## Go and find your own cold rung
+
+Take the story your team shipped last week and walk it up.
+Story to EPIC. EPIC to roadmap. Roadmap to goal. Goal to vision.
+
+How far do you get before the line goes cold?
+
+Wherever it went cold is your answer. That is the rung where value stopped being
+written down, and it is the one no agent will ever recover for you — because there
+is nothing there to read.
+
+Start writing it there.
 
 ## Feedback
 

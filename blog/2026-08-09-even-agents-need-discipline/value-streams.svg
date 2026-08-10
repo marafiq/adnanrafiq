@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="730" height="524" viewBox="70 0 730 524" role="img" aria-label="One chain, many streams. A vertical chain runs Vision, then Goals, then Roadmap, then EPICS: one vision that rarely changes, a few measurable goals for the year, a roadmap of sequenced bets, and many EPICS in parallel. From EPICS the work fans out into three value streams of different sizes: a full room with Product, UX/UI, Engineering and QA running three EPICS at full size; two engineers and an agent running one EPIC with the same contract and fewer chairs; and one engineer and an agent running stories only against a standing goal. Every stream runs the same loop at its own size, and the value each stream demonstrates returns to the goals, which either move or do not. An EPIC with no line back to a goal is work nobody can judge.">
+<style>
+  svg { --surface:#FFFFFF; --panel:#FAFBFA; --ink:#171C19; --muted:#5F6B64; --line:#D5DBD6;
+        --accent:#8F6210; --accent-line:#C39A3E; --accent-soft:#F4EAD6;
+        --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  @media (prefers-color-scheme: dark) {
+    svg { --surface:#1B211C; --panel:#202722; --ink:#E7ECE7; --muted:#98A69C; --line:#2F382F;
+          --accent:#E0AE55; --accent-line:#A67F31; --accent-soft:#2A2418; }
+  }
+  .node   { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
+  .box    { fill: var(--panel); stroke: var(--muted); stroke-width: 1.4; opacity: 0.9; }
+  .lbl    { font-family: var(--mono); font-size: 14.5px; font-weight: 600; fill: var(--ink); }
+  .lbl-a  { font-family: var(--mono); font-size: 14.5px; font-weight: 600; fill: var(--accent); }
+  .lbl-m  { font-family: var(--mono); font-size: 14.5px; font-weight: 600; fill: var(--muted); }
+  .sub    { font-family: var(--mono); font-size: 11.5px; fill: var(--muted); }
+  .edge      { stroke: var(--ink); stroke-width: 1.4; fill: none; opacity: 0.75; }
+  .edge-back { stroke: var(--muted); stroke-width: 1.3; fill: none; stroke-dasharray: 4 4; }
+  .edge-lbl  { font-family: var(--mono); font-size: 11.5px; fill: var(--muted); }
+  .ahead     { fill: var(--ink); opacity: 0.75; }
+  .ahead-b   { fill: var(--muted); opacity: 0.65; }
+</style>
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="ahead" d="M 0 1 L 9 5 L 0 9 z"/></marker>
+    <marker id="arb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="ahead-b" d="M 0 1 L 9 5 L 0 9 z"/></marker>
+  </defs>
+
+  <text class="lbl-a" x="112" y="32">ONE CHAIN, MANY STREAMS</text>
+  <text class="sub" x="328" y="32">each stream runs the same loop at its own size</text>
+
+  <!-- the chain -->
+  <rect class="node" x="112" y="52" width="168" height="66" rx="3"/>
+  <text class="lbl" x="126" y="78">VISION</text><text class="sub" x="126" y="96">one, and stable</text><text class="sub" x="126" y="110">why we exist</text>
+  <rect class="node" x="112" y="138" width="168" height="66" rx="3"/>
+  <text class="lbl" x="126" y="164">GOALS</text><text class="sub" x="126" y="182">a few, this year</text><text class="sub" x="126" y="196">measurable</text>
+  <rect class="node" x="112" y="224" width="168" height="66" rx="3"/>
+  <text class="lbl" x="126" y="250">ROADMAP</text><text class="sub" x="126" y="268">sequenced bets</text><text class="sub" x="126" y="282">what, and when</text>
+  <rect class="node" x="112" y="310" width="168" height="66" rx="3"/>
+  <text class="lbl" x="126" y="336">EPICS</text><text class="sub" x="126" y="354">many, in parallel</text><text class="sub" x="126" y="368">larger value each</text>
+  <line class="edge" x1="196" y1="118" x2="196" y2="134" marker-end="url(#ar)"/>
+  <line class="edge" x1="196" y1="204" x2="196" y2="220" marker-end="url(#ar)"/>
+  <line class="edge" x1="196" y1="290" x2="196" y2="306" marker-end="url(#ar)"/>
+
+  <!-- fan out into the streams -->
+  <path class="edge" d="M 280 343 L 295 343 L 295 102 L 306 102" marker-end="url(#ar)"/>
+  <path class="edge" d="M 295 222 L 306 222" marker-end="url(#ar)"/>
+  <path class="edge" d="M 280 343 L 306 342" marker-end="url(#ar)"/>
+
+  <rect class="box" x="310" y="52" width="454" height="100" rx="3"/>
+  <text class="lbl-m" x="328" y="80">VALUE STREAM · a full room</text>
+  <text class="sub" x="328" y="106">Product, UX/UI, Engineering, QA · three EPICS in flight</text>
+  <text class="sub" x="328" y="126">the loop, at full size</text>
+
+  <rect class="box" x="310" y="172" width="454" height="100" rx="3"/>
+  <text class="lbl-m" x="328" y="200">VALUE STREAM · two and an agent</text>
+  <text class="sub" x="328" y="226">one EPIC · the same contract, fewer chairs</text>
+  <text class="sub" x="328" y="246">the loop, collapsed</text>
+
+  <rect class="box" x="310" y="292" width="454" height="100" rx="3"/>
+  <text class="lbl-m" x="328" y="320">VALUE STREAM · one and an agent</text>
+  <text class="sub" x="328" y="346">no EPIC · stories against a standing goal</text>
+  <text class="sub" x="328" y="366">the loop, at its smallest honest size</text>
+
+  <!-- value returns to the goals -->
+  <line class="edge-back" x1="764" y1="102" x2="778" y2="102" marker-end="url(#arb)"/>
+  <line class="edge-back" x1="764" y1="222" x2="778" y2="222" marker-end="url(#arb)"/>
+  <line class="edge-back" x1="764" y1="342" x2="778" y2="342" marker-end="url(#arb)"/>
+  <path class="edge-back" d="M 782 102 L 782 470 L 88 470 L 88 171 L 106 171" marker-end="url(#arb)"/>
+  <text class="edge-lbl" x="435" y="462" text-anchor="middle">value observed → the goal moves, or it does not</text>
+
+  <text class="edge-lbl" x="435" y="502" text-anchor="middle">an EPIC with no line back to a goal is work nobody can judge</text>
+</svg>
