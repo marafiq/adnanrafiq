@@ -448,6 +448,16 @@ process would be equally good at this, and you already know they are not.
 
 It is a way to think about your own. It is not a shape to copy.
 
+One more thing about the org chart, since I said the titles were not my call.
+The collapse is real and it is coming. What does not change is that a human stays
+the central piece, and needs more discipline than before, not less — their own,
+and whatever discipline the agents are going to get.
+
+An agent multiplies what gets produced. It does not multiply the judgment available
+to check it, and judgment did not get cheaper. So the ratio of work made to work judged
+moves against you, and that is the whole reason the discipline has to go up rather
+than down. The interventions for that ratio are early. Writing is the one we have.
+
 ## Where to start
 
 Take a story your team shipped last week and ask what it was for.
