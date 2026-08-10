@@ -1,5 +1,5 @@
 ---
-title: Agents are proxy of your discipline - Yours is You or Organization or Team
+title: Even agents need discipline
 description: Answer one question before you read on - what was the refinement meeting for? The ceremony most teams cut first turns out to be the mechanism that produced value, and acceptance criteria are the only thing that binds an agent. Here is the whole loop, and where a human still gets called.
 slug: even-agents-need-discipline
 authors: adnan
@@ -27,7 +27,7 @@ The goal is to think it through with you as you read. If you can recall the most
 
 The question is: do AI innovations make all the processes and principles obsolete and outdated, or is the essence preserved while the mechanics of applying it have evolved? 
 
-If your answer is that the processes and principals I have mentioned in essence were never effective way at first place, then we have opposing opinions, regardless keep disagreeing till you agree because I am going to show you THE GOOD PARTS.
+If your answer is that the processes and principles I have mentioned were never an effective way in the first place, then we have opposing opinions — regardless, keep disagreeing till you agree, because I am going to show you THE GOOD PARTS.
 
 The key point I am driving home is: How to transform your Team or Organization to be AI First. 
 
@@ -120,11 +120,11 @@ instead of at each other.
 
 If you know one thing humans are *good* at, it is emotions.
 
-It was a joke; the last line; but emotions does help.
+It was a joke, that last line. But emotions do help.
 
 ## Agent Focus & Attention
 
-Agents do not have emotions neither focus. Focus is attention of tokens. 
+Agents do not have emotions, nor focus. What looks like focus is attention over tokens.
 
 An agent feels no discomfort when a story is vague.
 It carries no social cost for shipping something it privately doubts.
@@ -142,9 +142,10 @@ because a proxy gets pursued with total fidelity and no discomfort at all.
 
 Roles are collapsing into fewer titles.
 One person and an agent now do what a team did,
-and somebody will redraw your org chart this year.
+and somebody is going to propose redrawing your org chart.
 
-That is happening with or without your opinion of it, and mine is not in this post.
+That is happening with or without your opinion of it, and which titles you keep
+is not my call to make.
 
 So before you collapse the roles and the org structure under different titles,
 so that humans can excel at many levels with the help of agents —
@@ -172,11 +173,15 @@ and arguing until the answer was yes.
 
 **The output of that argument was the acceptance criteria.**
 
-That is the whole mechanism. Value is what a stakeholder can observe changed,
-and acceptance criteria are that claim written in a form somebody can check.
+That is the mechanism, and it was never all of what was in the room.
+The skill, the drive, the safety to disagree — those drove the outcome,
+and they stayed with the people. The criteria are the part that travels.
 
-Which is why the meeting was never overhead. It was the step that produced
-the only artifact capable of binding what comes next.
+Value is what a stakeholder can observe changed, and acceptance criteria
+are that claim written in a form somebody can check.
+
+Which is why the argument was never overhead. The meeting was only the room
+it happened in, and it produced the one artifact capable of binding what comes next.
 
 ## Why acceptance criteria bind an agent
 
@@ -184,6 +189,7 @@ Hand an agent a value statement and it will tell you it has satisfied it.
 It will be sincere, and it will be persuasive, and you will believe it.
 
 Hand it a criterion and it either met it or it did not.
+Somebody still has to run the check.
 
 Write both, and expect them to read redundant. They should.
 The value line is the claim; the criteria are the same claim made checkable.
@@ -191,9 +197,9 @@ That redundancy is a checksum — when the criteria stop representing the value,
 you can see it, because both are written down and they now disagree.
 
 A story whose criteria all passed and whose value never landed
-is the commonest defect there is. It is only visible if you kept both.
+is the defect that hides longest. It is only visible if you kept both.
 
-## Agent context
+## Context is not the window
 
 Open the agent's config and look at what you actually gave it.
 A file explaining your conventions. A directory of notes it wrote to itself
@@ -214,7 +220,8 @@ at growing input lengths. Every one of them degraded. Their conclusion is flat:
 models "do not maintain consistent performance across input lengths."
 The sharpest result is the one that should bother you. On the same memory task,
 the roughly 300-token version of the prompt beat the 113,000-token version.
-Same question. Same model. More context made it worse.
+Same question. Same model. The long one was not missing anything —
+it was carrying everything else as well.
 
 That is the window. Now the agent working inside it.
 
@@ -225,9 +232,7 @@ and it is remarkable.
 
 Then you read which number it is. Fifty percent — a coin flip.
 
-Ask for 80% and the horizon shrinks by
-[roughly five times](https://arxiv.org/abs/2503.14499). Ask for the 99% you would need
-before you stop watching it, and it
+Ask for the 99% you would need before you stop watching it, and it
 [cannot be fitted at all](https://metr.org/notes/2026-01-22-time-horizon-limitations/) —
 the benchmark is not large enough to see that far. METR puts it without decoration:
 "a 50% time horizon of X hours does not mean we can delegate tasks under X hours to AIs."
@@ -241,29 +246,34 @@ and the number you were quoted assumed a coin flip on work that arrived clean.
 So every token spent telling an agent what you should have settled before it started
 is a token it does not spend on the work.
 
-You are not paying for that in money. You are paying with the only thing
+The token bill is the cheap part. What you actually spend is the only thing
 it has to think with.
 
-## Small was never about how much a person could carry
+## Small was never about your week
 
 S is how you break an EPIC into stories that each deliver value in small chunks,
 so acceptance criteria can govern them and the value can be judged.
 
 That purpose has not changed.
 
-What changed is the stakes. Context is limited — it is the scarce resource
-in this entire arrangement. So S is not a survivor of the AI era.
+What changed is the stakes. So S is not a survivor of the AI era.
 It matters more now than when it only had to fit inside a person's week.
 
 That is your answer to the burnout question, and it is not a figure of speech.
-Small chunks are how you keep work inside a context that can hold it.
+Two things have to be true when a story is done: the value landed, and the work
+finished inside one context. Both, or the slice was wrong.
 
-## A spike is written the same way a story is
+You do not predict that, you observe it — which makes it the first quality signal
+slicing has ever had that does not run on somebody's estimate. A story that delivered
+and fit was cut well. A story that delivered by spilling across four sessions
+was two stories wearing one ticket.
+
+## The spike
 
 The only difference is the outcome.
 
 A story's outcome is a demonstrable slice.
-A spike's outcome is one outcome, and one recommendation presented to the team.
+A spike's outcome is one finding, and one recommendation presented to the team.
 
 Same contract. Same acceptance criteria. Same two calls.
 
@@ -273,9 +283,9 @@ It may, rarely, change the EPIC.
 Notice what it does not do. It does not decide.
 The spike produces a recommendation and hands it to people.
 
-And this is why spike code does not quietly become your implementation.
+And this is why spike code has no quiet route into your implementation.
 The contract never claimed a slice, so there is nothing to demo and nothing to merge.
-You did not need a rule against it.
+Somebody can still decide to ship it. They just have to decide it out loud.
 
 ## The loop
 
@@ -287,55 +297,86 @@ Every accent block is a judgment somebody owns.
 The agent occupies one box in the middle, and both calls fire before it starts —
 because afterwards, the cost of re-slicing is already sunk.
 
+Both calls are one question each.
+
+The scope call belongs to the team, at refinement. Is this one slice of value,
+and is it small enough to judge? A story that fails gets re-sliced — and not by layer,
+because a horizontal slice gives nobody anything to look at.
+
+The context call belongs to the engineer, in the minute before the agent starts.
+Can this be started with what we have? A story that fails is not attempted.
+It raises a spike, because the terrain is unknown and guessing costs a whole session.
+
 Two things in that picture carry the whole answer.
 
-**The judgment moved earlier.** Both calls fire before the agent starts.
+**The judgment moved earlier.**
 An agent will ask you questions — anyone who tells you otherwise has not used one.
 The problem is *when* it asks: mid-session, with an approach already half committed,
 after the cheap moment has passed.
 
 **A human sits on every stage, and is called when a decision is required.**
 Being called is the smaller half of it. At every level a person writes the thing down —
-the value statement, by hand, and agreed. To a degree, the acceptance criteria too.
+the value statement, by hand, and agreed — and the criteria agreed the same way,
+whoever typed them.
 
 That is the trade, and it is not a loss. What you called a ceremony was a container
-for a writing discipline. The container goes. The writing gets stricter,
-because now it is the only thing that carries.
+for a writing discipline. Keep the argument; the calendar around it can go.
+The writing gets stricter, because now it is the only thing that carries.
 
 You get people stationed where the judgment lives, writing the few lines
 that bind everything downstream, and quiet everywhere else.
 
 Agents will get better at this, and that is not the question.
 The question is what one badly sized criterion costs you now. It burns the context
-before the work is finished, and what you lose is not the criterion. It is the task.
-
-<!-- ADNAN: this is where you take over. The stage-by-stage detail — triage, the contract
-     fields, review bounds, SPIDR, the ready column, the bypass audit — is deliberately
-     NOT here. Handing the reader the whole spec is what made the last draft worthless.
-     The diagram shows the shape; you decide how much of the mechanism a reader earns. -->
+before the work is finished, and what you lose is not the criterion. It is the story.
 
 ## Easy but not right way
 
-Put the criteria in the prompt. Ask the agent to review its own diff.
-Add a gate to CI and call it solved.
+Paste the acceptance criteria into a prompt. One agent, one long session, the whole story.
+Ask it to review its own diff. Add a gate to CI and call it solved.
 
 It is faster, and for a while the output looks identical. That is the honest case for it.
 
-It costs you the one thing you were trying to keep.
-An agent cannot step outside the scope it was given to ask whether the scope was right,
-and configuring an agent to check you does not change whose judgment is in the room.
+What it costs does not show up for a month. One context is now holding every concern
+at once — building the thing, checking the thing, and judging whether the thing was
+worth building. The reviewer is the implementer. The scope is whatever survived
+the middle of the session.
+
+And an agent cannot step outside the scope it was given to ask whether the scope was right.
+Configuring an agent to check you does not change whose judgment is in the room.
 You find out when a story passes every criterion and moves nothing anybody can see.
 
 ## Hard but right way
 
-Keep the argument, and move it earlier.
+Look at the boxes again. Every one of them has three things: a scope it is not allowed
+to leave, the skills it needs, and one outcome somebody is expecting.
 
-Acceptance criteria that came out of a real disagreement rather than a template.
-Two calls, both human, both before the agent starts.
+That is an agent specification. It always was one.
+You just used to staff it with a person.
 
-Say what it costs, because it costs something.
-It wants senior attention at both calls, and it asks somebody to hold a story back
-while an empty ready column makes them look slow.
+So give each box its own agent. Explicit scope, explicit skills, one expected outcome,
+and a context holding nothing except what that box needs. Not one agent walking the
+whole loop with everything in the window at the same time.
+
+The boxes hand each other writing, which is why the writing had to get stricter.
+The value statement is what the box above owes. The criteria are what the box below
+gets checked against. Keep the argument, and move it earlier.
+
+The argument does not need a room. One person drafts the criteria, the others read them
+and edit, the edits are mutual, and the agreement is the gate. That is more async and it
+is not less involved — the involvement sits where the value gets decided, and unlike
+the room, it leaves the argument behind in writing.
+
+If you already do this in pull request threads and design documents, you are already
+running it. You have just not been treating the agreement as a gate.
+
+The human is still summoned at the boxes where a decision is required — not to supervise
+the agents, but because those boxes were never agent-shaped to begin with.
+
+Say what it costs, because it costs something. You have to define every box properly:
+scope, skills, outcome, and what done means for that box alone. It wants senior attention
+at both calls, and it asks somebody to hold a story back while an empty ready column
+makes them look slow.
 
 ## What you are actually leaning on
 
@@ -346,32 +387,36 @@ does not smell right — no gate in that loop produces any of them.
 What the loop does is make room for them, by taking the typing away
 and leaving the arguing behind.
 
-Exchanging ideas is a human thing, and culture carried it between people for years.
-It does not carry to an agent. What carries is what you wrote down.
+Culture carries that between people, and it still does. It does not carry to an agent —
+what does is what you wrote down.
 
 The value statement, at every level. A strict structure on size.
-Acceptance criteria that came out of an argument rather than a template.
-An ADR when the decision outlives the story that caused it.
+The criteria, argued and not filled in.
+An ADR — an architecture decision record — when a decision outlives the story
+that caused it.
 
 Agents take the verbose part, and the verbose part is most of it —
 the volume, the restating, the long first draft.
 
 Write ten stories that way and you will see what no process document can hand you:
-which part was the same every time. That is repeatability. It is also the only reason
+which part was the same every time. That is repeatability. It is also what makes
 two different agents, on two different days, produce work you recognize.
 
 ## What value means at each level
 
-![One chain, many streams. Vision leads to Goals, Goals to a Roadmap of sequenced bets, and the Roadmap to many EPICS running in parallel. From EPICS the work fans out into three value streams of different sizes: a full room with Product, UX/UI, Engineering and QA running three EPICS at full size; two engineers and an agent running one EPIC with the same contract and fewer chairs; and one engineer and an agent running stories only against a standing goal. Every stream runs the same loop at its own size, and the value each stream demonstrates returns to the goals, which either move or do not. An EPIC with no line back to a goal is work nobody can judge.](./value-streams.svg)
+![One chain, many streams. Vision leads to Goals, Goals to a Roadmap of sequenced bets, and the Roadmap to many EPICS running in parallel. From EPICS the work fans out into three value streams of different sizes: a full room with Product, UX/UI, Engineering and QA running three EPICS at full size; two engineers and an agent running one EPIC with the same contract and fewer chairs; and one engineer and an agent running stories only against a standing goal. The contract is the same in every stream and the staffing is not, and the value each stream demonstrates returns to the goals, which either move or do not. An EPIC with no line back to a goal is work nobody can judge.](./value-streams.svg)
 
 One vision. A few goals. A roadmap that says what comes first and what waits.
 Many EPICS in parallel, in streams of very different sizes — a full room here,
-one person and an agent there, running the same loop at a different scale.
+one person and an agent there.
+
+The contract is the same in every stream. The staffing is not, and nothing here
+pretends one shape fits all of them.
 
 That chain is not hierarchy for its own sake. It is what lets you answer one question
 at any altitude: what would make this valuable, and who says so.
 
-Value is not one thing. It changes shape as you climb.
+Value is not one thing. It means something different at every level.
 
 | Level | Value is | Judged by |
 |---|---|---|
@@ -384,28 +429,37 @@ Value is not one thing. It changes shape as you climb.
 | **TASK** | nothing at all | nobody |
 
 Sit with the last row. A task carries no value of its own, which is why an agent
-may invent, discard and rewrite its tasks freely, and why reviewing them is a waste
-of the only budget it has.
+may invent, discard and rewrite its tasks freely, and why a task list is not
+something to approve. The approach is worth your minute. The list is not.
 
-Now put the agent where it belongs. Below the story it can take everything —
+Now put the agent where it belongs. Below the story it can take almost everything —
 drafting the criteria, arguing them back at you, writing the tasks, doing the work,
-and all of the verbose parts of every rung above.
+and the verbose part of every level above.
+
+Drafting is not agreeing. It can write the sentence. It cannot hold the argument,
+and it cannot be the one who says the words are right.
 
 What stays yours is the value statement at each level. Not out of sentiment.
 Value is a claim about somebody else's world, and the agent does not live there.
 
-## Go and find your own cold rung
+None of this is a template. Copy the table and you will have copied the easy part.
+Process is the easy part — if it were the whole thing, every company running the same
+process would be equally good at this, and you already know they are not.
 
-Take the story your team shipped last week and walk it up.
-Story to EPIC. EPIC to roadmap. Roadmap to goal. Goal to vision.
+It is a way to think about your own. It is not a shape to copy.
 
-How far do you get before the line goes cold?
+## Where to start
 
-Wherever it went cold is your answer. That is the rung where value stopped being
-written down, and it is the one no agent will ever recover for you — because there
-is nothing there to read.
+Take a story your team shipped last week and ask what it was for.
+Then ask the same question one level up, and again, until you run out of levels.
 
-Start writing it there.
+Most people stop after one or two, because nobody wrote the next answer down.
+
+That is where to start. Not with tooling, and not with the org chart.
+Start at the first level where nobody can tell you what the work was for,
+because that is the level where an agent has nothing to read either.
+
+Write it down there.
 
 ## Feedback
 

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="730" height="524" viewBox="70 0 730 524" role="img" aria-label="One chain, many streams. A vertical chain runs Vision, then Goals, then Roadmap, then EPICS: one vision that rarely changes, a few measurable goals for the year, a roadmap of sequenced bets, and many EPICS in parallel. From EPICS the work fans out into three value streams of different sizes: a full room with Product, UX/UI, Engineering and QA running three EPICS at full size; two engineers and an agent running one EPIC with the same contract and fewer chairs; and one engineer and an agent running stories only against a standing goal. Every stream runs the same loop at its own size, and the value each stream demonstrates returns to the goals, which either move or do not. An EPIC with no line back to a goal is work nobody can judge.">
+<svg xmlns="http://www.w3.org/2000/svg" width="730" height="524" viewBox="70 0 730 524" role="img" aria-label="One chain, many streams. A vertical chain runs Vision, then Goals, then Roadmap, then EPICS: one vision that rarely changes, a few measurable goals for the year, a roadmap of sequenced bets, and many EPICS in parallel. From EPICS the work fans out into three value streams of different sizes: a full room with Product, UX/UI, Engineering and QA running three EPICS at full size; two engineers and an agent running one EPIC with the same contract and fewer chairs; and one engineer and an agent running stories only against a standing goal. The contract is the same in every stream and the staffing is not, and the value each stream demonstrates returns to the goals, which either move or do not. An EPIC with no line back to a goal is work nobody can judge.">
 <style>
   svg { --surface:#FFFFFF; --panel:#FAFBFA; --ink:#171C19; --muted:#5F6B64; --line:#D5DBD6;
         --accent:#8F6210; --accent-line:#C39A3E; --accent-soft:#F4EAD6;
@@ -25,7 +25,7 @@
   </defs>
 
   <text class="lbl-a" x="112" y="32">ONE CHAIN, MANY STREAMS</text>
-  <text class="sub" x="328" y="32">each stream runs the same loop at its own size</text>
+  <text class="sub" x="328" y="32">same contract in every stream; the staffing is not</text>
 
   <!-- the chain -->
   <rect class="node" x="112" y="52" width="168" height="66" rx="3"/>
