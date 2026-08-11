@@ -57,6 +57,7 @@ public class DisposableStream(string fileName) : IDisposable
    since we are not wrapping it in a `using` block and neither calling the `Dispose` method explicitly?
 2. If the `Dispose` method is not called, how will the `FileStream` object be collected by the Runtime?
 
+<!--truncate-->
 ### Answer # 1
 The .NET runtime will never call the `Dispose` method on the `DisposableStream`.
 Not for just this object, in fact, any object that implements the `IDisposable` interface will not have its `Dispose` method called by the .NET runtime.
