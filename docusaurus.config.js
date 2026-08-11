@@ -35,7 +35,6 @@ const config = {
     },
     themes: ['@docusaurus/theme-mermaid'],
 
-    /*plugins: [require.resolve("@cmfcmf/docusaurus-search-local")],https://github.com/cmfcmf/docusaurus-search-local*/
     presets: [
         [
             'classic',

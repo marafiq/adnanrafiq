@@ -1,8 +1,22 @@
 {
   // This file is not used in compilation. It is here just for a nice editor experience.
-  "extends": "@tsconfig/docusaurus/tsconfig.json",
+  //
+  // These options were inlined from @tsconfig/docusaurus@2.0.9, which cannot be
+  // used under TypeScript 7: it sets `baseUrl`, an option TS 7 removed, and 2.0.9
+  // is its latest release. `paths` below replaces what `baseUrl` used to do, and
+  // living in this file it anchors `./*` to the repo root.
   "compilerOptions": {
-    "baseUrl": ".",
-    "jsx": "react"
+    "allowJs": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "lib": ["dom"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "types": ["node", "@docusaurus/module-type-aliases", "@docusaurus/theme-classic"],
+    "paths": {
+      "@site/*": ["./*"]
+    },
+    "skipLibCheck": true
   }
 }
