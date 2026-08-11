@@ -35,7 +35,6 @@ const config = {
     },
     themes: ['@docusaurus/theme-mermaid'],
 
-    /*plugins: [require.resolve("@cmfcmf/docusaurus-search-local")],https://github.com/cmfcmf/docusaurus-search-local*/
     presets: [
         [
             'classic',
@@ -49,7 +48,7 @@ const config = {
                         title: "Adnan Rafiq Blog",
                         language: "en-US",
                         type: "all",
-                        description: "A blog written by Adnan Rafiq - A Senior Software Engineer",
+                        description: "A blog written by Adnan Rafiq - A VP of Technology",
                         copyright: `Copyright © ${new Date().getFullYear()} Adnan Rafiq`
                     },
                     sortPosts: "descending",

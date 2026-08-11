@@ -16,7 +16,7 @@ export default function CodeBlockFooter() {
             <div className="avatar__intro">
                 <div className="avatar__name">Adnan Rafiq</div>
                 <small className="avatar__subtitle">
-                    A Senior Software Engineer with more than 15 years of experience.
+                    A VP of Technology.
                 </small>
                 <small><a href={"https://adnanrafiq.com"}>https://adnanrafiq.com</a> </small>
             </div>

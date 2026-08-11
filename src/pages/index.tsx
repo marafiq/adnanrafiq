@@ -32,10 +32,9 @@ export default function Home(): React.JSX.Element {
                                 </div>
                                 <div className="card__body">
                                     <p style={{fontSize:"medium"}}>
-                                        A Senior Software Engineer with more
-                                        than 15 years of
-                                        experience. I love building applications using Microsoft Technology Stack.
-                                        You can find on <a rel="me" href="https://hachyderm.io/@adnanrafiq">Mastodon</a>.
+                                        A VP of Technology.
+                                        I love building applications using Microsoft Technology Stack.
+                                        You can find me on <a href="https://x.com/madnan_rafiq">X</a>.
                                     </p>
                                     <h2>My Journey</h2>
                                     <div className="container">
@@ -131,8 +130,8 @@ export default function Home(): React.JSX.Element {
                                                     <div className="card__body" style={{minHeight: "200px"}}>
                                                         <h4>Boston</h4>
                                                         <small>
-                                                            It's been more than seven years; I am working as a Senior
-                                                            Software Engineer in Cengage Group. A place where I live
+                                                            It's been more than seven years; I am working as a VP of
+                                                            Technology. A place where I live
                                                             with my
                                                             beautiful wife and kids.
                                                         </small>
