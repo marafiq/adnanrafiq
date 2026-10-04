@@ -5,7 +5,6 @@
 // (v1's `prism-react-renderer/themes/*` deep imports were removed).
 const {themes: prismThemes} = require('prism-react-renderer');
 
-const lightCodeTheme = prismThemes.github;
 const darkCodeTheme = prismThemes.dracula;
 
 /** @type {import('@docusaurus/types').Config} */
@@ -34,6 +33,7 @@ const config = {
         },
     },
     themes: ['@docusaurus/theme-mermaid'],
+    plugins: [require.resolve('./plugins/editorial')],
 
     presets: [
         [
@@ -43,7 +43,6 @@ const config = {
                 docs: false,
                 blog: {
                     showReadingTime: true,
-                    editUrl: 'https://github.com/marafiq/adnanrafiq/edit/main/',
                     feedOptions: {
                         title: "Adnan Rafiq Blog",
                         language: "en-US",
@@ -82,30 +81,38 @@ const config = {
                 },
                 items: [
 
-                    {to: '/blog', label: 'Blog', position: 'left'},
-                    {to: '/cards', label: 'Cards', position: 'left'},
+                    {to: '/blog', label: 'Writing', position: 'left'},
+                    {to: '/cards', label: 'Code cards', position: 'left'},
+                    {to: '/#journey', label: 'About', position: 'left', activeBaseRegex: '^/#journey$'},
                     {
                         href: 'https://mottobits.com/ai-delivery',
                         label: 'Move your .NET backlog forward',
                         position: 'right',
                         className: 'mottobits-delivery-cta',
                     },
-                    {
-                        href: 'https://github.com/marafiq',
-                        label: 'GitHub',
-                        position: 'right',
-                    },
-                    {
-                        href: 'https://twitter.com/madnan_rafiq',
-                        label: 'Twitter',
-                        position: 'right',
-                    },
+
 
 
                 ],
             },
             footer: {
-                style: 'dark',
+                style: 'light',
+                links: [
+                    {title: 'Explore', items: [
+                        {label: 'All writing', to: '/blog/'},
+                        {label: 'Topics', to: '/blog/tags/'},
+                        {label: 'Archive', to: '/blog/archive/'},
+                        {label: 'Code cards', to: '/cards/'},
+                    ]},
+                    {title: 'Stay connected', items: [
+                        {label: 'RSS feed', href: 'https://adnanrafiq.com/blog/rss.xml'},
+                        {label: 'GitHub', href: 'https://github.com/marafiq'},
+                        {label: 'X', href: 'https://x.com/madnan_rafiq'},
+                    ]},
+                    {title: 'Mottobits', items: [
+                        {label: 'Move your .NET backlog forward', href: 'https://mottobits.com/ai-delivery'},
+                    ]},
+                ],
                 copyright: `Copyright © ${new Date().getFullYear()} Adnan Rafiq.`,
             },
             mermaid: {
@@ -120,14 +127,7 @@ const config = {
                 additionalLanguages: ['sql', 'csharp', 'powershell'],
                 defaultLanguage: 'csharp'
             },
-            announcementBar: {
-                id: 'MottobitsDeliveryBanner',
-                content:
-                    'Need a team to move your .NET backlog forward? <a target="_blank" rel="noopener noreferrer" href="https://mottobits.com/ai-delivery">Explore dedicated development and QA at Mottobits</a>.',
-                backgroundColor: '#fafbfc',
-                textColor: '#091E42',
-                isCloseable: false,
-            }
+
         }),
 };
 

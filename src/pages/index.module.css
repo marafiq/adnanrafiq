@@ -1,23 +1,51 @@
-/**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
- */
-
-.heroBanner {
-  padding: 4rem 0;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+.home { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+.intro { display: flex; align-items: center; justify-content: space-between; gap: 40px; padding: 54px 0 36px; }
+.intro h1 { font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -.045em; margin-bottom: 16px; }
+.bio { max-width: 640px; font-size: 1.08rem; line-height: 1.7; margin: 0; color: var(--editorial-muted); }
+.bio a { text-decoration: underline; }
+.portrait { width: 108px; height: 132px; object-fit: cover; object-position: center 28%; border-radius: 3px; filter: saturate(.8); flex-shrink: 0; }
+.topics { display: flex; gap: 26px; align-items: center; flex-wrap: wrap; padding: 18px 0; border-block: 1px solid var(--editorial-rule); font-size: .9rem; }
+.topics > span { margin: 0; }
+.topics a { color: var(--ifm-font-color-base); }
+.topics a span { color: var(--ifm-color-primary); margin-left: 8px; }
+.featured { display: grid; grid-template-columns: 1.18fr 1fr; gap: 56px; padding: 44px 0 48px; border-bottom: 1px solid var(--editorial-rule); }
+.latest h2 { font-size: clamp(2rem, 3.5vw, 2.8rem); letter-spacing: -.035em; line-height: 1.12; margin: 18px 0; }
+.latest h2 a, .selected h3 a { color: var(--ifm-font-color-base); }
+.latest > p:not(:first-child) { color: var(--editorial-muted); line-height: 1.7; }
+.selected { border-left: 1px solid var(--editorial-rule); padding-left: 32px; }
+.selected article { display: flex; gap: 16px; border-bottom: 1px solid var(--editorial-rule); padding: 18px 0; }
+.selected article:last-child { border: 0; padding-bottom: 0; }
+.selected h3 { font-size: 1.3rem; line-height: 1.3; margin-bottom: 12px; }
+.number { color: var(--ifm-color-primary); font: .78rem var(--ifm-font-family-monospace); padding-top: 4px; }
+.recent { padding: 40px 0 48px; }
+.delivery { display: flex; justify-content: space-between; align-items: center; gap: 32px; border-block: 1px solid var(--editorial-rule); padding: 32px 0; }
+.delivery h2 { margin: 0; font-size: 1.8rem; }
+.delivery > div > p { margin-bottom: 10px; }
+.journey { padding: 48px 0 56px; }
+.journeyGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.journeyGrid img { width: 100%; height: auto; aspect-ratio: 4/3; object-fit: cover; border-radius: 2px; margin-bottom: 18px; }
+.journeyGrid h3 { font-size: 1.2rem; }
+.journeyGrid p { font-size: .9rem; line-height: 1.7; color: var(--editorial-muted); }
+@media (max-width: 760px) {
+  .home { padding-inline: 20px; }
+  .intro { padding: 34px 0 28px; gap: 20px; align-items: flex-start; }
+  .portrait { width: 64px; height: 80px; margin-top: 5px; }
+  .intro h1 { font-size: 2rem; line-height: 1.12; }
+  .bio { font-size: 1rem; }
+  .topics { gap: 12px 24px; }
+  .topics > span { width: 100%; }
+  .featured { grid-template-columns: 1fr; gap: 32px; padding-block: 32px; }
+  .selected { border-left: 0; border-top: 1px solid var(--editorial-rule); padding: 28px 0 0; }
+  .selected h3 { font-size: 1.25rem; }
+  .recent { padding-block: 32px; }
+  .delivery { flex-direction: column; align-items: flex-start; gap: 18px; }
+  .journeyGrid { grid-template-columns: repeat(2, 1fr); gap: 24px 18px; }
+  .journey .section-heading { flex-direction: column; align-items: flex-start; gap: 8px; }
 }
-
-@media screen and (max-width: 966px) {
-  .heroBanner {
-    padding: 2rem;
-  }
-}
-
-.buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@media (max-width: 420px) {
+  .intro { position: relative; display: block; }
+  .intro > div > p:first-child { padding-right: 76px; min-height: 52px; display: flex; align-items: center; }
+  .portrait { position: absolute; right: 0; top: 24px; height: 64px; }
+  .journeyGrid { grid-template-columns: 1fr; }
+  .journeyGrid img { aspect-ratio: 16/10; }
 }
