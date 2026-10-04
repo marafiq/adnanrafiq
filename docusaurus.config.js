@@ -85,10 +85,10 @@ const config = {
                     {to: '/blog', label: 'Blog', position: 'left'},
                     {to: '/cards', label: 'Cards', position: 'left'},
                     {
-                        href: 'https://youtube.com/@OpenSourcedotNET?sub_confirmation=1',
-                        label: 'Subscribe to my YouTube Channel',
+                        href: 'https://mottobits.com/ai-delivery',
+                        label: 'Move your .NET backlog forward',
                         position: 'right',
-                        className: 'subscribe-to-youtube',
+                        className: 'mottobits-delivery-cta',
                     },
                     {
                         href: 'https://github.com/marafiq',
@@ -121,9 +121,9 @@ const config = {
                 defaultLanguage: 'csharp'
             },
             announcementBar: {
-                id: 'SubscribeBanner',
+                id: 'MottobitsDeliveryBanner',
                 content:
-                    'I have started a YouTube Channel, please show your support by subscribing <a target="_blank" rel="noopener noreferrer" href="https://youtube.com/@OpenSourcedotNET?sub_confirmation=1">Now</a>. It will be a great motivation for me.',
+                    'Need a team to move your .NET backlog forward? <a target="_blank" rel="noopener noreferrer" href="https://mottobits.com/ai-delivery">Explore dedicated development and QA at Mottobits</a>.',
                 backgroundColor: '#fafbfc',
                 textColor: '#091E42',
                 isCloseable: false,
