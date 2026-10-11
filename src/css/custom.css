@@ -61,7 +61,6 @@ a:hover { text-decoration-thickness: 1px; }
 .navbar button.clean-btn { min-width: 44px; min-height: 44px; }
 .navbar__title { font-family: var(--ifm-heading-font-family); font-size: 1.2rem; font-weight: 600; letter-spacing: -.03em; }
 .navbar__logo { height: 28px; margin-right: 10px; }
-html[data-theme='dark'] .navbar__logo img { filter: brightness(0) invert(1); }
 .navbar__link { font-size: .9rem; }
 .navbar__link--active { text-decoration: underline; text-underline-offset: 6px; }
 .mottobits-delivery-cta { border: 1px solid var(--editorial-rule); margin-right: 12px; padding: 8px 13px; font-size: .82rem; border-radius: 3px; }
