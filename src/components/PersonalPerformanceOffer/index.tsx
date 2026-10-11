@@ -2,10 +2,14 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
-const articlePath = '/blog/complete-guide-to-hosted-or-background-or-worker-services-in-dot-net-using-csharp';
+const BlogPostOfferContext = React.createContext(false);
 
-export function isPerformanceOfferArticle(pathname: string): boolean {
-  return pathname.replace(/\/$/, '') === articlePath;
+export function BlogPostOfferProvider({children}: {children: React.ReactNode}): React.JSX.Element {
+  return <BlogPostOfferContext.Provider value={true}>{children}</BlogPostOfferContext.Provider>;
+}
+
+export function useBlogPostOffer(): boolean {
+  return React.useContext(BlogPostOfferContext);
 }
 
 export default function PersonalPerformanceOffer(): React.JSX.Element {
