@@ -33,13 +33,7 @@ const journey = [
 ];
 
 function PerformanceOffer(): React.JSX.Element {
-  const [videoLoaded, setVideoLoaded] = React.useState(false);
-  const player = React.useRef<HTMLIFrameElement>(null);
   const videoTitle = 'On .NET Live - Migrating from .NET Framework to .NET: A Diagnostics Story.';
-
-  React.useEffect(() => {
-    if (videoLoaded) player.current?.focus();
-  }, [videoLoaded]);
 
   return <section className={styles.offer} aria-labelledby="performance-offer">
     <Heading as="h2" id="performance-offer">Your team has features to ship. Production problems keep pulling them back.</Heading>
@@ -55,21 +49,17 @@ function PerformanceOffer(): React.JSX.Element {
     <div className={styles.video}>
       <h3 id="diagnostics-video">{videoTitle}</h3>
       <div className={styles.videoFrame}>
-        {videoLoaded ? <iframe
-          ref={player}
+        <iframe
           src="https://www.youtube-nocookie.com/embed/dSYf2hLQRls?autoplay=0"
           title={videoTitle}
           width="800"
           height="450"
-          loading="lazy"
+          loading="eager"
           referrerPolicy="strict-origin-when-cross-origin"
           allow="encrypted-media; picture-in-picture; fullscreen"
           allowFullScreen
           tabIndex={0}
-        /> : <div className={styles.videoPlaceholder}>
-          <button type="button" className={styles.videoLoad} aria-describedby="diagnostics-video video-privacy" onClick={() => setVideoLoaded(true)}>Load video</button>
-          <p id="video-privacy">Loads YouTube’s privacy-enhanced player.</p>
-        </div>}
+        />
       </div>
       <a className="text-link" href="https://www.youtube.com/watch?v=dSYf2hLQRls">Watch my diagnostics walkthrough on On .NET Live. <span aria-hidden="true">↗</span></a>
     </div>
