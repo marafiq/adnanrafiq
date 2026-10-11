@@ -1,0 +1,4 @@
+.mobile { display: none; }
+@media (max-width: 996px) {
+  .mobile { display: block; margin: 32px 0; }
+}
