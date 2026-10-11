@@ -32,6 +32,46 @@ const journey = [
   }
 ];
 
+function PerformanceOffer(): React.JSX.Element {
+  const [videoLoaded, setVideoLoaded] = React.useState(false);
+  const player = React.useRef<HTMLIFrameElement>(null);
+  const videoTitle = 'On .NET Live - Migrating from .NET Framework to .NET: A Diagnostics Story.';
+
+  React.useEffect(() => {
+    if (videoLoaded) player.current?.focus();
+  }, [videoLoaded]);
+
+  return <section className={styles.offer} aria-labelledby="performance-offer">
+    <h2 id="performance-offer">Performance issues in your .NET stack?</h2>
+    <p className={styles.offerCopy}>I help diagnose and resolve bottlenecks across .NET applications and SQL Server. We agree on a measurable target, scope, test conditions and fixed fee upfront. You pay when the agreed target is met.</p>
+    <div className={styles.offerAction}>
+      <a className={styles.offerCta} href="https://x.com/madnan_rafiq">DM me on X <span aria-hidden="true">↗</span></a>
+      <p>Tell me what you’re seeing and what needs to improve.</p>
+    </div>
+    <div className={styles.video}>
+      <h3 id="diagnostics-video">{videoTitle}</h3>
+      <div className={styles.videoFrame}>
+        {videoLoaded ? <iframe
+          ref={player}
+          src="https://www.youtube-nocookie.com/embed/dSYf2hLQRls?autoplay=0"
+          title={videoTitle}
+          width="800"
+          height="450"
+          loading="lazy"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allow="encrypted-media; picture-in-picture; fullscreen"
+          allowFullScreen
+          tabIndex={0}
+        /> : <div className={styles.videoPlaceholder}>
+          <button type="button" className={styles.videoLoad} aria-describedby="diagnostics-video video-privacy" onClick={() => setVideoLoaded(true)}>Load video</button>
+          <p id="video-privacy">Loads YouTube’s privacy-enhanced player.</p>
+        </div>}
+      </div>
+      <a className="text-link" href="https://www.youtube.com/watch?v=dSYf2hLQRls">Watch on YouTube <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>;
+}
+
 export default function Home(): React.JSX.Element {
   const posts = usePosts();
   const latest = posts[0];
@@ -48,6 +88,7 @@ export default function Home(): React.JSX.Element {
         </div>
         <img className={styles.portrait} src="/img/profile-avatar.jpg" alt="Adnan Rafiq" width="120" height="144" />
       </header>
+      <PerformanceOffer />
       <nav className={styles.topics} aria-label="Explore writing">
         <span className="eyebrow">Explore</span>
         <Link to="/blog/tags/performance/">.NET performance <span aria-hidden="true">↗</span></Link>
