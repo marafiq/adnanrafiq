@@ -11,10 +11,15 @@ export function isPerformanceOfferArticle(pathname: string): boolean {
 export default function PersonalPerformanceOffer(): React.JSX.Element {
   const headingId = React.useId();
   return <section className={styles.card} aria-labelledby={headingId}>
-    <h2 id={headingId}>Performance issues in your .NET stack?</h2>
-    <p>I help diagnose and resolve bottlenecks across .NET applications and SQL Server. We agree on a measurable target, scope, test conditions and fixed fee upfront. You pay when the agreed target is met.</p>
-    <a className={styles.cta} href="https://x.com/madnan_rafiq">DM me on X <span aria-hidden="true">↗</span></a>
-    <p className={styles.support}>Tell me what you’re seeing and what needs to improve.</p>
+    <h2 id={headingId}>Your team has features to ship. Performance problems keep pulling them back.</h2>
+    <ul className={styles.painPoints}>
+      <li>Slow screens and reports that frustrate customers</li>
+      <li>SQL timeouts and recurring failures that erode trust</li>
+      <li>Applications that struggle when demand peaks</li>
+    </ul>
+    <p>I help your team resolve performance and stability problems across .NET and SQL Server, without hiring a dedicated performance engineer. I investigate the underlying causes, implement targeted fixes and measure the improvement.</p>
+    <p>I also build AI guardrails into your codebase to help prevent the same problems from returning.</p>
+    <a className={styles.cta} href="https://x.com/madnan_rafiq">DM me on X and tell me what keeps coming back. <span aria-hidden="true">↗</span></a>
     <Link className={styles.videoLink} to="/#performance-offer">Offer and diagnostics video <span aria-hidden="true">↗</span></Link>
   </section>;
 }
