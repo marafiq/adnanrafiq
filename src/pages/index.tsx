@@ -42,16 +42,15 @@ function PerformanceOffer(): React.JSX.Element {
   }, [videoLoaded]);
 
   return <section className={styles.offer} aria-labelledby="performance-offer">
-    <Heading as="h2" id="performance-offer">Your team has features to ship. Performance problems keep pulling them back.</Heading>
+    <Heading as="h2" id="performance-offer">Your team has features to ship. Production problems keep pulling them back.</Heading>
     <ul className={styles.offerPainPoints}>
-      <li>Slow screens and reports that frustrate customers</li>
-      <li>SQL timeouts and recurring failures that erode trust</li>
-      <li>Applications that struggle when demand peaks</li>
+      <li>Slow screens and reports frustrate users</li>
+      <li>The same timeouts and failures keep coming back</li>
+      <li>Your application struggles when demand peaks</li>
     </ul>
-    <p className={styles.offerCopy}>I help your team resolve performance and stability problems across .NET and SQL Server, without hiring a dedicated performance engineer. I investigate the underlying causes, implement targeted fixes and measure the improvement.</p>
-    <p className={styles.offerCopy}>I also build AI guardrails into your codebase to help prevent the same problems from returning.</p>
+    <p className={styles.offerCopy}>I find and fix performance and stability problems across .NET and SQL Server, and use the causes we uncover to build AI guardrails that help catch those patterns in new code.</p>
     <div className={styles.offerAction}>
-      <a className={styles.offerCta} href="https://x.com/madnan_rafiq">DM me on X and tell me what keeps coming back. <span aria-hidden="true">↗</span></a>
+      <a className={styles.offerCta} href="https://x.com/madnan_rafiq">DM me on X with the problem taking the most time from your team. <span aria-hidden="true">↗</span></a>
     </div>
     <div className={styles.video}>
       <h3 id="diagnostics-video">{videoTitle}</h3>
@@ -72,7 +71,7 @@ function PerformanceOffer(): React.JSX.Element {
           <p id="video-privacy">Loads YouTube’s privacy-enhanced player.</p>
         </div>}
       </div>
-      <a className="text-link" href="https://www.youtube.com/watch?v=dSYf2hLQRls">Watch on YouTube <span aria-hidden="true">↗</span></a>
+      <a className="text-link" href="https://www.youtube.com/watch?v=dSYf2hLQRls">Watch my diagnostics walkthrough on On .NET Live. <span aria-hidden="true">↗</span></a>
     </div>
   </section>;
 }
