@@ -42,7 +42,7 @@ function PerformanceOffer(): React.JSX.Element {
   }, [videoLoaded]);
 
   return <section className={styles.offer} aria-labelledby="performance-offer">
-    <h2 id="performance-offer">Performance issues in your .NET stack?</h2>
+    <Heading as="h2" id="performance-offer">Performance issues in your .NET stack?</Heading>
     <p className={styles.offerCopy}>I help diagnose and resolve bottlenecks across .NET applications and SQL Server. We agree on a measurable target, scope, test conditions and fixed fee upfront. You pay when the agreed target is met.</p>
     <div className={styles.offerAction}>
       <a className={styles.offerCta} href="https://x.com/madnan_rafiq">DM me on X <span aria-hidden="true">↗</span></a>
