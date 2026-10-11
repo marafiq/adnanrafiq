@@ -75,8 +75,10 @@ const config = {
             navbar: {
                 title: 'Adnan Rafiq',
                 logo: {
-                    alt: 'Adnan Rafiq Logo',
-                    src: 'img/logo.png',
+                    // The adjacent name provides the brand link's accessible label.
+                    alt: '',
+                    src: 'img/logo.svg',
+                    srcDark: 'img/logo-dark.svg',
 
                 },
                 items: [
