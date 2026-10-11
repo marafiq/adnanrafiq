@@ -17,10 +17,6 @@
 .video h3 { max-width: 680px; font-size: 1.2rem; line-height: 1.4; margin-bottom: 16px; }
 .videoFrame { aspect-ratio: 16/9; border: 1px solid var(--editorial-rule); border-radius: 3px; background: var(--ifm-code-background); }
 .videoFrame iframe { display: block; width: 100%; height: 100%; border: 0; border-radius: 3px; }
-.videoPlaceholder { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 20px; gap: 12px; text-align: center; }
-.videoLoad { min-height: 46px; padding: 10px 20px; border: 1px solid var(--ifm-color-primary); border-radius: 3px; background: var(--ifm-background-color); color: var(--ifm-color-primary); font: inherit; font-size: .9rem; font-weight: 600; cursor: pointer; }
-.videoLoad:hover { background: var(--ifm-code-background); }
-.videoPlaceholder p { margin: 0; color: var(--editorial-muted); font-size: .8rem; }
 .topics { display: flex; gap: 26px; align-items: center; flex-wrap: wrap; padding: 18px 0; border-block: 1px solid var(--editorial-rule); font-size: .9rem; }
 .topics > span { margin: 0; }
 .topics a { color: var(--ifm-font-color-base); }
