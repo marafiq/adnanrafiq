@@ -42,11 +42,16 @@ function PerformanceOffer(): React.JSX.Element {
   }, [videoLoaded]);
 
   return <section className={styles.offer} aria-labelledby="performance-offer">
-    <Heading as="h2" id="performance-offer">Performance issues in your .NET stack?</Heading>
-    <p className={styles.offerCopy}>I help diagnose and resolve bottlenecks across .NET applications and SQL Server. We agree on a measurable target, scope, test conditions and fixed fee upfront. You pay when the agreed target is met.</p>
+    <Heading as="h2" id="performance-offer">Your team has features to ship. Performance problems keep pulling them back.</Heading>
+    <ul className={styles.offerPainPoints}>
+      <li>Slow screens and reports that frustrate customers</li>
+      <li>SQL timeouts and recurring failures that erode trust</li>
+      <li>Applications that struggle when demand peaks</li>
+    </ul>
+    <p className={styles.offerCopy}>I help your team resolve performance and stability problems across .NET and SQL Server, without hiring a dedicated performance engineer. I investigate the underlying causes, implement targeted fixes and measure the improvement.</p>
+    <p className={styles.offerCopy}>I also build AI guardrails into your codebase to help prevent the same problems from returning.</p>
     <div className={styles.offerAction}>
-      <a className={styles.offerCta} href="https://x.com/madnan_rafiq">DM me on X <span aria-hidden="true">↗</span></a>
-      <p>Tell me what you’re seeing and what needs to improve.</p>
+      <a className={styles.offerCta} href="https://x.com/madnan_rafiq">DM me on X and tell me what keeps coming back. <span aria-hidden="true">↗</span></a>
     </div>
     <div className={styles.video}>
       <h3 id="diagnostics-video">{videoTitle}</h3>
