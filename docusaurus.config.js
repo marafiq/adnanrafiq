@@ -87,7 +87,7 @@ const config = {
                     {to: '/cards', label: 'Code cards', position: 'left'},
                     {to: '/#journey', label: 'About', position: 'left', activeBaseRegex: '^/#journey$'},
                     {
-                        href: 'https://mottobits.com/ai-delivery',
+                        href: 'https://mottobits.com/ai-delivery?campaign=personal-site',
                         label: 'Move your .NET backlog forward',
                         position: 'right',
                         className: 'mottobits-delivery-cta',
@@ -112,7 +112,7 @@ const config = {
                         {label: 'X', href: 'https://x.com/madnan_rafiq'},
                     ]},
                     {title: 'Mottobits', items: [
-                        {label: 'Move your .NET backlog forward', href: 'https://mottobits.com/ai-delivery'},
+                        {label: 'Move your .NET backlog forward', href: 'https://mottobits.com/ai-delivery?campaign=personal-site'},
                     ]},
                 ],
                 copyright: `Copyright © ${new Date().getFullYear()} Adnan Rafiq.`,

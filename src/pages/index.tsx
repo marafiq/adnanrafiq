@@ -112,7 +112,7 @@ export default function Home(): React.JSX.Element {
       </section>
       <aside className={styles.delivery} aria-label="Mottobits">
         <div><p className="eyebrow">Mottobits</p><h2>Move your .NET backlog forward</h2></div>
-        <a className="text-link" href="https://mottobits.com/ai-delivery">Explore dedicated development and QA <span aria-hidden="true">↗</span></a>
+        <a className="text-link" href="https://mottobits.com/ai-delivery?campaign=personal-site">Explore dedicated development and QA <span aria-hidden="true">↗</span></a>
       </aside>
       <section className={styles.journey} aria-labelledby="journey">
         <div className="section-heading"><Heading as="h2" id="journey">My Journey</Heading><span className="eyebrow">Pakistan / Lahore / Dubai / Boston</span></div>
